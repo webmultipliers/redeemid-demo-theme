@@ -15,6 +15,7 @@ const SFWP_TEST_PLUGIN_BLOCKS = [
 	'wp2-shopify/membership-gate',
 	'wp2-shopify/membership-gate-content',
 	'wp2-shopify/membership-gate-fallback',
+	'wp2-shopify/plan-card',
 ];
 
 /**
@@ -68,12 +69,42 @@ function sfwp_test_health_checks( bool $show_config ): array {
 		$add( __( 'Shopify sign-in available', 'sfwp-test' ), $available ? 'ok' : 'fail', $available ? __( 'OIDC discovery answered', 'sfwp-test' ) : __( 'no discovery: check the store domain and client ID', 'sfwp-test' ) );
 	}
 
+	if ( class_exists( \WP2_Shopify\Integrations\OfficialPlugin::class ) ) {
+		$official = \WP2_Shopify\Integrations\OfficialPlugin::info();
+		$states   = [
+			\WP2_Shopify\Integrations\OfficialPlugin::ABSENT      => 'info',
+			\WP2_Shopify\Integrations\OfficialPlugin::UNCONNECTED => 'warn',
+			\WP2_Shopify\Integrations\OfficialPlugin::SAME_STORE  => 'ok',
+			\WP2_Shopify\Integrations\OfficialPlugin::OTHER_STORE => 'fail',
+		];
+		$add( __( 'Shopify’s WordPress plugin', 'sfwp-test' ), $states[ $official['state'] ] ?? 'warn', \WP2_Shopify\Integrations\OfficialPlugin::summary() );
+
+		if ( \WP2_Shopify\Integrations\OfficialPlugin::ABSENT !== $official['state'] ) {
+			$add( __( '/cart owner', 'sfwp-test' ), 'info', $official['owns_cart'] ? __( 'Shopify’s plugin (its rewrite rule wins over pages)', 'sfwp-test' ) : __( 'nobody yet: flush permalinks', 'sfwp-test' ) );
+
+			if ( class_exists( \WP2_Shopify\Commerce\CartBridge::class ) ) {
+				$bridge = \WP2_Shopify\Commerce\CartBridge::enabled();
+				$last   = \WP2_Shopify\Commerce\CartBridge::last();
+				$add(
+					__( 'Cart sign-in bridge', 'sfwp-test' ),
+					$bridge ? 'ok' : 'warn',
+					$bridge
+						/* translators: %s: date and time, or "never" */
+						? sprintf( __( 'active, last attached %s', 'sfwp-test' ), $last['ok_at'] ? wp_date( 'Y-m-d H:i', (int) $last['ok_at'] ) : __( 'never', 'sfwp-test' ) )
+						: __( 'off: needs the same store and WP2_SHOPIFY_PUBLIC_ACCESS_TOKEN', 'sfwp-test' )
+				);
+			}
+		}
+	}
+
 	if ( $show_config ) {
 		$set = static fn( string $name ): bool => defined( $name ) && '' !== (string) constant( $name );
 
 		$add( 'WP2_SHOPIFY_STORE_DOMAIN', $set( 'WP2_SHOPIFY_STORE_DOMAIN' ) ? 'ok' : 'fail', $set( 'WP2_SHOPIFY_STORE_DOMAIN' ) ? __( 'set', 'sfwp-test' ) : __( 'missing (required)', 'sfwp-test' ) );
 		$add( 'WP2_SHOPIFY_CLIENT_ID', $set( 'WP2_SHOPIFY_CLIENT_ID' ) ? 'ok' : 'fail', $set( 'WP2_SHOPIFY_CLIENT_ID' ) ? __( 'set', 'sfwp-test' ) : __( 'missing (required)', 'sfwp-test' ) );
 		$add( 'WP2_SHOPIFY_CLIENT_SECRET', 'info', $set( 'WP2_SHOPIFY_CLIENT_SECRET' ) || $set( 'WP2_SHOPIFY_PRIVATE_ACCESS_TOKEN' ) ? __( 'set (confidential client)', 'sfwp-test' ) : __( 'not set (public client)', 'sfwp-test' ) );
+
+		$add( 'WP2_SHOPIFY_PUBLIC_ACCESS_TOKEN', $set( 'WP2_SHOPIFY_PUBLIC_ACCESS_TOKEN' ) ? 'ok' : 'warn', $set( 'WP2_SHOPIFY_PUBLIC_ACCESS_TOKEN' ) ? __( 'set', 'sfwp-test' ) : __( 'missing: plan cards show as unavailable', 'sfwp-test' ) );
 
 		$admin = $set( 'WP2_SHOPIFY_ADMIN_CLIENT_ID' ) && $set( 'WP2_SHOPIFY_ADMIN_CLIENT_SECRET' );
 		$add( __( 'Admin app credentials', 'sfwp-test' ), $admin ? 'ok' : 'warn', $admin ? __( 'set', 'sfwp-test' ) : __( 'missing: purchase-to-tag, reconciliation and webhook registration are off', 'sfwp-test' ) );

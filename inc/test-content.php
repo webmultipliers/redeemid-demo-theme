@@ -15,7 +15,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const SFWP_TEST_CONTENT_VERSION = 2;
+const SFWP_TEST_CONTENT_VERSION = 3;
 const SFWP_TEST_CONTENT_OPTION  = 'sfwp_test_content_version';
 const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
 
@@ -38,8 +38,39 @@ function sfwp_test_seed_items(): array {
 		'join'                 => [ 'type' => 'page', 'title' => __( 'Become a member', 'sfwp-test' ), 'slug' => 'join', 'pattern' => 'page-join' ],
 		'account'              => [ 'type' => 'page', 'title' => __( 'Account', 'sfwp-test' ), 'slug' => 'account', 'pattern' => 'page-account' ],
 		'members-only-article' => [ 'type' => 'post', 'title' => __( 'Members-only article', 'sfwp-test' ), 'slug' => 'members-only-article', 'pattern' => 'post-members-only-article' ],
-	] + sfwp_test_news_seed_items();
+	] + sfwp_test_shop_seed_items() + sfwp_test_news_seed_items();
 }
+
+/**
+ * The Shop page, only while Shopify's WordPress plugin is active: its blocks
+ * render nothing without it.
+ */
+function sfwp_test_shop_seed_items(): array {
+	return defined( 'SHOPIFY_WP_VERSION' )
+		? [ 'shop' => [ 'type' => 'page', 'title' => __( 'Shop', 'sfwp-test' ), 'slug' => 'shop', 'pattern' => 'page-shop' ] ]
+		: [];
+}
+
+/**
+ * Seed the Shop page when Shopify's plugin is activated after the rest of the
+ * test content, without reseeding anything else.
+ */
+function sfwp_test_maybe_seed_shop(): void {
+	if ( ! defined( 'SHOPIFY_WP_VERSION' ) || wp_installing() || get_option( 'sfwp_test_shop_seeded' ) ) {
+		return;
+	}
+
+	if ( (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 ) < SFWP_TEST_CONTENT_VERSION ) {
+		return; // The full seed will create it.
+	}
+
+	if ( ! sfwp_test_find( 'shop' ) ) {
+		sfwp_test_seed( false );
+	}
+
+	update_option( 'sfwp_test_shop_seeded', time(), false );
+}
+add_action( 'init', 'sfwp_test_maybe_seed_shop', 21 );
 
 /**
  * Seed on the first request after activation or after a deploy that bumps the version.

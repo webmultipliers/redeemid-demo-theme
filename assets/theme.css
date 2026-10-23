@@ -467,3 +467,29 @@
 		justify-content: center;
 	}
 }
+
+/* Shopify's cart toggle, moved into the account group (inc/shopify-official.php). */
+.sfwp-account .sfwp-cart-toggle,
+.sfwp-account .navigation-cart-block {
+	margin: 0;
+	padding: 0;
+}
+
+.sfwp-account .navigation__view-cart-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	color: var(--wp--preset--color--contrast);
+	font-size: var(--wp--preset--font-size--small);
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.sfwp-account .navigation__view-cart-link:focus-visible {
+	outline: 2px solid var(--wp--preset--color--ink);
+	outline-offset: 2px;
+}
+
+.sfwp-plans .wp2-shopify-plan {
+	height: 100%;
+}
