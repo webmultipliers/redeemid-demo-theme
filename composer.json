@@ -2,6 +2,7 @@
 	"name": "webmultipliers/shopify-for-wp-theme",
 	"description": "Sandbox block theme for testing the WP2 Shopify plugin.",
 	"type": "wordpress-theme",
+	"version": "0.1.1",
 	"license": "GPL-2.0-or-later",
 	"require": {
 		"php": ">=8.2"
