@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4
+
+- Version bump to redeploy the theme to the sandbox.
+
 ## 0.1.3
 
 - `composer build-prod` now runs `composer install --no-dev`, like the plugin, with a committed `composer.lock`, so the deploy step matches the one that already works on the sandbox.
