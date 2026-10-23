@@ -1,0 +1,6 @@
+/vendor/
+/node_modules/
+/blockstudio/**/_dist/
+.DS_Store
+*.zip
+.env
