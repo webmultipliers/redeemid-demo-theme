@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Tag gates case 6: the leak check now looks for a product `shopify-context`, because the instructions themselves named the product handle and so always matched.
+
 ## 0.3.0
 
 - Join page: Gold and Silver plan cards (`wp2-shopify/plan-card`, handles `gold-membership` and `silver-membership`).
