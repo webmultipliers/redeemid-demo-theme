@@ -2,23 +2,29 @@
 	"name": "webmultipliers/shopify-for-wp-theme",
 	"description": "Sandbox block theme for testing the WP2 Shopify plugin.",
 	"type": "wordpress-theme",
-	"version": "0.1.2",
 	"license": "GPL-2.0-or-later",
 	"require": {
 		"php": ">=8.2"
 	},
 	"scripts": {
 		"lint": "find . -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n1 php -l",
-		"build-prod": "@php -r \"echo 'shopify-for-wp-theme: no production dependencies, nothing to build.', PHP_EOL;\""
+		"build-prod": [
+			"@composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress"
+		],
+		"release": "@build-prod"
 	},
 	"scripts-descriptions": {
 		"lint": "Syntax-check every PHP file.",
-		"build-prod": "Deploy hook. The theme has no Composer dependencies, so this only confirms the step ran."
+		"build-prod": "Deploy hook, same as the plugin's. The theme has no Composer dependencies, so this only writes an empty vendor/ autoloader.",
+		"release": "Alias of build-prod."
 	},
 	"config": {
 		"platform": {
 			"php": "8.2.0"
-		}
+		},
+		"optimize-autoloader": true,
+		"sort-packages": true
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "stable",
+	"prefer-stable": true
 }
