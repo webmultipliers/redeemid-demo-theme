@@ -1,0 +1,15 @@
+{
+	"$schema": "https://blockstudio.dev/schema/block",
+	"apiVersion": 3,
+	"name": "sfwp-test/sandbox-health",
+	"title": "Sandbox health (test)",
+	"category": "widgets",
+	"icon": "heart",
+	"description": "Site-level checks for the WP2 Shopify sandbox: plugin, Blockstudio, permalinks, the callback page and the plugin's blocks. Configuration rows show only to administrators.",
+	"keywords": [ "shopify", "health", "debug", "test" ],
+	"textdomain": "sfwp-test",
+	"supports": {
+		"html": false
+	},
+	"blockstudio": true
+}

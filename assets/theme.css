@@ -1,0 +1,176 @@
+/* Shopify for WP Test: the few styles theme.json can't express. */
+
+.sfwp-badge {
+	margin: 0;
+	padding: 0.1rem 0.5rem;
+	border-radius: 999px;
+	background: var(--wp--preset--color--warning-soft);
+	font-weight: 600;
+	letter-spacing: 0.02em;
+}
+
+.sfwp-header .wp2-shopify-auth {
+	margin: 0;
+}
+
+/* Panels: sandbox health and visitor state. */
+.sfwp-panel {
+	padding: var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 8px;
+	background: var(--wp--preset--color--surface);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.sfwp-panel__title {
+	margin: 0 0 0.5rem;
+	font-weight: 650;
+	font-size: var(--wp--preset--font-size--medium);
+}
+
+.sfwp-panel__note {
+	margin: 0.75rem 0 0;
+	color: var(--wp--preset--color--muted);
+}
+
+.sfwp-panel__table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.sfwp-panel__table th,
+.sfwp-panel__table td {
+	padding: 0.3rem 0;
+	border-bottom: 1px solid var(--wp--preset--color--line);
+	text-align: left;
+	vertical-align: top;
+}
+
+.sfwp-panel__table th {
+	padding-right: 1rem;
+	font-weight: 500;
+	color: var(--wp--preset--color--muted);
+}
+
+.sfwp-panel__raw {
+	margin-top: 0.75rem;
+}
+
+.sfwp-panel__raw pre {
+	overflow-x: auto;
+	padding: 0.75rem;
+	border-radius: 6px;
+	background: var(--wp--preset--color--base);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: 0.8rem;
+}
+
+.sfwp-visitor.is-linked {
+	border-color: var(--wp--preset--color--accent);
+}
+
+.sfwp-health__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.sfwp-health__item {
+	display: grid;
+	grid-template-columns: 1.5rem 1fr auto;
+	gap: 0.5rem;
+	padding: 0.3rem 0;
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.sfwp-health__state {
+	font-weight: 700;
+	text-align: center;
+}
+
+.sfwp-health__item.is-ok .sfwp-health__state { color: var(--wp--preset--color--accent); }
+.sfwp-health__item.is-warn .sfwp-health__state { color: #9a6700; }
+.sfwp-health__item.is-fail .sfwp-health__state { color: #b42318; }
+
+.sfwp-health__detail {
+	color: var(--wp--preset--color--muted);
+	text-align: right;
+	overflow-wrap: anywhere;
+}
+
+/* Test cases and expectations. */
+.sfwp-case {
+	margin-block: var(--wp--preset--spacing--40);
+	padding: var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 8px;
+	background: var(--wp--preset--color--surface);
+}
+
+.sfwp-case > h3 {
+	margin-top: 0;
+}
+
+.sfwp-expect,
+.sfwp-note {
+	padding: 0.5rem 0.75rem;
+	border-left: 3px solid var(--wp--preset--color--line);
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.sfwp-expect::before {
+	content: "Expected: ";
+	font-weight: 600;
+}
+
+.sfwp-steps li {
+	margin-bottom: 0.6rem;
+}
+
+/*
+ * Make the gate's server decision visible while testing: label which area of
+ * a membership gate actually reached the page.
+ */
+.wp2-shopify-gate-area:not(.is-editor) {
+	position: relative;
+	padding: 0.75rem 1rem;
+	border-radius: 6px;
+}
+
+.wp2-shopify-gate-area.is-members:not(.is-editor) {
+	background: var(--wp--preset--color--accent-soft);
+}
+
+.wp2-shopify-gate-area.is-teaser:not(.is-editor) {
+	background: var(--wp--preset--color--warning-soft);
+}
+
+.wp2-shopify-gate-area:not(.is-editor)::before {
+	display: block;
+	margin-bottom: 0.25rem;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--muted);
+}
+
+.wp2-shopify-gate-area.is-members:not(.is-editor)::before {
+	content: "Rendered: members only area";
+}
+
+.wp2-shopify-gate-area.is-teaser:not(.is-editor)::before {
+	content: "Rendered: public teaser area";
+}
+
+.wp2-shopify-gate.is-locked .wp2-shopify-gate__panel::before {
+	content: "Rendered: locked message";
+	display: block;
+	margin-bottom: 0.25rem;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--muted);
+}

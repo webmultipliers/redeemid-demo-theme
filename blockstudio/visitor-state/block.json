@@ -1,0 +1,19 @@
+{
+	"$schema": "https://blockstudio.dev/schema/block",
+	"apiVersion": 3,
+	"name": "sfwp-test/visitor-state",
+	"title": "Visitor state (test)",
+	"category": "widgets",
+	"icon": "id",
+	"description": "Shows what the WP2 Shopify status endpoint says about the current visitor. Renders a cacheable shell and fills it after load, like the plugin's own chrome.",
+	"keywords": [ "shopify", "status", "debug", "test" ],
+	"textdomain": "sfwp-test",
+	"supports": {
+		"html": false
+	},
+	"blockstudio": {
+		"attributes": [
+			{ "id": "showRaw", "type": "toggle", "label": "Show the raw response (nonces redacted)", "default": true }
+		]
+	}
+}
