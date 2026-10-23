@@ -1,7 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.3.0
 
+- Join page: Gold and Silver plan cards (`wp2-shopify/plan-card`, handles `gold-membership` and `silver-membership`).
+- Tag gates: case 6 puts Shopify's own product block inside a gold gate, with the leak marker `SFWP-SECRET-PRODUCT`.
+- Shop page (`/shop/`) with Shopify's collection block, created only while Shopify's WordPress plugin is active.
+- Shopify's cart toggle moves into the header's account group and can be reached and opened from the keyboard.
+- Sandbox health: Shopify's plugin state and store match, `/cart` owner, the cart sign-in bridge, `WP2_SHOPIFY_PUBLIC_ACCESS_TOKEN`, and the plan-card block.
+- Content version 3. Existing Join and Tag gates pages keep their content until Shopify → Test lab → Restore test content.
 - Sandbox health no longer reports Admin app credentials as set when only the retired `WP2_SHOPIFY_ADMIN_ACCESS_TOKEN` is defined. The plugin stopped reading that constant in its admin-menu release.
 - The sign-in callback page's "Back to the Test lab" link points at `/test-lab/` again; since 0.2.0 `/` is the Ledger home. Existing sites get it from Shopify → Test lab → Restore test content.
 - The Test accounts toolbar menu escapes its titles.

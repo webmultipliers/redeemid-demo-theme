@@ -18,6 +18,7 @@
 			<!-- wp:paragraph {"fontSize":"small"} -->
 			<p class="has-small-font-size"><a href="/account/">Account</a></p>
 			<!-- /wp:paragraph -->
+			<!-- wp:create-block/shopify-cart-toggle-block {"toggleText":"Cart","className":"sfwp-cart-toggle"} /-->
 			<!-- wp:wp2-shopify/auth-action {"controlStyle":{"value":"button","label":"Button"}} /-->
 		</div>
 		<!-- /wp:group -->
@@ -35,7 +36,7 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:navigation {"overlayMenu":"mobile","className":"sfwp-sections","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"center"},"fontSize":"small"} -->
+	<!-- wp:navigation {"overlayMenu":"mobile","className":"sfwp-sections","metadata":{"ignoredHookedBlocks":["create-block/shopify-cart-toggle-block"]},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"center"},"fontSize":"small"} -->
 		<!-- wp:navigation-link {"label":"Home","url":"/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"City Hall","url":"/category/city-hall/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Business","url":"/category/business/","kind":"custom"} /-->

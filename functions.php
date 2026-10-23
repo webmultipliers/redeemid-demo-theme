@@ -19,6 +19,7 @@ require_once __DIR__ . '/inc/news-content.php';
 require_once __DIR__ . '/inc/test-content.php';
 require_once __DIR__ . '/inc/fixtures.php';
 require_once __DIR__ . '/inc/admin.php';
+require_once __DIR__ . '/inc/shopify-official.php';
 
 add_action(
 	'after_setup_theme',

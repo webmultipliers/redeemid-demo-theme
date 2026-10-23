@@ -109,3 +109,28 @@
 	<!-- /wp:wp2-shopify/membership-gate -->
 </div>
 <!-- /wp:group -->
+
+<!-- wp:group {"className":"sfwp-case","layout":{"type":"constrained"}} -->
+<div class="wp-block-group sfwp-case">
+	<!-- wp:heading {"level":3} -->
+	<h3 class="wp-block-heading">6. Shopify’s own product block inside a gate</h3>
+	<!-- /wp:heading -->
+	<!-- wp:paragraph {"className":"sfwp-expect"} -->
+	<p class="sfwp-expect">Needs Shopify’s WordPress plugin. Gold members see the product block and the marker. Everyone else sees a plan card, and the page source holds neither the marker nor the product handle <code>sfwp-gated-product</code>. Without Shopify’s plugin, the product block renders nothing but the marker still shows to gold members.</p>
+	<!-- /wp:paragraph -->
+	<!-- wp:wp2-shopify/membership-gate {"requiredTags":[{"tag":"gold-member"}],"matchMode":{"value":"any","label":"Any of these tags"},"requireLogin":true,"fallbackMode":{"value":"teaser-blocks","label":"The Public teaser area"}} -->
+	<!-- wp:wp2-shopify/membership-gate-content -->
+	<!-- wp:paragraph -->
+	<p>Gold product unlocked. Marker: <code>SFWP-SECRET-PRODUCT</code>.</p>
+	<!-- /wp:paragraph -->
+	<!-- wp:shopify-product/shopify-product-block {"selectedProduct":{"handle":"sfwp-gated-product","title":"Gold-only product"}} /-->
+	<!-- /wp:wp2-shopify/membership-gate-content -->
+	<!-- wp:wp2-shopify/membership-gate-fallback -->
+	<!-- wp:paragraph -->
+	<p>This product is for gold members.</p>
+	<!-- /wp:paragraph -->
+	<!-- wp:wp2-shopify/plan-card {"productHandle":"gold-membership","heading":"Gold","buttonLabel":"Join Gold"} /-->
+	<!-- /wp:wp2-shopify/membership-gate-fallback -->
+	<!-- /wp:wp2-shopify/membership-gate -->
+</div>
+<!-- /wp:group -->

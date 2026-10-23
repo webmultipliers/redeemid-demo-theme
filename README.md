@@ -20,9 +20,10 @@ On the first request with the theme active, it creates the test content from its
 | `/auth-callback/` | The plugin's sign-in callback page (follows the `wp2_shopify_auth_callback_slug` filter) |
 | `/sign-in-controls/` | `wp2-shopify/auth-action` in every mode and style |
 | `/members-area/` | A gate that admits any signed-in visitor |
-| `/tag-gates/` | Tag rules: any, all, teaser fallback, a tag nobody has, an open control |
+| `/tag-gates/` | Tag rules: any, all, teaser fallback, a tag nobody has, an open control, and Shopify's own product block inside a gold gate (marker `SFWP-SECRET-PRODUCT`) |
 | `/gate-redirect/` | Redirect fallback mode |
-| `/join/` | Where calls to action point; how a test customer gets a tag |
+| `/join/` | Where calls to action point: Gold and Silver plan cards (handles `gold-membership`, `silver-membership`) and how a test customer gets a tag |
+| `/shop/` | Shopify's own collection block. Created only while Shopify's WordPress plugin is active |
 | `/account/` | Connect and log out, until the plugin's account card ships |
 | `/members-only-article/` | A paywalled post with the phrase `SFWP-SECRET-MEMBERS-ONLY` for leak checks |
 
@@ -63,6 +64,14 @@ With User Switching active, administrators get a **Test accounts** toolbar menu 
 ## Refresh membership
 
 `sfwp-test/resync` is in the header, on the Join page and in every paywall teaser. It renders a hidden, cacheable shell; after load it asks the plugin's status endpoint who the visitor is and, for a signed-in linked visitor, shows the last sync time and a button that calls `POST /wp-json/wp2-shopify/v1/account/sync` with the REST nonce from the status call, then reloads so the gates re-render.
+
+## Shopify's WordPress plugin
+
+The theme works with or without Shopify's own plugin (Sell on WordPress). When it is active:
+
+- Its cart toggle sits in the header's account group, not on the extra row the plugin adds after the navigation (`ignoredHookedBlocks` on the navigation block). The theme gives the 1.0.0 toggle a button role and a tab stop, so Enter or Space opens the cart.
+- Sandbox health shows its state, whether it uses the same store as WP2, who owns `/cart`, and whether WP2's cart sign-in bridge is active.
+- `/shop/` is created on the next request.
 
 ## Admin
 
