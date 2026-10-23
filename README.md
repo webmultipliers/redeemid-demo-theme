@@ -4,7 +4,7 @@ A block theme for the WP2 Shopify sandbox (`https://shopify-for-wp.instawp.site`
 
 ## Deploy
 
-InstaWP syncs this repository like the plugin and runs `composer build-prod` after each sync. The theme has no Composer dependencies, so `build-prod` only prints a line; it exists so the deploy step succeeds.
+InstaWP syncs this repository like the plugin and runs `composer build-prod` after each sync. `build-prod` runs `composer install --no-dev`, exactly like the plugin. The theme has no Composer dependencies, so it only writes an empty `vendor/` autoloader (ignored by git).
 
 Activate it once: Appearance → Themes → Shopify for WP Test (or `wp theme activate <folder>`).
 
@@ -43,5 +43,5 @@ WordPress 6.7+, PHP 8.2+, and the WP2 Shopify plugin. Without the plugin the the
 
 ```sh
 composer lint        # php -l on every PHP file
-composer build-prod  # deploy hook, no-op
+composer build-prod  # deploy hook (composer install --no-dev)
 ```
