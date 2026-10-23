@@ -1,17 +1,23 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
-<main class="wp-block-group" style="padding-top:var(--wp--preset--spacing--50)">
-	<!-- wp:post-title {"level":1} /-->
-	<!-- wp:group {"style":{"spacing":{"blockGap":"0.75rem"}},"textColor":"muted","fontSize":"small","layout":{"type":"flex"}} -->
-	<div class="wp-block-group has-muted-color has-text-color has-small-font-size">
+<!-- wp:group {"tagName":"main","className":"sfwp-article","style":{"spacing":{"padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group sfwp-article" style="padding-top:var(--wp--preset--spacing--50)">
+	<!-- wp:post-terms {"term":"category","className":"sfwp-kicker"} /-->
+	<!-- wp:post-title {"level":1,"className":"sfwp-article__title"} /-->
+	<!-- wp:post-excerpt {"className":"sfwp-article__dek"} /-->
+	<!-- wp:group {"className":"sfwp-article__meta","style":{"spacing":{"blockGap":"0.75rem"}},"textColor":"muted","fontSize":"small","layout":{"type":"flex","flexWrap":"wrap"}} -->
+	<div class="wp-block-group sfwp-article__meta has-muted-color has-text-color has-small-font-size">
+		<!-- wp:sfwp-test/story-meta {"showByline":true} /-->
 		<!-- wp:post-date /-->
-		<!-- wp:post-terms {"term":"category"} /-->
 	</div>
 	<!-- /wp:group -->
-	<!-- wp:post-content {"layout":{"type":"constrained"}} /-->
-	<!-- wp:post-navigation-link {"type":"previous"} /-->
-	<!-- wp:post-navigation-link /-->
+	<!-- wp:post-content {"className":"sfwp-article__body","layout":{"type":"constrained"}} /-->
+	<!-- wp:group {"className":"sfwp-article__nav","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group sfwp-article__nav">
+		<!-- wp:post-navigation-link {"type":"previous","showTitle":true,"inSameTerm":true,"taxonomy":"category"} /-->
+		<!-- wp:post-navigation-link {"showTitle":true,"inSameTerm":true,"taxonomy":"category"} /-->
+	</div>
+	<!-- /wp:group -->
 </main>
 <!-- /wp:group -->
 

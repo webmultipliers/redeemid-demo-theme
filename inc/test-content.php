@@ -1,9 +1,11 @@
 <?php
 /**
- * Seeds the Test lab: the pages and post the sandbox tests run against.
+ * Seeds the Test lab: the pages and post the sandbox tests run against, plus
+ * the Harborview Ledger news stories (inc/news-content.php) and the test
+ * accounts (inc/fixtures.php).
  *
  * Content comes from the theme's patterns/ files, so a deploy that changes a
- * pattern can be applied with Appearance → Test lab → Restore. Seeding only
+ * pattern can be applied with Shopify → Test lab → Restore. Seeding only
  * creates what is missing; it never overwrites a page someone edited unless
  * an administrator asks for a restore.
  *
@@ -13,15 +15,20 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const SFWP_TEST_CONTENT_VERSION = 1;
+const SFWP_TEST_CONTENT_VERSION = 2;
 const SFWP_TEST_CONTENT_OPTION  = 'sfwp_test_content_version';
 const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
 
 /**
- * @return array<string, array{type: string, title: string, slug: string, pattern: string}>
+ * Every seeded item. An item takes its markup from a theme pattern
+ * (`pattern`) or a callback (`content`), and may set an excerpt, a category,
+ * a publish date and post meta.
+ *
+ * @return array<string, array<string, mixed>>
  */
 function sfwp_test_seed_items(): array {
 	return [
+		'home'                 => [ 'type' => 'page', 'title' => __( 'Home', 'sfwp-test' ), 'slug' => 'home', 'pattern' => 'page-home' ],
 		'test-lab'             => [ 'type' => 'page', 'title' => __( 'Test lab', 'sfwp-test' ), 'slug' => 'test-lab', 'pattern' => 'page-test-lab' ],
 		'auth-callback'        => [ 'type' => 'page', 'title' => __( 'Signing you in', 'sfwp-test' ), 'slug' => sfwp_test_callback_slug(), 'pattern' => 'page-auth-callback' ],
 		'sign-in-controls'     => [ 'type' => 'page', 'title' => __( 'Sign-in controls', 'sfwp-test' ), 'slug' => 'sign-in-controls', 'pattern' => 'page-sign-in-controls' ],
@@ -31,7 +38,7 @@ function sfwp_test_seed_items(): array {
 		'join'                 => [ 'type' => 'page', 'title' => __( 'Become a member', 'sfwp-test' ), 'slug' => 'join', 'pattern' => 'page-join' ],
 		'account'              => [ 'type' => 'page', 'title' => __( 'Account', 'sfwp-test' ), 'slug' => 'account', 'pattern' => 'page-account' ],
 		'members-only-article' => [ 'type' => 'post', 'title' => __( 'Members-only article', 'sfwp-test' ), 'slug' => 'members-only-article', 'pattern' => 'post-members-only-article' ],
-	];
+	] + sfwp_test_news_seed_items();
 }
 
 /**
@@ -51,18 +58,9 @@ function sfwp_test_maybe_seed(): void {
 		update_option( 'sfwp_test_seeding', time(), false );
 	}
 
-	$first_run = 0 === (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 );
-
 	sfwp_test_seed( false );
-
-	if ( $first_run && 'posts' === get_option( 'show_on_front' ) ) {
-		$lab = sfwp_test_find( 'test-lab' );
-
-		if ( $lab ) {
-			update_option( 'page_on_front', $lab->ID );
-			update_option( 'show_on_front', 'page' );
-		}
-	}
+	sfwp_test_seed_fixtures();
+	sfwp_test_set_front_page();
 
 	update_option( SFWP_TEST_CONTENT_OPTION, SFWP_TEST_CONTENT_VERSION );
 	delete_option( 'sfwp_test_seeding' );
@@ -79,8 +77,10 @@ function sfwp_test_seed( bool $restore ): array {
 	$results = [];
 	$author  = sfwp_test_author();
 
+	sfwp_test_seed_categories();
+
 	foreach ( sfwp_test_seed_items() as $key => $item ) {
-		$content  = sfwp_test_pattern_content( $item['pattern'] );
+		$content  = isset( $item['content'] ) ? trim( (string) ( $item['content'] )() ) : sfwp_test_pattern_content( $item['pattern'] );
 		$existing = sfwp_test_find( $key );
 
 		if ( '' === $content ) {
@@ -101,8 +101,22 @@ function sfwp_test_seed( bool $restore ): array {
 			'post_status'  => 'publish',
 			'post_author'  => $author,
 			'comment_status' => 'closed',
-			'meta_input'   => [ SFWP_TEST_SEED_META => $key ],
+			'meta_input'   => [ SFWP_TEST_SEED_META => $key ] + ( $item['meta'] ?? [] ),
 		];
+
+		if ( isset( $item['excerpt'] ) ) {
+			// An explicit excerpt keeps listings to the public dek, never the gated body.
+			$postarr['post_excerpt'] = $item['excerpt'];
+		}
+
+		if ( isset( $item['category'] ) && sfwp_test_term_id( $item['category'] ) ) {
+			$postarr['post_category'] = [ sfwp_test_term_id( $item['category'] ) ];
+		}
+
+		if ( isset( $item['date'] ) ) {
+			$postarr['post_date']     = get_date_from_gmt( $item['date'] );
+			$postarr['post_date_gmt'] = $item['date'];
+		}
 
 		if ( $existing ) {
 			$postarr['ID'] = $existing->ID;
@@ -117,6 +131,27 @@ function sfwp_test_seed( bool $restore ): array {
 	}
 
 	return $results;
+}
+
+/**
+ * Make the news home the front page: on first activation if the site still
+ * lists latest posts, and on upgrade if the front page is the Test lab, as
+ * content version 1 set it.
+ */
+function sfwp_test_set_front_page(): void {
+	$home = sfwp_test_find( 'home' );
+	$lab  = sfwp_test_find( 'test-lab' );
+
+	if ( ! $home ) {
+		return;
+	}
+
+	$front = (int) get_option( 'page_on_front' );
+
+	if ( 'posts' === get_option( 'show_on_front' ) || ( $lab && $front === $lab->ID ) || ! $front ) {
+		update_option( 'page_on_front', $home->ID );
+		update_option( 'show_on_front', 'page' );
+	}
 }
 
 /**

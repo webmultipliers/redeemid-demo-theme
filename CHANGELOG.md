@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+- The Harborview Ledger: a faux news site with twelve stories in six sections, a news home page (now the front page), section archives, a news article template and a masthead header. Stories are Free, Members, Silver, Gold or Gold + Silver, gated with the plugin's membership gate and a teaser, each with a `SFWP-SECRET-NEWS-…` leak marker.
+- Test accounts in seven membership states for User Switching, with a Test accounts toolbar menu, a matrix of expected results on the Test lab page, and an option to point an account at a real Shopify customer.
+- Refresh membership block (`sfwp-test/resync`) in the header, on the Join page and in paywalls, using the plugin's `POST /account/sync`.
+- Test lab moved under the plugin's top-level Shopify menu (falls back to Appearance with older plugins).
+- Content version 2: existing sites pick up the new pages, stories and accounts on their next request.
+
 ## 0.1.4
 
 - Version bump to redeploy the theme to the sandbox.
