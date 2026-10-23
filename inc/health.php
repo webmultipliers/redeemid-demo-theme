@@ -75,7 +75,7 @@ function sfwp_test_health_checks( bool $show_config ): array {
 		$add( 'WP2_SHOPIFY_CLIENT_ID', $set( 'WP2_SHOPIFY_CLIENT_ID' ) ? 'ok' : 'fail', $set( 'WP2_SHOPIFY_CLIENT_ID' ) ? __( 'set', 'sfwp-test' ) : __( 'missing (required)', 'sfwp-test' ) );
 		$add( 'WP2_SHOPIFY_CLIENT_SECRET', 'info', $set( 'WP2_SHOPIFY_CLIENT_SECRET' ) || $set( 'WP2_SHOPIFY_PRIVATE_ACCESS_TOKEN' ) ? __( 'set (confidential client)', 'sfwp-test' ) : __( 'not set (public client)', 'sfwp-test' ) );
 
-		$admin = ( $set( 'WP2_SHOPIFY_ADMIN_CLIENT_ID' ) && $set( 'WP2_SHOPIFY_ADMIN_CLIENT_SECRET' ) ) || $set( 'WP2_SHOPIFY_ADMIN_ACCESS_TOKEN' );
+		$admin = $set( 'WP2_SHOPIFY_ADMIN_CLIENT_ID' ) && $set( 'WP2_SHOPIFY_ADMIN_CLIENT_SECRET' );
 		$add( __( 'Admin app credentials', 'sfwp-test' ), $admin ? 'ok' : 'warn', $admin ? __( 'set', 'sfwp-test' ) : __( 'missing: purchase-to-tag, reconciliation and webhook registration are off', 'sfwp-test' ) );
 	}
 
