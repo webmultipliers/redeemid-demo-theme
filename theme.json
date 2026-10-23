@@ -18,7 +18,8 @@
 				{ "slug": "line", "color": "#e3e0d8", "name": "Line" },
 				{ "slug": "accent", "color": "#008060", "name": "Accent" },
 				{ "slug": "accent-soft", "color": "#e3f1ec", "name": "Accent soft" },
-				{ "slug": "warning-soft", "color": "#fdf3dc", "name": "Warning soft" }
+				{ "slug": "warning-soft", "color": "#fdf3dc", "name": "Warning soft" },
+				{ "slug": "ink", "color": "#8a1c1c", "name": "Ink red" }
 			]
 		},
 		"typography": {
@@ -28,6 +29,11 @@
 					"slug": "system",
 					"name": "System",
 					"fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
+				},
+				{
+					"slug": "serif",
+					"name": "Serif",
+					"fontFamily": "Charter, \"Bitstream Charter\", \"Sitka Text\", Cambria, Georgia, serif"
 				},
 				{
 					"slug": "mono",
@@ -75,7 +81,7 @@
 				"color": { "text": "var(--wp--preset--color--accent)" }
 			},
 			"heading": {
-				"typography": { "fontWeight": "650", "lineHeight": "1.2" }
+				"typography": { "fontFamily": "var(--wp--preset--font-family--serif)", "fontWeight": "700", "lineHeight": "1.2" }
 			},
 			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--x-large)" } },
 			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--large)" } },

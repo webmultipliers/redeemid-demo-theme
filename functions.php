@@ -15,7 +15,9 @@ defined( 'ABSPATH' ) || exit;
 define( 'SFWP_TEST_VERSION', wp_get_theme( get_template() )->get( 'Version' ) );
 
 require_once __DIR__ . '/inc/health.php';
+require_once __DIR__ . '/inc/news-content.php';
 require_once __DIR__ . '/inc/test-content.php';
+require_once __DIR__ . '/inc/fixtures.php';
 require_once __DIR__ . '/inc/admin.php';
 
 add_action(

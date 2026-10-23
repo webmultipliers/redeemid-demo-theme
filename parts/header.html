@@ -1,27 +1,49 @@
-<!-- wp:group {"tagName":"header","className":"sfwp-header","style":{"spacing":{"padding":{"top":"var:preset|spacing|30","bottom":"var:preset|spacing|30"}},"border":{"bottom":{"color":"var:preset|color|line","width":"1px"}}},"backgroundColor":"surface","layout":{"type":"constrained","contentSize":"1120px"}} -->
-<header class="wp-block-group sfwp-header has-surface-background-color has-background" style="border-bottom-color:var(--wp--preset--color--line);border-bottom-width:1px;padding-top:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--30)">
-	<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-	<div class="wp-block-group">
-		<!-- wp:group {"style":{"spacing":{"blockGap":"0.5rem"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<!-- wp:group {"tagName":"header","className":"sfwp-header","backgroundColor":"surface","layout":{"type":"constrained","contentSize":"1120px"}} -->
+<header class="wp-block-group sfwp-header has-surface-background-color has-background">
+	<!-- wp:group {"className":"sfwp-topbar","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group sfwp-topbar">
+		<!-- wp:group {"style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
 		<div class="wp-block-group">
-			<!-- wp:site-title {"level":0,"style":{"typography":{"fontWeight":"700"}},"fontSize":"medium"} /-->
 			<!-- wp:paragraph {"className":"sfwp-badge","fontSize":"small"} -->
 			<p class="sfwp-badge has-small-font-size">Sandbox</p>
 			<!-- /wp:paragraph -->
+			<!-- wp:paragraph {"fontSize":"small"} -->
+			<p class="has-small-font-size"><a href="/test-lab/">Test lab</a> · <a href="/tag-gates/">Tag gates</a> · <a href="/members-only-article/">Leak check</a></p>
+			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->
-
-		<!-- wp:navigation {"overlayMenu":"mobile","layout":{"type":"flex","flexWrap":"wrap"},"fontSize":"small"} -->
-			<!-- wp:navigation-link {"label":"Test lab","url":"/","kind":"custom"} /-->
-			<!-- wp:navigation-link {"label":"Sign-in controls","url":"/sign-in-controls/","kind":"custom"} /-->
-			<!-- wp:navigation-link {"label":"Members area","url":"/members-area/","kind":"custom"} /-->
-			<!-- wp:navigation-link {"label":"Tag gates","url":"/tag-gates/","kind":"custom"} /-->
-			<!-- wp:navigation-link {"label":"Members article","url":"/members-only-article/","kind":"custom"} /-->
-			<!-- wp:navigation-link {"label":"Account","url":"/account/","kind":"custom"} /-->
-		<!-- /wp:navigation -->
-
-		<!-- wp:wp2-shopify/auth-action {"controlStyle":{"value":"button","label":"Button"}} /-->
+		<!-- wp:group {"className":"sfwp-account","style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"right"}} -->
+		<div class="wp-block-group sfwp-account">
+			<!-- wp:sfwp-test/resync {"label":"Refresh membership","compact":true} /-->
+			<!-- wp:paragraph {"fontSize":"small"} -->
+			<p class="has-small-font-size"><a href="/account/">Account</a></p>
+			<!-- /wp:paragraph -->
+			<!-- wp:wp2-shopify/auth-action {"controlStyle":{"value":"button","label":"Button"}} /-->
+		</div>
+		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
+
+	<!-- wp:group {"className":"sfwp-masthead","layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
+	<div class="wp-block-group sfwp-masthead">
+		<!-- wp:paragraph {"className":"sfwp-masthead__name"} -->
+		<p class="sfwp-masthead__name"><a href="/">The Harborview Ledger</a></p>
+		<!-- /wp:paragraph -->
+		<!-- wp:paragraph {"className":"sfwp-masthead__tagline","fontSize":"small"} -->
+		<p class="sfwp-masthead__tagline has-small-font-size">Independent news for the harbor and the islands · A test site for WP2 Shopify</p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:navigation {"overlayMenu":"mobile","className":"sfwp-sections","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"center"},"fontSize":"small"} -->
+		<!-- wp:navigation-link {"label":"Home","url":"/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"City Hall","url":"/category/city-hall/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"Business","url":"/category/business/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"Technology","url":"/category/technology/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"Science","url":"/category/science/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"Culture","url":"/category/culture/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"Opinion","url":"/category/opinion/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"Become a member","url":"/join/","kind":"custom","className":"sfwp-sections__join"} /-->
+	<!-- /wp:navigation -->
 </header>
 <!-- /wp:group -->

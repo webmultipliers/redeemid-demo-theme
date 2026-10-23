@@ -64,7 +64,7 @@ function render(root, result) {
 	root.classList.toggle('is-linked', Boolean(status.linked || status.shadow));
 
 	if (!status.available) {
-		message.textContent = 'Shopify sign-in is not available: the store domain or client ID is missing, or Shopify discovery failed. See Settings → Shopify.';
+		message.textContent = 'Shopify sign-in is not available: the store domain or client ID is missing, or Shopify discovery failed. See the Shopify admin menu.';
 	} else if (!signedIn) {
 		message.textContent = 'You are a guest. Use “Log in with Shopify” in the header to start the flow.';
 	} else if (!status.linked && !status.shadow) {

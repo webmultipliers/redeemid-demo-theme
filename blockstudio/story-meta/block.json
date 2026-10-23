@@ -1,0 +1,19 @@
+{
+	"$schema": "https://blockstudio.dev/schema/block",
+	"apiVersion": 3,
+	"name": "sfwp-test/story-meta",
+	"title": "Story access and byline (news)",
+	"category": "theme",
+	"icon": "lock",
+	"description": "Who can read the current story (Free, Members, Silver, Gold, Gold + Silver) and, optionally, its byline. Works in a query loop and on single posts.",
+	"keywords": [ "news", "access", "paywall", "byline" ],
+	"textdomain": "sfwp-test",
+	"supports": {
+		"html": false
+	},
+	"blockstudio": {
+		"attributes": [
+			{ "id": "showByline", "type": "toggle", "label": "Show the byline", "default": false }
+		]
+	}
+}
