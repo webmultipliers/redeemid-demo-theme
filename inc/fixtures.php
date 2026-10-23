@@ -324,8 +324,8 @@ add_action(
 				'id'    => 'sfwp-test-accounts',
 				'title' => '' !== $current
 					/* translators: %s: test account name */
-					? sprintf( __( 'Testing as %s', 'sfwp-test' ), sfwp_test_fixtures()[ $current ]['name'] )
-					: __( 'Test accounts', 'sfwp-test' ),
+					? esc_html( sprintf( __( 'Testing as %s', 'sfwp-test' ), sfwp_test_fixtures()[ $current ]['name'] ) )
+					: esc_html__( 'Test accounts', 'sfwp-test' ),
 				'href'  => $admin ? sfwp_test_admin_url( [], 'accounts' ) : false,
 			]
 		);
@@ -336,7 +336,7 @@ add_action(
 					'parent' => 'sfwp-test-accounts',
 					'id'     => 'sfwp-test-switch-back',
 					/* translators: %s: original user name */
-					'title'  => sprintf( __( 'Switch back to %s', 'sfwp-test' ), $old->display_name ),
+					'title'  => esc_html( sprintf( __( 'Switch back to %s', 'sfwp-test' ), $old->display_name ) ),
 					'href'   => add_query_arg( 'redirect_to', rawurlencode( $here ), user_switching::switch_back_url( $old ) ),
 				]
 			);

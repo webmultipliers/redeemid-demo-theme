@@ -15,5 +15,5 @@
 <!-- wp:sfwp-test/visitor-state {"showRaw":false} /-->
 
 <!-- wp:paragraph -->
-<p><a href="/">Back to the Test lab</a></p>
+<p><a href="/test-lab/">Back to the Test lab</a></p>
 <!-- /wp:paragraph -->
