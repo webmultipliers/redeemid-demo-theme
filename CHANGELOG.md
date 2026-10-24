@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.0
+
+Demo features for the plugin's feature registry (needs the plugin's feature registry release). The theme only registers them and places the plugin's blocks; who holds each one is the plugin's decision.
+
+- **Ad-free reading** (`ad-free`): Gold, or the standalone `ad-free-addon` tag. Mapped on Shopify → Access → Features and seeded once (Restore puts it back). The sponsor slots on stories and the home page use the block **Access → Feature: does not hold it**; holders also get the body class and the JS signal.
+- **Early briefing** (`early-briefing`): Silver or Gold, set in code. The Briefings archive shows tomorrow's briefing to holders and a prompt to everyone else.
+- The plugin's **Membership Features** block in the header (menu mode) and on the Account page.
+- New test account Ada Add-on (`silver-member` + `ad-free-addon`) and a feature table on the Test lab page.
+- Content version 7: rewrites the Account and Test lab pages once from the theme (edits to those two pages are lost).
+
 ## 0.7.0
 
 A more complete news site, and content types to stress the plugin's content rules (needs the plugin's Access Badge free label; without it open stories simply show no badge).
