@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0
+
+The theme only consumes the plugin now. Features it used to build itself moved into the WP2 Shopify plugin (needs the matching plugin release):
+
+- Refresh membership, the visitor panel and the sandbox health checklist are the plugin's **Refresh Membership**, **Shopify Account Status** and **Shopify Health** blocks. The theme's `resync`, `visitor-state` and `sandbox-health` blocks are gone; content still using their names renders the plugin blocks (`inc/compat.php`).
+- Sandbox health no longer keeps its own copy of the plugin's config rules (audit item C4). The plugin's block reads `Config::definitions()`; the theme adds only its own rows through `wp2_shopify_health_checks`. The checklist now shows to administrators only.
+- Story badges are the plugin's Access Badge. Gated stories ask for plugin access levels (`signed-in`, `silver`, `gold`, and a new `premium` for Gold + Silver) instead of listing tags, so the badge can name the level. The theme's own access labels, `_sfwp_test_access` meta and rule-to-badge mapping are gone. Free stories have no badge, and Members stories read "Signed in".
+- Test accounts answer the plugin's new `wp2_shopify_pre_sync_now` filter instead of intercepting `POST /account/sync` with `rest_pre_dispatch`.
+- The keyboard fix for Shopify's cart toggle moved into the plugin.
+- Content version 5: on the next request, seeded pages get the new block names and the gated news stories are rewritten once from the theme (edits to those stories are lost). Section rules are left as they are.
+
 ## 0.5.0
 
 - Visitor state, Refresh membership and Sandbox health are Blockstudio dynamic islands. The cached page carries a neutral placeholder and Blockstudio renders the block for each visitor in one never-cached request, so the two status-fetching scripts are gone (Refresh membership keeps a small click handler) and administrator-only health rows no longer reach the cached page.

@@ -11,7 +11,8 @@
  * - tells the plugin they are fixtures (wp2_shopify_customer_is_fixture), so
  *   its reconciler skips them and its Customers screen labels them;
  * - re-applies their state when someone switches to them, and when the
- *   front-end resync runs for them, instead of asking Shopify.
+ *   plugin's membership refresh runs for them (wp2_shopify_pre_sync_now),
+ *   instead of asking Shopify.
  *
  * An administrator can point a fixture at a real customer in the dev store
  * (Shopify → Test lab → Test accounts). It is then an ordinary linked user:
@@ -247,32 +248,24 @@ add_filter(
 add_action( 'switch_to_user', static fn( $user_id ) => sfwp_test_apply_fixture( (int) $user_id ), 10, 1 );
 
 /**
- * The front-end resync for a simulated fixture: re-apply its seeded state
- * and answer like the plugin's POST /account/sync would, without calling
- * Shopify for a customer that does not exist.
+ * "Refresh membership" for a simulated fixture: re-apply its seeded state
+ * instead of asking Shopify about a customer that does not exist. The plugin
+ * asks through wp2_shopify_pre_sync_now before it syncs, from its REST route
+ * and its form handler alike.
  */
 add_filter(
-	'rest_pre_dispatch',
-	static function ( $result, $server, $request ) {
-		if ( null !== $result || 'POST' !== $request->get_method() || '/wp2-shopify/v1/account/sync' !== $request->get_route() ) {
+	'wp2_shopify_pre_sync_now',
+	static function ( $result, $user_id ) {
+		if ( null !== $result || ! sfwp_test_is_simulated( (int) $user_id ) ) {
 			return $result;
 		}
 
-		$user_id = get_current_user_id();
+		sfwp_test_apply_fixture( (int) $user_id );
 
-		if ( ! $user_id || ! sfwp_test_is_simulated( $user_id ) ) {
-			return $result;
-		}
-
-		sfwp_test_apply_fixture( $user_id );
-
-		$response = new WP_REST_Response( [ 'result' => 'synced', 'fixture' => true ] );
-		$response->header( 'Cache-Control', 'no-store, private' );
-
-		return $response;
+		return 'synced';
 	},
 	10,
-	3
+	2
 );
 
 /**

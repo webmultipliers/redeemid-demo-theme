@@ -31,17 +31,17 @@ The tag gates use `gold-member` and `silver-member`. Add those tags to a test cu
 
 ## The Harborview Ledger
 
-Fifteen fictional stories across seven sections. Each has an access level, shown as a badge by the `sfwp-test/story-meta` block:
+Fifteen fictional stories across seven sections. Each has an access level. The badge on cards and stories is the plugin's **Access Badge** (`wp2-shopify/access-badge`), laid out with the byline by the theme's `sfwp-test/story-meta` block; free stories have no badge:
 
-| Badge | Gate on the story body |
+| Badge | Gate on the story body (a plugin access level) |
 |---|---|
-| Free | none |
-| Members | any signed-in visitor (no tags) |
-| Silver | any of `silver-member` |
-| Gold | any of `gold-member` |
-| Gold + Silver | all of `gold-member`, `silver-member` |
+| (none) | none |
+| Signed in | the plugin's built-in `signed-in` level: any signed-in visitor |
+| Silver | level `silver` (any of `silver-member`) |
+| Gold | level `gold` (any of `gold-member`) |
+| Gold + Silver | level `premium` (all of `gold-member`, `silver-member`) |
 
-Paywalled stories keep their public paragraphs outside a `wp2-shopify/membership-gate` with a teaser fallback (sign in, Become a member, Refresh membership). The members-only part ends with a leak marker `SFWP-SECRET-NEWS-<SLUG>`, so the existing `/?s=SFWP-SECRET`, feed and REST leak checks cover them. Each story has an explicit excerpt, so listings never draw on the gated body.
+Paywalled stories keep their public paragraphs outside a `wp2-shopify/membership-gate` set to that level, with a teaser fallback (sign in, Become a member, Refresh membership). The gate names a level rather than tags so the plugin's badge can name it too. The members-only part ends with a leak marker `SFWP-SECRET-NEWS-<SLUG>`, so the existing `/?s=SFWP-SECRET`, feed and REST leak checks cover them. Each story has an explicit excerpt, so listings never draw on the gated body.
 
 ### Section rules
 
@@ -49,14 +49,14 @@ The three Investigations stories have no gate block. The plugin's content rules 
 
 | Rule | Effect |
 |---|---|
-| Levels `gold` (`gold-member`) and `silver` (`silver-member`) | Added only if the site has no level with that slug |
+| Levels `gold` (`gold-member`), `silver` (`silver-member`) and `premium` (both) | Added only if the site has no level with that slug |
 | Investigations needs Gold | *Harbor pilots billed 14,000 overtime hours*: Gold readers only |
 | Culture needs Silver | Culture stories need Silver even without a gate |
 | A story in Investigations and Culture | *The arts council's grant audit* needs both (most restrictive), so only Gold + Silver readers |
 | Tag "Free to read", free for 30 days | *How a ferry fuel contract went to a company with no ships* is open to everyone; its marker is `SFWP-OPEN-NEWS-…` |
 | The night market story's own rule: Public | Stays free inside the Silver Culture section |
 
-Their badge reads the plugin's rule, so it changes when the rule does: the ferry story's badge turns to Gold when its 30 days end. Restore test content starts the 30 days again and puts every rule back; plain seeding leaves a term rule someone changed alone.
+The plugin's badge reads their rule, so it changes when the rule does: the ferry story's badge turns to Gold when its 30 days end. Restore test content starts the 30 days again and puts every rule back; plain seeding leaves a term rule someone changed alone.
 
 ## Test accounts
 
@@ -72,20 +72,32 @@ The theme seeds these subscribers (`inc/fixtures.php`), marked with user meta `_
 | `sfwp-lapsed` | `gold-member`, Shopify account disabled |
 | `sfwp-stale` | `gold-member`, last synced 30 days ago |
 
-Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `wp2_shopify_customer_is_fixture` filter (the reconciler skips them), adds a "Test fixture" badge through `wp2_shopify_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the front-end resync runs for them. Shopify → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
+Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `wp2_shopify_customer_is_fixture` filter (the reconciler skips them), adds a "Test fixture" badge through `wp2_shopify_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `wp2_shopify_pre_sync_now` filter, so Shopify is never asked about a made-up customer). Shopify → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
 
 With User Switching active, administrators get a **Test accounts** toolbar menu on every page, and the menu offers **Switch back** while switched in.
 
-## Refresh membership
+## Plugin features the theme uses
 
-`sfwp-test/resync` is in the header, on the Join page and in every paywall teaser. It is a Blockstudio [dynamic island](https://blockstudio.dev/docs/blocks/islands): the cached page carries an empty, hidden placeholder, and Blockstudio's island request renders the block again for the visitor. A signed-in linked visitor gets the last sync time and a button that calls `POST /wp-json/wp2-shopify/v1/account/sync` with the REST nonce from that fragment, then reloads so the gates re-render. `script.view.js` only handles the click.
+The theme builds no features of its own; it places the plugin's blocks and answers the plugin's hooks:
+
+| Where | Plugin block or hook |
+|---|---|
+| Header, Join page, every paywall teaser | **Refresh Membership** (`wp2-shopify/membership-refresh`) |
+| Test lab, Account, callback, Members area, Join, Sign-in controls | **Shopify Account Status** (`wp2-shopify/account-status`) |
+| Test lab | **Shopify Health** (`wp2-shopify/health`, administrators only), with the theme's rows added through `wp2_shopify_health_checks` (theme block registered, seeded blocks match their fields, test content version) |
+| Story cards and single stories | **Access Badge** (`wp2-shopify/access-badge`), inside `sfwp-test/story-meta` |
+| Stories, Test lab pages | Membership Gate, paywall break, Shopify Sign-in, Plan Card |
+| Test accounts | `wp2_shopify_customer_is_fixture`, `wp2_shopify_customer_badges`, `wp2_shopify_pre_sync_now` |
+| Shopify's cart toggle | keyboard access comes from the plugin (`Integrations\OfficialCartToggle`) |
+
+Up to 0.5 the refresh button, visitor panel, health checklist and cart-toggle fix were theme code. Content saved with the old block names (`sfwp-test/resync`, `sfwp-test/visitor-state`, `sfwp-test/sandbox-health`) still renders the plugin block (`inc/compat.php`), and content version 5 renames them in seeded pages and rewrites the gated stories to level gates once.
 
 ## Shopify's WordPress plugin
 
 The theme works with or without Shopify's own plugin (Sell on WordPress). When it is active:
 
-- Its cart toggle sits in the header's account group, not on the extra row the plugin adds after the navigation (`ignoredHookedBlocks` on the navigation block). The theme gives the 1.0.0 toggle a button role and a tab stop, so Enter or Space opens the cart.
-- Sandbox health shows its state, whether it uses the same store as WP2, who owns `/cart`, and whether WP2's cart sign-in bridge is active.
+- Its cart toggle sits in the header's account group, not on the extra row the plugin adds after the navigation (`ignoredHookedBlocks` on the navigation block). The WP2 plugin makes it reachable from the keyboard.
+- The plugin's health block shows its state, whether it uses the same store as WP2, who owns `/cart`, and whether WP2's cart sign-in bridge is active.
 - `/shop/` is created on the next request.
 
 ## Admin
@@ -94,22 +106,27 @@ Shopify → Test lab (under the plugin's top-level Shopify menu; Appearance → 
 
 ## Theme blocks
 
-Blockstudio blocks in `blockstudio/`, registered through the Blockstudio copy the plugin bundles (Blockstudio's default theme folder, which the plugin leaves intact):
+One Blockstudio block in `blockstudio/`, registered through the Blockstudio copy the plugin bundles (Blockstudio's default theme folder, which the plugin leaves intact):
 
-- **Visitor state** (`sfwp-test/visitor-state`): a dynamic island. The cached page says "Checking who you are…"; the island fragment fills the table from the plugin's `Rest\Status::for_current_user()`. Nonces in the raw view are redacted.
-- **Refresh membership** (`sfwp-test/resync`): see above.
-- **Story access and byline** (`sfwp-test/story-meta`): the access badge and byline of the current story, in query loops and on single posts.
-- **Sandbox health** (`sfwp-test/sandbox-health`): plugin and Blockstudio versions, block registration, pretty permalinks, the callback page and Shopify discovery. It also checks every seeded page with Blockstudio's `bs_validate_block()` and warns when a block is stored in an older field shape (Test lab → Restore rewrites it). It is a dynamic island too, so administrators see which Shopify constants are set, never their values, without that reaching the cached page.
+- **Story badge and byline** (`sfwp-test/story-meta`): lays out the plugin's Access Badge for the current story next to its seeded byline, in query loops and on single posts. Access decisions and labels are the plugin's; the Ledger's badge colours are in `assets/theme.css`, keyed on the badge's `data-wp2-level`.
 
-All four have inserter previews (`example`), and Story access refreshes its editor preview when the post is saved (`refreshOn`).
+## What stays in the theme, and why
 
-### Check Blockstudio first
+Everything in `inc/` is demo content or sandbox test tooling, not a feature a real site would want from the plugin:
+
+- `news-content.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
+- `fixtures.php`: the seven test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
+- `admin.php`: Shopify → Test lab.
+- `health.php`: the theme's own rows for the plugin's health block.
+- `compat.php`: renders blocks the theme used to ship as the plugin blocks that replaced them.
+
+## Check Blockstudio first
 
 The theme's blocks are Blockstudio blocks, like the plugin's. **Before writing code for a block, check whether Blockstudio already does it**: the docs are at [blockstudio.dev/docs](https://blockstudio.dev/docs), and in the plugin's `vendor/blockstudio/blockstudio/docs`. Hand-written versions drift from the plugin's blocks and have to be secured and maintained here. In particular:
 
 - Anything that differs per visitor on a cacheable page is a [dynamic island](https://blockstudio.dev/docs/blocks/islands) (`"island": {"mode": "dynamic"}` in `block.json`, then `$isIslandFragment` in the template). Don't fetch a status endpoint from `script.view.js`.
 - Sidebar fields use Blockstudio field types (`select`, `link`, `toggle`) with `conditions` and `populate`, not custom controls.
-- Pattern markup stores values in the shape the field returns: links as `{"url": "…"}`, selects as `{"value": "…", "label": "…"}`. The sandbox health check flags anything else.
+- Pattern markup stores values in the shape the field returns: links as `{"url": "…"}`, selects as `{"value": "…", "label": "…"}`. The theme's health row flags anything else.
 - A template's `return;` tells Blockstudio the block rendered nothing, so its styles and scripts are skipped. End branches that print markup with `if`/`else` instead.
 - The plugin's README section "Building on Blockstudio" lists the deliberate exceptions (REST routes rather than RPC, the Access panel).
 
@@ -117,7 +134,7 @@ The theme stylesheet labels which gate area reached the page ("Rendered: members
 
 ## Requirements
 
-WordPress 6.7+, PHP 8.2+, and the WP2 Shopify plugin. Without the plugin the theme still renders; plugin and theme blocks are simply missing.
+WordPress 6.7+, PHP 8.2+, and the WP2 Shopify plugin. Without the plugin the theme still renders; the plugin's blocks are simply missing.
 
 ```sh
 composer lint        # php -l on every PHP file

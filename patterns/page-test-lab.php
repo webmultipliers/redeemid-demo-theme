@@ -8,19 +8,19 @@
  */
 ?>
 <!-- wp:paragraph {"fontSize":"large"} -->
-<p class="has-large-font-size">This sandbox runs the WP2 Shopify plugin against a real Shopify store. The <a href="/">Harborview Ledger</a> is a faux news site with free and paywalled stories; the pages below test one piece of the plugin each. Start with the two panels, then work down the list.</p>
+<p class="has-large-font-size">This sandbox runs the WP2 Shopify plugin against a real Shopify store. The <a href="/">Harborview Ledger</a> is a faux news site with free and paywalled stories; the pages below test one piece of the plugin each. Start with the two panels (Sandbox health shows to administrators only), then work down the list.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:columns {"align":"wide"} -->
 <div class="wp-block-columns alignwide">
 	<!-- wp:column -->
 	<div class="wp-block-column">
-		<!-- wp:sfwp-test/sandbox-health /-->
+		<!-- wp:wp2-shopify/health {"title":"Sandbox health"} /-->
 	</div>
 	<!-- /wp:column -->
 	<!-- wp:column -->
 	<div class="wp-block-column">
-		<!-- wp:sfwp-test/visitor-state /-->
+		<!-- wp:wp2-shopify/account-status {"title":"Visitor state","showRaw":true} /-->
 	</div>
 	<!-- /wp:column -->
 </div>

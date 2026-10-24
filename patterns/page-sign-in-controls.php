@@ -71,4 +71,4 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:sfwp-test/visitor-state {"showRaw":false} /-->
+<!-- wp:wp2-shopify/account-status /-->

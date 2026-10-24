@@ -50,9 +50,9 @@
 <p>Map a product to a tag in the Shopify admin menu, for example <code>1234567890: gold-member</code>, and buy it with the test customer (Shopify’s Bogus Gateway works on a dev store). On <code>orders/paid</code> the plugin adds the tag in Shopify. A refund or cancellation removes it. After checkout, your next signed-in page views also re-sync for up to 30 minutes.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:sfwp-test/visitor-state {"showRaw":false} /-->
+<!-- wp:wp2-shopify/account-status /-->
 
-<!-- wp:sfwp-test/resync /-->
+<!-- wp:wp2-shopify/membership-refresh /-->
 
 <!-- wp:paragraph -->
 <p><a href="/tag-gates/">Back to Tag gates</a></p>

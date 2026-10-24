@@ -2,12 +2,13 @@
 	"$schema": "https://blockstudio.dev/schema/block",
 	"apiVersion": 3,
 	"name": "sfwp-test/story-meta",
-	"title": "Story access and byline (news)",
+	"title": "Story badge and byline (news)",
 	"category": "theme",
 	"icon": "lock",
-	"description": "Who can read the current story (Free, Members, Silver, Gold, Gold + Silver) and, optionally, its byline. Works in a query loop and on single posts.",
+	"description": "The plugin's Access Badge for the current story, beside the story's byline. The badge and every access decision come from the WP2 Shopify plugin; this block only lays them out with the Ledger's byline. Works in a query loop and on single posts.",
 	"keywords": [ "news", "access", "paywall", "byline" ],
 	"textdomain": "sfwp-test",
+	"usesContext": [ "postId", "postType" ],
 	"supports": {
 		"html": false
 	},

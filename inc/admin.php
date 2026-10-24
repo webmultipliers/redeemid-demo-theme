@@ -165,11 +165,16 @@ function sfwp_test_admin_render(): void {
 		</form>
 
 		<h2><?php esc_html_e( 'Sandbox health', 'sfwp-test' ); ?></h2>
-		<ul>
-			<?php foreach ( sfwp_test_health_checks( true ) as $check ) : ?>
-				<li><strong><?php echo esc_html( $check['label'] ); ?>:</strong> <?php echo esc_html( $check['detail'] ?: $check['state'] ); ?></li>
-			<?php endforeach; ?>
-		</ul>
+		<?php if ( class_exists( \WP2_Shopify\Support\Health::class ) ) : ?>
+			<p><?php esc_html_e( 'From the plugin’s health checklist, with the theme’s own rows at the end. Shopify → Debug has the full diagnostics.', 'sfwp-test' ); ?></p>
+			<ul>
+				<?php foreach ( \WP2_Shopify\Support\Health::checks() as $check ) : ?>
+					<li><strong><?php echo esc_html( $check['label'] ); ?>:</strong> <?php echo esc_html( $check['detail'] ?: $check['state'] ); ?></li>
+				<?php endforeach; ?>
+			</ul>
+		<?php else : ?>
+			<p><?php esc_html_e( 'The WP2 Shopify plugin is not active, or is too old to have a health checklist.', 'sfwp-test' ); ?></p>
+		<?php endif; ?>
 	</div>
 	<?php
 }

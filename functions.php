@@ -2,10 +2,12 @@
 /**
  * Shopify for WP Test theme.
  *
- * A block theme for the WP2 Shopify sandbox. Its own blocks live in
- * blockstudio/ and register through the Blockstudio copy the plugin bundles,
- * next to the plugin's blocks. Without the plugin the theme still renders;
- * the plugin and theme blocks are simply absent.
+ * A block theme for the WP2 Shopify sandbox. It only consumes the plugin:
+ * sign-in, gating, access badges, membership refresh, account status and
+ * health are the plugin's blocks and hooks. The theme adds layout, styles,
+ * demo content and sandbox-only test tooling (inc/), plus one layout block in
+ * blockstudio/ that registers through the plugin's bundled Blockstudio.
+ * Without the plugin the theme still renders; the plugin blocks are absent.
  *
  * @package sfwp-test
  */
@@ -19,7 +21,7 @@ require_once __DIR__ . '/inc/news-content.php';
 require_once __DIR__ . '/inc/test-content.php';
 require_once __DIR__ . '/inc/fixtures.php';
 require_once __DIR__ . '/inc/admin.php';
-require_once __DIR__ . '/inc/shopify-official.php';
+require_once __DIR__ . '/inc/compat.php';
 
 add_action(
 	'after_setup_theme',
