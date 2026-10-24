@@ -3,10 +3,13 @@
  * The Harborview Ledger: a faux news site seeded next to the Test lab, so the
  * membership gate is exercised on realistic stories as well as test cases.
  *
- * Every story is fiction. Paywalled stories wrap their body in a
- * wp2-shopify/membership-gate with a teaser fallback, and their members-only
- * part carries a leak marker starting with SFWP-SECRET, so the same search,
- * feed and REST leak checks cover them.
+ * Every story is fiction. Most paywalled stories wrap their body in a
+ * wp2-shopify/membership-gate with a teaser fallback. The Investigations
+ * stories have no gate at all: the plugin's content rules lock them by
+ * category (sfwp_test_seed_access_rules()), and a paywall break block marks
+ * where their teaser ends. Every members-only part carries a leak marker
+ * starting with SFWP-SECRET, so the same search, feed and REST leak checks
+ * cover both kinds.
  *
  * @package sfwp-test
  */
@@ -28,6 +31,8 @@ function sfwp_test_access_levels(): array {
 		'silver'  => [ 'label' => __( 'Silver', 'sfwp-test' ), 'tags' => [ 'silver-member' ], 'match' => 'any', 'login' => true ],
 		'gold'    => [ 'label' => __( 'Gold', 'sfwp-test' ), 'tags' => [ 'gold-member' ], 'match' => 'any', 'login' => true ],
 		'premium' => [ 'label' => __( 'Gold + Silver', 'sfwp-test' ), 'tags' => [ 'gold-member', 'silver-member' ], 'match' => 'all', 'login' => true ],
+		// Locked by the plugin's content rules; the badge reads the rule (sfwp_test_rule_access()).
+		'rule'    => [ 'label' => __( 'By section', 'sfwp-test' ), 'tags' => [], 'match' => 'any', 'login' => false ],
 	];
 }
 
@@ -36,6 +41,7 @@ function sfwp_test_access_levels(): array {
  */
 function sfwp_test_news_categories(): array {
 	return [
+		'investigations' => __( 'Investigations', 'sfwp-test' ),
 		'city-hall'  => __( 'City Hall', 'sfwp-test' ),
 		'business'   => __( 'Business', 'sfwp-test' ),
 		'technology' => __( 'Technology', 'sfwp-test' ),
@@ -70,6 +76,55 @@ function sfwp_test_seed_categories(): void {
  */
 function sfwp_test_news_stories(): array {
 	return [
+		'harbor-pilot-overtime'     => [
+			'title'    => 'Harbor pilots billed 14,000 overtime hours last year. The port never checked.',
+			'category' => 'investigations',
+			'access'   => 'rule',
+			'byline'   => 'Marcus Feld',
+			'dek'      => 'Timesheets obtained through a records request show the same shifts claimed twice.',
+			'public'   => [
+				'The Harborview Port Authority paid its harbor pilots for more than 14,000 hours of overtime last year, according to timesheets the Ledger obtained through a public records request.',
+				'Nobody at the authority compared those hours with the ship logs that record when a pilot actually boarded a vessel.',
+			],
+			'locked'   => [
+				'The Ledger matched the two sets of records for all of 2025. In 312 cases, the same pilot claimed overtime for two ships whose arrival windows overlapped.',
+				'The authority’s finance director said the timesheets are approved by the pilots’ own association under a contract signed in 2011, and that the port has no right to audit them.',
+				'Two council members said they would ask for the contract to be reopened before it renews next year.',
+			],
+		],
+		'ferry-fuel-contract'       => [
+			'title'    => 'How a ferry fuel contract went to a company with no ships',
+			'category' => 'investigations',
+			'tags'     => [ 'Free to read' ],
+			'access'   => 'rule',
+			'marker'   => 'SFWP-OPEN-NEWS-FERRY-FUEL-CONTRACT',
+			'byline'   => 'Dana Okafor',
+			'dek'      => 'Free to read this month: our investigation into the city’s largest no-bid deal.',
+			'public'   => [
+				'In March the city’s ferry division signed a five-year, $19 million fuel contract without asking for bids. The supplier, Keel Line Energy, had been incorporated eleven weeks earlier.',
+			],
+			'locked'   => [
+				'Keel Line owns no tankers and no storage. It buys fuel from the same distributor the city used before, and resells it to the city at a markup of nine cents a gallon.',
+				'The division’s former director, who approved the deal as an emergency purchase, now works for Keel Line as a consultant.',
+				'We are making this investigation free to read for a month because every ferry rider pays for it.',
+			],
+		],
+		'arts-grant-audit'          => [
+			'title'      => 'The arts council’s grant audit, and the galleries it never visited',
+			'category'   => 'investigations',
+			'categories' => [ 'investigations', 'culture' ],
+			'access'     => 'rule',
+			'byline'     => 'Priya Raman',
+			'dek'        => 'An investigation for our culture desk: half the audited venues were empty storefronts.',
+			'public'     => [
+				'The Harborview Arts Council says it audits every gallery that receives a public grant. Its 2025 report lists forty-two site visits.',
+				'The Ledger went to all forty-two addresses.',
+			],
+			'locked'     => [
+				'Twenty-one were open galleries. Nine were empty storefronts, six were private homes and six did not exist.',
+				'The council’s director said the audits were done from paperwork and the report should not have called them site visits.',
+			],
+		],
 		'harbor-bridge-vote'        => [
 			'title'    => 'Council clears the way for a second harbor bridge after a nine-hour session',
 			'category' => 'city-hall',
@@ -102,9 +157,11 @@ function sfwp_test_news_stories(): array {
 		],
 		'lowmarket-night-market'    => [
 			'title'    => 'The Lowmarket night market is back, and it is bigger than ever',
-			'category' => 'culture',
-			'access'   => 'free',
-			'byline'   => 'Priya Raman',
+			'category'  => 'culture',
+			'access'    => 'free',
+			// Culture needs Silver by section rule; this story opens itself with the item's own rule.
+			'item_rule' => [ 'mode' => 'public' ],
+			'byline'    => 'Priya Raman',
 			'dek'      => 'Sixty stalls, two stages and a rule that every vendor must live within ten miles.',
 			'public'   => [
 				'After two summers off, the Lowmarket night market returned to Canal Street on Friday with sixty stalls, two music stages and lines that stretched past the old ice house.',
@@ -258,20 +315,23 @@ function sfwp_test_news_stories(): array {
 function sfwp_test_news_seed_items(): array {
 	$items = [];
 	$day   = 0;
+	// Never in the future: a story dated later today would be scheduled, not published.
+	$base = min( strtotime( 'today 08:00' ), time() - HOUR_IN_SECONDS );
 
 	foreach ( sfwp_test_news_stories() as $slug => $story ) {
 		$items[ 'news-' . $slug ] = [
-			'type'     => 'post',
-			'title'    => $story['title'],
-			'slug'     => $slug,
-			'content'  => static fn() => sfwp_test_story_markup( $slug, $story ),
-			'excerpt'  => $story['dek'],
-			'category' => $story['category'],
-			'date'     => gmdate( 'Y-m-d H:i:s', strtotime( 'today 08:00' ) - ( $day++ * DAY_IN_SECONDS ) ),
-			'meta'     => [
+			'type'       => 'post',
+			'title'      => $story['title'],
+			'slug'       => $slug,
+			'content'    => static fn() => sfwp_test_story_markup( $slug, $story ),
+			'excerpt'    => $story['dek'],
+			'categories' => $story['categories'] ?? [ $story['category'] ],
+			'tags'       => $story['tags'] ?? [],
+			'date'       => gmdate( 'Y-m-d H:i:s', $base - ( $day++ * DAY_IN_SECONDS ) ),
+			'meta'       => [
 				SFWP_TEST_ACCESS_META => $story['access'],
 				SFWP_TEST_BYLINE_META => $story['byline'],
-			],
+			] + ( isset( $story['item_rule'] ) ? [ '_wp2_access' => $story['item_rule'] ] : [] ),
 		];
 	}
 
@@ -295,6 +355,16 @@ function sfwp_test_paragraphs( array $paragraphs ): string {
  */
 function sfwp_test_story_markup( string $slug, array $story ): string {
 	$markup = sfwp_test_paragraphs( $story['public'] );
+
+	if ( 'rule' === $story['access'] ) {
+		// No gate: the plugin's content rules decide, and the break marks where the teaser ends.
+		$marker  = $story['marker'] ?? 'SFWP-SECRET-NEWS-' . strtoupper( $slug );
+		$markup .= "<!-- wp:wp2-shopify/paywall-break /-->\n\n";
+		$markup .= sfwp_test_paragraphs( $story['locked'] );
+		$markup .= "<!-- wp:paragraph {\"className\":\"sfwp-marker\"} -->\n<p class=\"sfwp-marker\">Leak marker: " . esc_html( $marker ) . "</p>\n<!-- /wp:paragraph -->";
+
+		return trim( $markup );
+	}
 
 	if ( 'free' === $story['access'] || ! $story['locked'] ) {
 		return trim( $markup );
@@ -340,4 +410,79 @@ function sfwp_test_story_markup( string $slug, array $story ): string {
 	$markup .= "<!-- /wp:wp2-shopify/membership-gate -->";
 
 	return trim( $markup );
+}
+
+/**
+ * The plugin's content rules for the Ledger, when the plugin has them:
+ *
+ * - Levels gold (gold-member) and silver (silver-member), added only if missing.
+ * - Investigations needs Gold. Culture needs Silver. A story in both needs
+ *   both, because terms combine most-restrictively by default.
+ * - The "Free to read" tag opens its stories to everyone for 30 days from
+ *   seeding. Restore test content starts the 30 days again.
+ * - The night market story stays free through its own Public rule, also on
+ *   sites that seeded it before the rules existed.
+ *
+ * Without $restore, a term that already has a rule keeps it.
+ */
+function sfwp_test_seed_access_rules( bool $restore ): void {
+	if ( ! class_exists( \WP2_Shopify\Access\TermRules::class ) || ! class_exists( \WP2_Shopify\Access\LevelStore::class ) ) {
+		return;
+	}
+
+	$saved = \WP2_Shopify\Access\LevelStore::saved();
+
+	foreach ( [ 'gold' => [ 'Gold', 'gold-member' ], 'silver' => [ 'Silver', 'silver-member' ] ] as $slug => [ $label, $tag ] ) {
+		if ( ! isset( $saved[ $slug ] ) ) {
+			\WP2_Shopify\Access\LevelStore::save( $slug, [ 'label' => $label, 'groups' => [ [ 'tags' => [ $tag ], 'match' => 'any' ] ] ] );
+		}
+	}
+
+	$free = term_exists( 'free-to-read', 'post_tag' ) ?: wp_insert_term( __( 'Free to read', 'sfwp-test' ), 'post_tag', [ 'slug' => 'free-to-read' ] );
+	$free = is_array( $free ) ? (int) $free['term_id'] : 0;
+	$set  = [
+		sfwp_test_term_id( 'investigations' ) => [ 'kind' => 'requires', 'levels' => [ 'gold' ] ],
+		sfwp_test_term_id( 'culture' )        => [ 'kind' => 'requires', 'levels' => [ 'silver' ] ],
+		$free                                 => [ 'kind' => 'opens', 'opens_until' => time() + 30 * DAY_IN_SECONDS ],
+	];
+
+	foreach ( $set as $term_id => $rule ) {
+		if ( $term_id && ( $restore || '' === \WP2_Shopify\Access\TermRules::get( $term_id )['kind'] ) ) {
+			\WP2_Shopify\Access\TermRules::save( $term_id, $rule );
+		}
+	}
+
+	// Stories seeded before the rules existed get their own rule too, or Culture's would lock the night market.
+	foreach ( sfwp_test_news_stories() as $slug => $story ) {
+		$post = isset( $story['item_rule'] ) ? sfwp_test_find( 'news-' . $slug ) : null;
+
+		if ( $post && ( $restore || '' === get_post_meta( $post->ID, '_wp2_access', true ) ) ) {
+			\WP2_Shopify\Access\ItemRule::save( $post->ID, $story['item_rule'] );
+		}
+	}
+}
+
+/**
+ * The badge for a story the content rules lock: free while its rule is
+ * open, otherwise the level its rule needs.
+ */
+function sfwp_test_rule_access( WP_Post $post ): string {
+	if ( ! class_exists( \WP2_Shopify\Access\Gatekeeper::class ) ) {
+		return 'free';
+	}
+
+	$rule = \WP2_Shopify\Access\Gatekeeper::rule( $post );
+
+	if ( $rule->open() ) {
+		return 'free';
+	}
+
+	$levels = $rule->levels();
+
+	return match ( true ) {
+		in_array( 'gold', $levels, true ) && in_array( 'silver', $levels, true ) => 'premium',
+		in_array( 'gold', $levels, true ) => 'gold',
+		in_array( 'silver', $levels, true ) => 'silver',
+		default => 'members',
+	};
 }

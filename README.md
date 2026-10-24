@@ -15,7 +15,7 @@ On the first request with the theme active, it creates the test content from its
 | Address | What it tests |
 |---|---|
 | `/` (Home) | The Ledger front page: lead story, latest list, one row per section |
-| `/category/<section>/` | City Hall, Business, Technology, Science, Culture, Opinion |
+| `/category/<section>/` | Investigations, City Hall, Business, Technology, Science, Culture, Opinion |
 | `/test-lab/` | Sandbox health, visitor state, the test-account matrix and the list of things to try |
 | `/auth-callback/` | The plugin's sign-in callback page (follows the `wp2_shopify_auth_callback_slug` filter) |
 | `/sign-in-controls/` | `wp2-shopify/auth-action` in every mode and style |
@@ -31,7 +31,7 @@ The tag gates use `gold-member` and `silver-member`. Add those tags to a test cu
 
 ## The Harborview Ledger
 
-Twelve fictional stories across six sections. Each has an access level, shown as a badge by the `sfwp-test/story-meta` block:
+Fifteen fictional stories across seven sections. Each has an access level, shown as a badge by the `sfwp-test/story-meta` block:
 
 | Badge | Gate on the story body |
 |---|---|
@@ -42,6 +42,21 @@ Twelve fictional stories across six sections. Each has an access level, shown as
 | Gold + Silver | all of `gold-member`, `silver-member` |
 
 Paywalled stories keep their public paragraphs outside a `wp2-shopify/membership-gate` with a teaser fallback (sign in, Become a member, Refresh membership). The members-only part ends with a leak marker `SFWP-SECRET-NEWS-<SLUG>`, so the existing `/?s=SFWP-SECRET`, feed and REST leak checks cover them. Each story has an explicit excerpt, so listings never draw on the gated body.
+
+### Section rules
+
+The three Investigations stories have no gate block. The plugin's content rules (Shopify → Access) lock them by section, and a paywall break block marks where the teaser ends. Seeding sets the rules up when the plugin has them:
+
+| Rule | Effect |
+|---|---|
+| Levels `gold` (`gold-member`) and `silver` (`silver-member`) | Added only if the site has no level with that slug |
+| Investigations needs Gold | *Harbor pilots billed 14,000 overtime hours*: Gold readers only |
+| Culture needs Silver | Culture stories need Silver even without a gate |
+| A story in Investigations and Culture | *The arts council's grant audit* needs both (most restrictive), so only Gold + Silver readers |
+| Tag "Free to read", free for 30 days | *How a ferry fuel contract went to a company with no ships* is open to everyone; its marker is `SFWP-OPEN-NEWS-…` |
+| The night market story's own rule: Public | Stays free inside the Silver Culture section |
+
+Their badge reads the plugin's rule, so it changes when the rule does: the ferry story's badge turns to Gold when its 30 days end. Restore test content starts the 30 days again and puts every rule back; plain seeding leaves a term rule someone changed alone.
 
 ## Test accounts
 
