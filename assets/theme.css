@@ -133,23 +133,24 @@
 
 /*
  * Make the gate's server decision visible while testing: label which area of
- * a membership gate actually reached the page.
+ * a membership gate actually reached the page. Test lab pages only
+ * (body class sfwp-lab); the Ledger's stories show the plain reader view.
  */
-.wp2-shopify-gate-area:not(.is-editor) {
+.sfwp-lab .wp2-shopify-gate-area:not(.is-editor) {
 	position: relative;
 	padding: 0.75rem 1rem;
 	border-radius: 6px;
 }
 
-.wp2-shopify-gate-area.is-members:not(.is-editor) {
+.sfwp-lab .wp2-shopify-gate-area.is-members:not(.is-editor) {
 	background: var(--wp--preset--color--accent-soft);
 }
 
-.wp2-shopify-gate-area.is-teaser:not(.is-editor) {
+.sfwp-lab .wp2-shopify-gate-area.is-teaser:not(.is-editor) {
 	background: var(--wp--preset--color--warning-soft);
 }
 
-.wp2-shopify-gate-area:not(.is-editor)::before {
+.sfwp-lab .wp2-shopify-gate-area:not(.is-editor)::before {
 	display: block;
 	margin-bottom: 0.25rem;
 	font-size: 0.75rem;
@@ -159,15 +160,15 @@
 	color: var(--wp--preset--color--muted);
 }
 
-.wp2-shopify-gate-area.is-members:not(.is-editor)::before {
+.sfwp-lab .wp2-shopify-gate-area.is-members:not(.is-editor)::before {
 	content: "Rendered: members only area";
 }
 
-.wp2-shopify-gate-area.is-teaser:not(.is-editor)::before {
+.sfwp-lab .wp2-shopify-gate-area.is-teaser:not(.is-editor)::before {
 	content: "Rendered: public teaser area";
 }
 
-.wp2-shopify-gate.is-locked .wp2-shopify-gate__panel::before {
+.sfwp-lab .wp2-shopify-gate.is-locked .wp2-shopify-gate__panel::before {
 	content: "Rendered: locked message";
 	display: block;
 	margin-bottom: 0.25rem;
@@ -231,9 +232,7 @@
 	color: var(--wp--preset--color--contrast);
 }
 
-.sfwp-sections .sfwp-sections__join a {
-	color: var(--wp--preset--color--ink);
-}
+
 
 .sfwp-kicker,
 .sfwp-kicker a {
@@ -363,24 +362,49 @@
 	font-size: 0.8rem;
 }
 
-.sfwp-story-meta .wp2-shopify-access-badge {
+/*
+ * Access badges: the plugin's Access Badge on stories, and the same look in
+ * the membership explainers. The plugin names the level in data-wp2-level;
+ * the colours are the Ledger's. Free is quiet, paid levels get stronger.
+ */
+body .wp2-shopify-access-badge[data-wp2-level],
+body .sfwp-story-meta .wp2-shopify-access-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3em;
 	padding: 0.05rem 0.45rem;
+	border: 1px solid currentColor;
 	border-radius: 4px;
 	outline: 0;
-	border: 1px solid currentColor;
 	background: transparent;
 	color: var(--wp--preset--color--accent);
+	font-family: var(--wp--preset--font-family--system);
 	font-size: 0.7rem;
 	font-weight: 700;
 	letter-spacing: 0.05em;
-	text-transform: uppercase;
 	line-height: 1.5;
+	text-transform: uppercase;
+	white-space: nowrap;
 }
 
-/* The plugin's badge names the level in data-wp2-level; the colours are the Ledger's. */
-.sfwp-story-meta .wp2-shopify-access-badge[data-wp2-level="silver"] { color: #5f6b78; background: #eef1f4; }
-.sfwp-story-meta .wp2-shopify-access-badge[data-wp2-level="gold"] { color: #8a5a00; background: #fbf0d3; }
-.sfwp-story-meta .wp2-shopify-access-badge[data-wp2-level="premium"] { color: #fff; background: #1c1f23; border-color: #1c1f23; }
+body .wp2-shopify-access-badge[data-wp2-level="free"] { color: var(--wp--preset--color--accent); background: var(--wp--preset--color--accent-soft); border-color: transparent; }
+body .wp2-shopify-access-badge[data-wp2-level="signed-in"] { color: #1f4e79; background: #e8f0f8; border-color: #b9cde2; }
+body .wp2-shopify-access-badge[data-wp2-level="silver"] { color: #4f5b67; background: #eef1f4; border-color: #b8c0c8; }
+body .wp2-shopify-access-badge[data-wp2-level="gold"] { color: #7a4f00; background: #fbf0d3; border-color: #e0c27a; }
+body .wp2-shopify-access-badge[data-wp2-level="premium"] { color: #fff; background: #1c1f23; border-color: #1c1f23; }
+
+/* Paid items get a small lock before their title in lists, for visitors they lock out. */
+.wp-block-post.wp2-gated.is-locked :is(.sfwp-card__title, .sfwp-latest__title, .sfwp-report-card__title) a::before {
+	content: "";
+	display: inline-block;
+	width: 0.7em;
+	height: 0.7em;
+	margin-right: 0.35em;
+	background: currentColor;
+	opacity: 0.55;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 9V7A5 5 0 0 0 7 7v2H5v13h14V9h-2Zm-8 0V7a3 3 0 0 1 6 0v2H9Z'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 9V7A5 5 0 0 0 7 7v2H5v13h14V9h-2Zm-8 0V7a3 3 0 0 1 6 0v2H9Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
 
 /* Single story. */
 .sfwp-article__title {
@@ -497,4 +521,480 @@
 
 .sfwp-plans .wp2-shopify-plan {
 	height: 100%;
+}
+
+/* Masthead top bar. */
+.sfwp-dateline {
+	margin: 0;
+	font-weight: 600;
+}
+
+.sfwp-topbar__links {
+	color: var(--wp--preset--color--muted);
+}
+
+.sfwp-topbar__links a {
+	color: inherit;
+}
+
+.sfwp-topbar__links .sfwp-badge {
+	color: var(--wp--preset--color--contrast);
+	text-decoration: none;
+}
+
+.sfwp-sections .sfwp-sections__type {
+	color: var(--wp--preset--color--muted);
+}
+
+.sfwp-sections .sfwp-sections__type:first-of-type,
+.sfwp-sections .sfwp-sections__type + .sfwp-sections__join {
+	margin-left: 0.5rem;
+	padding-left: 1rem;
+	border-left: 1px solid var(--wp--preset--color--line);
+}
+
+.sfwp-sections .sfwp-sections__join a,
+.sfwp-sections .sfwp-sections__join .wp-block-navigation-item__content {
+	white-space: nowrap;
+	padding: 0.2rem 0.6rem;
+	border-radius: 4px;
+	background: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--surface) !important;
+}
+
+/* Front page. */
+.sfwp-front__main {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--40);
+}
+
+.sfwp-front__lead {
+	padding-bottom: var(--wp--preset--spacing--40);
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.sfwp-front__lead .wp-block-post-template,
+.sfwp-front__seconds .wp-block-post-template {
+	margin: 0;
+}
+
+.sfwp-latest {
+	padding-left: var(--wp--preset--spacing--40);
+	border-left: 1px solid var(--wp--preset--color--line);
+}
+
+.sfwp-section-lede {
+	margin: -0.75rem 0 0.75rem;
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+/* How the Ledger works: one tile per access level. */
+.sfwp-tiers {
+	margin-top: var(--wp--preset--spacing--50);
+	padding: var(--wp--preset--spacing--40);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 10px;
+	background: var(--wp--preset--color--surface);
+}
+
+.sfwp-tiers__title {
+	margin: 0;
+	font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+}
+
+.sfwp-tiers__lede {
+	margin: 0;
+	font-size: 1rem !important;
+	color: var(--wp--preset--color--muted);
+}
+
+.sfwp-tiers__grid {
+	margin-top: var(--wp--preset--spacing--40);
+	gap: var(--wp--preset--spacing--30);
+}
+
+.sfwp-tier {
+	gap: 0.35rem;
+	padding: var(--wp--preset--spacing--30);
+	border-top: 3px solid var(--wp--preset--color--line);
+	background: var(--wp--preset--color--base);
+}
+
+.sfwp-tier p {
+	margin: 0;
+}
+
+.sfwp-tier--signed-in { border-top-color: #7da3c9; }
+.sfwp-tier--silver { border-top-color: #9aa5b1; }
+.sfwp-tier--gold { border-top-color: #d4a73a; }
+.sfwp-tier--premium { border-top-color: var(--wp--preset--color--contrast); }
+.sfwp-tier--free { border-top-color: var(--wp--preset--color--accent); }
+
+.sfwp-tier__who {
+	font-weight: 700;
+}
+
+.sfwp-tier__what {
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+/* Ledger Reports band. */
+.sfwp-reports {
+	margin-top: var(--wp--preset--spacing--60);
+	padding-block: var(--wp--preset--spacing--50);
+}
+
+.sfwp-reports__title {
+	margin: 0;
+	font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.sfwp-reports a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.sfwp-reports a:hover {
+	text-decoration: underline;
+}
+
+.sfwp-reports__lede,
+.sfwp-reports__all {
+	margin: 0;
+	font-size: 1rem !important;
+	opacity: 0.8;
+}
+
+.sfwp-reports__grid {
+	margin-top: var(--wp--preset--spacing--40);
+}
+
+.sfwp-report-card {
+	gap: 0.5rem;
+	height: 100%;
+	padding-top: var(--wp--preset--spacing--30);
+	border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.sfwp-reports .sfwp-kicker,
+.sfwp-reports .sfwp-kicker a {
+	color: #e0c27a;
+}
+
+.sfwp-report-card__title {
+	margin: 0;
+	font-size: 1.35rem;
+}
+
+.sfwp-report-card__dek,
+.sfwp-report-card__dek p {
+	margin: 0;
+	opacity: 0.8;
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.sfwp-reports .sfwp-card__meta {
+	color: inherit;
+	opacity: 0.85;
+}
+
+.sfwp-reports body .wp2-shopify-access-badge[data-wp2-level="premium"] {
+	border-color: #fff;
+}
+
+/* Briefings, guides and corrections. */
+.sfwp-more {
+	margin-top: var(--wp--preset--spacing--50);
+	gap: var(--wp--preset--spacing--50);
+}
+
+.sfwp-more .sfwp-latest {
+	padding-left: 0;
+	border-left: 0;
+}
+
+.sfwp-correction {
+	gap: 0.75rem;
+	padding-block: 0.5rem;
+	border-bottom: 1px solid var(--wp--preset--color--line);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.sfwp-correction__title {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--system);
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 600;
+}
+
+.sfwp-correction__title a {
+	color: var(--wp--preset--color--contrast);
+}
+
+.sfwp-correction .sfwp-card__date {
+	min-width: 9rem;
+	color: var(--wp--preset--color--muted);
+}
+
+/* Single stories of every type. */
+.sfwp-article__kickers {
+	gap: 0.75rem;
+}
+
+.sfwp-kicker--type a {
+	color: var(--wp--preset--color--muted);
+}
+
+.sfwp-article__topics {
+	margin-top: var(--wp--preset--spacing--40);
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.sfwp-related {
+	margin-top: var(--wp--preset--spacing--50);
+}
+
+/*
+ * The plugin's paywall: its locked panel for items locked by a rule, and the
+ * Ledger's own teaser box inside gated stories. Both fade the story out above.
+ */
+.sfwp-article__body .wp2-shopify-paywall,
+.sfwp-article__body .sfwp-paywall {
+	position: relative;
+	margin-top: var(--wp--preset--spacing--40);
+}
+
+.sfwp-article__body .wp2-shopify-paywall::before,
+.sfwp-article__body .wp2-shopify-gate-area.is-teaser::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 100%;
+	height: 5rem;
+	background: linear-gradient(to bottom, rgba(251, 250, 247, 0), var(--wp--preset--color--base));
+	pointer-events: none;
+}
+
+.sfwp-article__body .wp2-shopify-gate-area.is-teaser {
+	position: relative;
+}
+
+.sfwp-article__body .wp2-shopify-gate__panel {
+	padding: var(--wp--preset--spacing--40);
+	border-top: 3px solid var(--wp--preset--color--ink);
+	background: var(--wp--preset--color--surface);
+	box-shadow: 0 6px 24px rgba(28, 31, 35, 0.06);
+	font-family: var(--wp--preset--font-family--system);
+	font-size: 1rem;
+}
+
+.sfwp-article__body .wp2-shopify-gate__panel > p:first-child {
+	margin-top: 0;
+	font-family: var(--wp--preset--font-family--serif);
+	font-size: 1.3rem;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.wp2-shopify-gate__reason {
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.wp2-shopify-gate__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.wp2-shopify-gate__actions .is-style-outline {
+	border: 1px solid currentColor;
+	background: transparent;
+	color: var(--wp--preset--color--contrast);
+}
+
+.sfwp-paywall {
+	box-shadow: 0 6px 24px rgba(28, 31, 35, 0.06);
+}
+
+/* Archives. */
+.sfwp-archive__intro {
+	max-width: none !important;
+	padding-right: 30%;
+	margin-bottom: var(--wp--preset--spacing--40);
+	color: var(--wp--preset--color--muted);
+	font-family: var(--wp--preset--font-family--serif);
+	font-size: 1.15rem;
+}
+
+/* Membership page. */
+.sfwp-join-hero__title {
+	margin-top: 0.25rem;
+	font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+	line-height: 1.12;
+}
+
+.sfwp-join-hero__lede {
+	font-family: var(--wp--preset--font-family--serif);
+	font-size: 1.2rem;
+	color: var(--wp--preset--color--muted);
+}
+
+.sfwp-plans {
+	margin-block: var(--wp--preset--spacing--50);
+}
+
+.sfwp-compare table {
+	border-collapse: collapse;
+	font-size: var(--wp--preset--font-size--small);
+}
+
+.sfwp-compare th,
+.sfwp-compare td {
+	padding: 0.6rem 0.5rem;
+	border: 0;
+	border-bottom: 1px solid var(--wp--preset--color--line);
+	text-align: center;
+}
+
+.sfwp-compare th:first-child,
+.sfwp-compare td:first-child {
+	text-align: left;
+}
+
+.sfwp-compare .is-yes {
+	color: var(--wp--preset--color--accent);
+	font-weight: 700;
+}
+
+.sfwp-compare .is-no {
+	color: var(--wp--preset--color--line);
+}
+
+.sfwp-testers {
+	margin-top: var(--wp--preset--spacing--60);
+	padding: var(--wp--preset--spacing--40);
+	border: 1px dashed var(--wp--preset--color--line);
+	border-radius: 8px;
+	font-size: var(--wp--preset--font-size--small);
+}
+
+/* About. */
+.sfwp-about-list {
+	padding: 0;
+	list-style: none;
+}
+
+.sfwp-about-list li {
+	display: flex;
+	gap: 0.75rem;
+	align-items: baseline;
+	padding-block: 0.5rem;
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.sfwp-about-list .wp2-shopify-access-badge {
+	flex: 0 0 7.5rem;
+	justify-content: center;
+}
+
+/* Footer. */
+.sfwp-footer a {
+	color: inherit;
+}
+
+.sfwp-footer__name {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--serif);
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+.sfwp-footer__name a {
+	text-decoration: none;
+}
+
+.sfwp-footer__title {
+	margin: 0 0 0.5rem;
+	font-family: var(--wp--preset--font-family--system);
+	font-size: 0.75rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.7;
+}
+
+.sfwp-footer__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	line-height: 1.9;
+}
+
+.sfwp-footer__list a {
+	text-decoration: none;
+}
+
+.sfwp-footer__list a:hover {
+	text-decoration: underline;
+}
+
+.sfwp-footer .wp-element-button {
+	background: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--contrast);
+}
+
+.sfwp-footer__lab {
+	margin-top: var(--wp--preset--spacing--40);
+	padding-top: var(--wp--preset--spacing--30);
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	font-size: 0.8rem;
+	opacity: 0.75;
+}
+
+.sfwp-footer__lab p {
+	margin: 0;
+}
+
+@media (max-width: 781px) {
+	.sfwp-latest {
+		padding-left: 0;
+		border-left: 0;
+	}
+
+	.sfwp-sections .sfwp-sections__type:first-of-type,
+	.sfwp-sections .sfwp-sections__type + .sfwp-sections__join {
+		margin-left: 0;
+		padding-left: 0;
+		border-left: 0;
+	}
+}
+
+.sfwp-plans .wp-block-column {
+	display: flex;
+}
+
+.sfwp-compare figcaption {
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
+}
+
+/* Test lab matrices: compact, so a row fits on one or two lines. */
+.sfwp-matrix table {
+	font-size: var(--wp--preset--font-size--small);
+	line-height: 1.4;
+}
+
+.sfwp-matrix th,
+.sfwp-matrix td {
+	padding: 0.4rem 0.5rem;
+}
+
+.sfwp-matrix figcaption {
+	color: var(--wp--preset--color--muted);
+	font-size: var(--wp--preset--font-size--small);
 }

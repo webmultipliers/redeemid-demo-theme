@@ -4,9 +4,9 @@
  *
  * Access is the plugin's job. The badge is wp2-shopify/access-badge, rendered
  * for the post in context; it reads the story's content rule (Investigations)
- * or the level of the Membership Gate in its body. The theme only adds the
- * byline, which is seeded story data, and styles the badge per level in
- * assets/theme.css.
+ * or the level of the Membership Gate in its body, and labels open items
+ * Free (the badge's free label). The theme only adds the byline, which is
+ * seeded story data, and styles the badge per level in assets/theme.css.
  *
  * @var array $a        Block attributes.
  * @var int   $post_id  The post in context (each loop item, or the page).
@@ -22,7 +22,8 @@ $sfwp_badge  = '';
 if ( $sfwp_post && WP_Block_Type_Registry::get_instance()->is_registered( 'wp2-shopify/access-badge' ) ) {
 	// Pass this block's post on as the badge's context, so each card of a query loop gets its own badge.
 	$sfwp_badge = ( new WP_Block(
-		[ 'blockName' => 'wp2-shopify/access-badge', 'attrs' => [], 'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => [] ],
+		// "Free" on open items, so free and paid stories read differently in every list.
+		[ 'blockName' => 'wp2-shopify/access-badge', 'attrs' => [ 'freeLabel' => __( 'Free', 'sfwp-test' ) ], 'innerBlocks' => [], 'innerHTML' => '', 'innerContent' => [] ],
 		[ 'postId' => $sfwp_post, 'postType' => get_post_type( $sfwp_post ) ]
 	) )->render();
 }

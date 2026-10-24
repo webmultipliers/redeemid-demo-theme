@@ -1,8 +1,9 @@
 <?php
 /**
  * Seeds the Test lab: the pages and post the sandbox tests run against, plus
- * the Harborview Ledger news stories (inc/news-content.php) and the test
- * accounts (inc/fixtures.php).
+ * the Harborview Ledger news stories (inc/news-content.php), the demo
+ * content types (inc/content-types.php) and the test accounts
+ * (inc/fixtures.php).
  *
  * Content comes from the theme's patterns/ files, so a deploy that changes a
  * pattern can be applied with Shopify → Test lab → Restore. Seeding only
@@ -15,20 +16,21 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const SFWP_TEST_CONTENT_VERSION = 5;
+const SFWP_TEST_CONTENT_VERSION = 6;
 const SFWP_TEST_CONTENT_OPTION  = 'sfwp_test_content_version';
 const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
 
 /**
  * Every seeded item. An item takes its markup from a theme pattern
  * (`pattern`) or a callback (`content`), and may set an excerpt, a category
- * (or several), tags, a publish date and post meta.
+ * (or several), tags, terms of other taxonomies, a publish date and post meta.
  *
  * @return array<string, array<string, mixed>>
  */
 function sfwp_test_seed_items(): array {
 	return [
 		'home'                 => [ 'type' => 'page', 'title' => __( 'Home', 'sfwp-test' ), 'slug' => 'home', 'pattern' => 'page-home' ],
+		'about'                => [ 'type' => 'page', 'title' => __( 'About the Ledger', 'sfwp-test' ), 'slug' => 'about', 'pattern' => 'page-about' ],
 		'test-lab'             => [ 'type' => 'page', 'title' => __( 'Test lab', 'sfwp-test' ), 'slug' => 'test-lab', 'pattern' => 'page-test-lab' ],
 		'auth-callback'        => [ 'type' => 'page', 'title' => __( 'Signing you in', 'sfwp-test' ), 'slug' => sfwp_test_callback_slug(), 'pattern' => 'page-auth-callback' ],
 		'sign-in-controls'     => [ 'type' => 'page', 'title' => __( 'Sign-in controls', 'sfwp-test' ), 'slug' => 'sign-in-controls', 'pattern' => 'page-sign-in-controls' ],
@@ -38,7 +40,7 @@ function sfwp_test_seed_items(): array {
 		'join'                 => [ 'type' => 'page', 'title' => __( 'Become a member', 'sfwp-test' ), 'slug' => 'join', 'pattern' => 'page-join' ],
 		'account'              => [ 'type' => 'page', 'title' => __( 'Account', 'sfwp-test' ), 'slug' => 'account', 'pattern' => 'page-account' ],
 		'members-only-article' => [ 'type' => 'post', 'title' => __( 'Members-only article', 'sfwp-test' ), 'slug' => 'members-only-article', 'pattern' => 'post-members-only-article' ],
-	] + sfwp_test_shop_seed_items() + sfwp_test_news_seed_items();
+	] + sfwp_test_shop_seed_items() + sfwp_test_news_seed_items() + sfwp_test_cpt_seed_items();
 }
 
 /**
@@ -114,6 +116,7 @@ function sfwp_test_seed( bool $restore, ?array $only = null ): array {
 	$items   = sfwp_test_seed_items();
 
 	sfwp_test_seed_categories();
+	sfwp_test_seed_cpt_terms();
 
 	foreach ( null === $only ? $items : array_intersect_key( $items, array_flip( $only ) ) as $key => $item ) {
 		$content  = isset( $item['content'] ) ? trim( (string) ( $item['content'] )() ) : sfwp_test_pattern_content( $item['pattern'] );
@@ -168,6 +171,15 @@ function sfwp_test_seed( bool $restore, ?array $only = null ): array {
 		kses_remove_filters();
 		$id = wp_insert_post( wp_slash( $postarr ), true );
 		kses_init();
+
+		if ( ! is_wp_error( $id ) ) {
+			// After the insert, not tax_input: seeding often runs for a guest, who may not assign terms.
+			foreach ( $item['terms'] ?? [] as $taxonomy => $slugs ) {
+				if ( taxonomy_exists( $taxonomy ) ) {
+					wp_set_object_terms( $id, $slugs, $taxonomy );
+				}
+			}
+		}
 
 		$results[ $key ] = is_wp_error( $id ) ? 'failed' : ( $existing ? 'restored' : 'created' );
 	}

@@ -1,12 +1,82 @@
-<!-- wp:group {"tagName":"footer","className":"sfwp-footer","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"},"margin":{"top":"var:preset|spacing|60"}},"border":{"top":{"color":"var:preset|color|line","width":"1px"}}},"textColor":"muted","fontSize":"small","layout":{"type":"constrained","contentSize":"1120px"}} -->
-<footer class="wp-block-group sfwp-footer has-muted-color has-text-color has-small-font-size" style="border-top-color:var(--wp--preset--color--line);border-top-width:1px;margin-top:var(--wp--preset--spacing--60);padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)">
-	<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-	<div class="wp-block-group">
+<!-- wp:group {"tagName":"footer","className":"sfwp-footer","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|40"},"margin":{"top":"var:preset|spacing|60"}}},"backgroundColor":"contrast","textColor":"base","fontSize":"small","layout":{"type":"constrained","contentSize":"1120px"}} -->
+<footer class="wp-block-group sfwp-footer has-base-color has-contrast-background-color has-text-color has-background has-small-font-size" style="margin-top:var(--wp--preset--spacing--60);padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--40)">
+	<!-- wp:columns {"className":"sfwp-footer__columns"} -->
+	<div class="wp-block-columns sfwp-footer__columns">
+		<!-- wp:column {"width":"34%"} -->
+		<div class="wp-block-column" style="flex-basis:34%">
+			<!-- wp:paragraph {"className":"sfwp-footer__name"} -->
+			<p class="sfwp-footer__name"><a href="/">The Harborview Ledger</a></p>
+			<!-- /wp:paragraph -->
+			<!-- wp:paragraph -->
+			<p>Independent news for the harbor and the islands. Most of what we publish is free. Members pay for the reporting that takes months.</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:buttons -->
+			<div class="wp-block-buttons">
+				<!-- wp:button {"className":"is-style-fill"} -->
+				<div class="wp-block-button is-style-fill"><a class="wp-block-button__link wp-element-button" href="/join/">Become a member</a></div>
+				<!-- /wp:button -->
+			</div>
+			<!-- /wp:buttons -->
+		</div>
+		<!-- /wp:column -->
+		<!-- wp:column -->
+		<div class="wp-block-column">
+			<!-- wp:heading {"level":2,"className":"sfwp-footer__title"} -->
+			<h2 class="wp-block-heading sfwp-footer__title">Sections</h2>
+			<!-- /wp:heading -->
+			<!-- wp:list {"className":"sfwp-footer__list"} -->
+			<ul class="sfwp-footer__list">
+				<!-- wp:list-item --><li><a href="/category/investigations/">Investigations</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/category/city-hall/">City Hall</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/category/business/">Business</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/category/technology/">Technology</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/category/science/">Science</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/category/culture/">Culture</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/category/opinion/">Opinion</a></li><!-- /wp:list-item -->
+			</ul>
+			<!-- /wp:list -->
+		</div>
+		<!-- /wp:column -->
+		<!-- wp:column -->
+		<div class="wp-block-column">
+			<!-- wp:heading {"level":2,"className":"sfwp-footer__title"} -->
+			<h2 class="wp-block-heading sfwp-footer__title">More from the Ledger</h2>
+			<!-- /wp:heading -->
+			<!-- wp:list {"className":"sfwp-footer__list"} -->
+			<ul class="sfwp-footer__list">
+				<!-- wp:list-item --><li><a href="/briefings/">Briefings</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/reports/">Ledger Reports</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/guides/">City guides</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/corrections/">Corrections</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/about/">About the Ledger</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/feed/">RSS</a></li><!-- /wp:list-item -->
+			</ul>
+			<!-- /wp:list -->
+		</div>
+		<!-- /wp:column -->
+		<!-- wp:column -->
+		<div class="wp-block-column">
+			<!-- wp:heading {"level":2,"className":"sfwp-footer__title"} -->
+			<h2 class="wp-block-heading sfwp-footer__title">Membership</h2>
+			<!-- /wp:heading -->
+			<!-- wp:list {"className":"sfwp-footer__list"} -->
+			<ul class="sfwp-footer__list">
+				<!-- wp:list-item --><li><a href="/join/">Plans and prices</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/account/">Your account</a></li><!-- /wp:list-item -->
+				<!-- wp:list-item --><li><a href="/about/#free-and-paid">What is free</a></li><!-- /wp:list-item -->
+			</ul>
+			<!-- /wp:list -->
+		</div>
+		<!-- /wp:column -->
+	</div>
+	<!-- /wp:columns -->
+	<!-- wp:group {"className":"sfwp-footer__lab","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group sfwp-footer__lab">
 		<!-- wp:paragraph -->
 		<p>The Harborview Ledger is fiction. Every story, person and place exists to exercise the WP2 Shopify plugin.</p>
 		<!-- /wp:paragraph -->
 		<!-- wp:paragraph -->
-		<p><a href="/test-lab/">Test lab</a> · <a href="/sign-in-controls/">Sign-in controls</a> · <a href="/members-area/">Members area</a> · <a href="/tag-gates/">Tag gates</a> · <a href="/?s=SFWP-SECRET">Search leak check</a> · <a href="/feed/">RSS</a> · <a href="/wp-admin/admin.php?page=wp2-shopify">Shopify admin</a></p>
+		<p>For testers: <a href="/test-lab/">Test lab</a> · <a href="/sign-in-controls/">Sign-in controls</a> · <a href="/members-area/">Members area</a> · <a href="/tag-gates/">Tag gates</a> · <a href="/?s=SFWP-SECRET">Search leak check</a> · <a href="/wp-admin/admin.php?page=wp2-shopify">Shopify admin</a></p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->

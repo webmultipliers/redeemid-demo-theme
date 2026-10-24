@@ -50,10 +50,22 @@ add_filter(
  *   gated news stories from the theme so their gates ask for the plugin's
  *   access levels (the Access Badge names a gate's level, not its tags).
  *
+ * - Before 6: rewrite the home, Become a member and Test lab pages from the
+ *   theme, for the new front page, the reader-facing membership page and the
+ *   content-type rule table.
+ *
  * @param int $from The content version the site had.
  */
 function sfwp_test_upgrade_content( int $from ): void {
-	if ( $from < 1 || $from >= 5 ) {
+	if ( $from < 1 ) {
+		return;
+	}
+
+	if ( $from < 6 ) {
+		sfwp_test_seed( true, [ 'home', 'join', 'test-lab' ] );
+	}
+
+	if ( $from >= 5 ) {
 		return;
 	}
 

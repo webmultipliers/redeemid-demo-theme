@@ -18,6 +18,7 @@ define( 'SFWP_TEST_VERSION', wp_get_theme( get_template() )->get( 'Version' ) );
 
 require_once __DIR__ . '/inc/health.php';
 require_once __DIR__ . '/inc/news-content.php';
+require_once __DIR__ . '/inc/content-types.php';
 require_once __DIR__ . '/inc/test-content.php';
 require_once __DIR__ . '/inc/fixtures.php';
 require_once __DIR__ . '/inc/admin.php';
@@ -42,5 +43,22 @@ add_action(
 	'init',
 	static function (): void {
 		register_block_pattern_category( 'sfwp-test', [ 'label' => __( 'Shopify for WP tests', 'sfwp-test' ) ] );
+	}
+);
+
+/**
+ * Test lab pages get `sfwp-lab`, so the gate's debugging labels (which area
+ * of a gate reached the page) show there and not on the Ledger's stories.
+ */
+add_filter(
+	'body_class',
+	static function ( array $classes ): array {
+		$key = is_singular() ? (string) get_post_meta( (int) get_queried_object_id(), SFWP_TEST_SEED_META, true ) : '';
+
+		if ( '' !== $key && ! in_array( $key, [ 'home', 'about', 'join' ], true ) && ! str_starts_with( $key, 'news-' ) && ! str_starts_with( $key, 'cpt-' ) ) {
+			$classes[] = 'sfwp-lab';
+		}
+
+		return $classes;
 	}
 );
