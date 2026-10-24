@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.7.0
+
+A more complete news site, and content types to stress the plugin's content rules (needs the plugin's Access Badge free label; without it open stories simply show no badge).
+
+- Front page: a lead with four seconds, a Latest rail, a "How the Ledger works" band with one tile per access level, a Ledger Reports band, every section, briefings, city guides and corrections.
+- Masthead with today's date, a quieter sandbox link, Investigations and the three new types in the navigation, and a Become a member button. A four-column footer with the tester links set apart.
+- Every badge has a colour per level, open stories read **Free**, and cards of stories that lock the visitor out get a small lock before the title.
+- Paywalls look like a news site's: the teaser fades into the box, and the plugin's levels get wall copy and a call to action (filled in only where a level has none).
+- The gate debugging labels show on Test lab pages only.
+- Become a member is a reader-facing membership page (what each level opens, plan cards) with the tester instructions below it. New About the Ledger page.
+- Demo post types Briefings, Reports, City guides and Corrections, and taxonomies Editions, Series (hierarchical), Neighborhoods and Topics (shared with posts), with sixteen items and rules on every layer. The Test lab lists which layer decides each item.
+- Single and archive templates for each type, and a "Latest" row under every story.
+- Content version 6: creates the new items, terms and rules, and rewrites the Home, Become a member and Test lab pages once from the theme (edits to those three pages are lost).
+
 ## 0.6.0
 
 The theme only consumes the plugin now. Features it used to build itself moved into the WP2 Shopify plugin (needs the matching plugin release):

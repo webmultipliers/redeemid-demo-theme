@@ -4,11 +4,9 @@
 	<div class="wp-block-group sfwp-topbar">
 		<!-- wp:group {"style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
 		<div class="wp-block-group">
-			<!-- wp:paragraph {"className":"sfwp-badge","fontSize":"small"} -->
-			<p class="sfwp-badge has-small-font-size">Sandbox</p>
-			<!-- /wp:paragraph -->
-			<!-- wp:paragraph {"fontSize":"small"} -->
-			<p class="has-small-font-size"><a href="/test-lab/">Test lab</a> · <a href="/tag-gates/">Tag gates</a> · <a href="/members-only-article/">Leak check</a></p>
+			<!-- wp:pattern {"slug":"sfwp-test/dateline"} /-->
+			<!-- wp:paragraph {"className":"sfwp-topbar__links","fontSize":"small"} -->
+			<p class="sfwp-topbar__links has-small-font-size"><a href="/briefings/">Today’s briefing</a> · <a href="/corrections/">Corrections</a> · <a class="sfwp-badge" href="/test-lab/">Sandbox</a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->
@@ -31,19 +29,22 @@
 		<p class="sfwp-masthead__name"><a href="/">The Harborview Ledger</a></p>
 		<!-- /wp:paragraph -->
 		<!-- wp:paragraph {"className":"sfwp-masthead__tagline","fontSize":"small"} -->
-		<p class="sfwp-masthead__tagline has-small-font-size">Independent news for the harbor and the islands · A test site for WP2 Shopify</p>
+		<p class="sfwp-masthead__tagline has-small-font-size">Independent news for the harbor and the islands · Most of it free, the deepest reporting for members</p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
 
 	<!-- wp:navigation {"overlayMenu":"mobile","className":"sfwp-sections","metadata":{"ignoredHookedBlocks":["create-block/shopify-cart-toggle-block"]},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"center"},"fontSize":"small"} -->
-		<!-- wp:navigation-link {"label":"Home","url":"/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"Investigations","url":"/category/investigations/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"City Hall","url":"/category/city-hall/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Business","url":"/category/business/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Technology","url":"/category/technology/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Science","url":"/category/science/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Culture","url":"/category/culture/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Opinion","url":"/category/opinion/","kind":"custom"} /-->
+		<!-- wp:navigation-link {"label":"Briefings","url":"/briefings/","kind":"custom","className":"sfwp-sections__type"} /-->
+		<!-- wp:navigation-link {"label":"Reports","url":"/reports/","kind":"custom","className":"sfwp-sections__type"} /-->
+		<!-- wp:navigation-link {"label":"Guides","url":"/guides/","kind":"custom","className":"sfwp-sections__type"} /-->
 		<!-- wp:navigation-link {"label":"Become a member","url":"/join/","kind":"custom","className":"sfwp-sections__join"} /-->
 	<!-- /wp:navigation -->
 </header>

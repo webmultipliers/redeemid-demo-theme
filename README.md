@@ -14,7 +14,9 @@ On the first request with the theme active, it creates the test content from its
 
 | Address | What it tests |
 |---|---|
-| `/` (Home) | The Ledger front page: lead story, latest list, one row per section |
+| `/` (Home) | The Ledger front page: lead story and four seconds, the latest list, how membership works (one tile per access level), Ledger Reports, one row per section, briefings, city guides and corrections |
+| `/about/` | About the Ledger: what is free and what is for members, and how corrections work |
+| `/briefings/`, `/reports/`, `/guides/`, `/corrections/` | The demo post types (see [Content types](#content-types)), each with its own archive and single template |
 | `/category/<section>/` | Investigations, City Hall, Business, Technology, Science, Culture, Opinion |
 | `/test-lab/` | Sandbox health, visitor state, the test-account matrix and the list of things to try |
 | `/auth-callback/` | The plugin's sign-in callback page (follows the `wp2_shopify_auth_callback_slug` filter) |
@@ -22,7 +24,7 @@ On the first request with the theme active, it creates the test content from its
 | `/members-area/` | A gate that admits any signed-in visitor |
 | `/tag-gates/` | Tag rules: any, all, teaser fallback, a tag nobody has, an open control, and Shopify's own product block inside a gold gate (marker `SFWP-SECRET-PRODUCT`) |
 | `/gate-redirect/` | Redirect fallback mode |
-| `/join/` | Where calls to action point: Gold and Silver plan cards (handles `gold-membership`, `silver-membership`) and how a test customer gets a tag |
+| `/join/` | Where calls to action point: a reader-facing membership page (what each level opens, Gold and Silver plan cards with handles `gold-membership`, `silver-membership`), then for testers how a test customer gets a tag |
 | `/shop/` | Shopify's own collection block. Created only while Shopify's WordPress plugin is active |
 | `/account/` | Connect and log out, until the plugin's account card ships |
 | `/members-only-article/` | A paywalled post with the phrase `SFWP-SECRET-MEMBERS-ONLY` for leak checks |
@@ -31,11 +33,11 @@ The tag gates use `gold-member` and `silver-member`. Add those tags to a test cu
 
 ## The Harborview Ledger
 
-Fifteen fictional stories across seven sections. Each has an access level. The badge on cards and stories is the plugin's **Access Badge** (`wp2-shopify/access-badge`), laid out with the byline by the theme's `sfwp-test/story-meta` block; free stories have no badge:
+Sixteen fictional stories across seven sections. Each has an access level. The badge on cards and stories is the plugin's **Access Badge** (`wp2-shopify/access-badge`), laid out with the byline by the theme's `sfwp-test/story-meta` block. The block sets the badge's free label, so open stories read **Free** and every list shows free and paid stories side by side; cards of stories that lock the visitor out also get a small lock before the title (the plugin's `wp2-gated is-locked` post classes):
 
 | Badge | Gate on the story body (a plugin access level) |
 |---|---|
-| (none) | none |
+| Free | none |
 | Signed in | the plugin's built-in `signed-in` level: any signed-in visitor |
 | Silver | level `silver` (any of `silver-member`) |
 | Gold | level `gold` (any of `gold-member`) |
@@ -57,6 +59,28 @@ The three Investigations stories have no gate block. The plugin's content rules 
 | The night market story's own rule: Public | Stays free inside the Silver Culture section |
 
 The plugin's badge reads their rule, so it changes when the rule does: the ferry story's badge turns to Gold when its 30 days end. Restore test content starts the 30 days again and puts every rule back; plain seeding leaves a term rule someone changed alone.
+
+## Content types
+
+The plugin gates every public post type, so the theme registers demo types and taxonomies to stress the content rules beyond posts and categories (`inc/content-types.php`). They are fixtures, registered on `init` at priority 5 so the plugin sees them; every access decision is the plugin's.
+
+| Post type | Archive | Plugin post type row (Shopify → Access → Content rules) |
+|---|---|---|
+| Briefings `sfwp_briefing` | `/briefings/` | needs Signed in; teaser 40 words |
+| Reports `sfwp_report` | `/reports/` | needs Gold; teaser 60 words; open after 365 days; locked reports kept out of search engines |
+| City guides `sfwp_guide` | `/guides/` | no levels (open unless a term or item says otherwise); comments shown to everyone |
+| Corrections `sfwp_notice` | `/corrections/` | gating switched off: no rule of any kind applies |
+
+| Taxonomy | On | Term rules |
+|---|---|---|
+| Editions `sfwp_edition` (flat) | Briefings | Weekend opens its items for 30 days |
+| Series `sfwp_series` (hierarchical, inherits) | Reports | Harbor Money needs Gold + Silver and passes it to Port budgets; Pensions has its own rule, Silver |
+| Neighborhoods `sfwp_neighborhood` (flat) | City guides | Fennel Hill needs Silver |
+| Topics `sfwp_topic` (flat, shared) | posts and all four types | Elections 2026 needs Signed in |
+
+Sixteen items exercise each layer: the post type rule, an Opens term, a hierarchical term inherited from its parent, a child's own rule beating its parent's, a flat term on a type with no rule, a custom taxonomy on core posts, item Public, item Level with no other rule, item Add to inherited, an item free until a date, an embargo, the post type's archive window, a teaser cut by word count instead of a break block, and a type with gating off. The Test lab page lists each item with the layer that should decide it and the badge a guest should see. Locked text ends with a `SFWP-SECRET-CPT-<SLUG>` marker; text that should be open to everyone carries `SFWP-OPEN-CPT-<SLUG>`.
+
+Seeding adds the post type rows, term rules and item rules only where none exist; Restore test content puts them all back and restarts the dated windows. New types need fresh rewrite rules, which the theme flushes once per content version on `wp_loaded`.
 
 ## Test accounts
 
@@ -85,7 +109,8 @@ The theme builds no features of its own; it places the plugin's blocks and answe
 | Header, Join page, every paywall teaser | **Refresh Membership** (`wp2-shopify/membership-refresh`) |
 | Test lab, Account, callback, Members area, Join, Sign-in controls | **Shopify Account Status** (`wp2-shopify/account-status`) |
 | Test lab | **Shopify Health** (`wp2-shopify/health`, administrators only), with the theme's rows added through `wp2_shopify_health_checks` (theme block registered, seeded blocks match their fields, test content version) |
-| Story cards and single stories | **Access Badge** (`wp2-shopify/access-badge`), inside `sfwp-test/story-meta` |
+| Story cards and single stories of every type | **Access Badge** (`wp2-shopify/access-badge`) with its free label, inside `sfwp-test/story-meta`; the `wp2-gated`/`is-locked` post classes for the lock on card titles |
+| Locked items of every type | the plugin's locked panel and level wall copy (message, call to action), styled as the Ledger's paywall |
 | Stories, Test lab pages | Membership Gate, paywall break, Shopify Sign-in, Plan Card |
 | Test accounts | `wp2_shopify_customer_is_fixture`, `wp2_shopify_customer_badges`, `wp2_shopify_pre_sync_now` |
 | Shopify's cart toggle | keyboard access comes from the plugin (`Integrations\OfficialCartToggle`) |
@@ -114,7 +139,7 @@ One Blockstudio block in `blockstudio/`, registered through the Blockstudio copy
 
 Everything in `inc/` is demo content or sandbox test tooling, not a feature a real site would want from the plugin:
 
-- `news-content.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
+- `news-content.php`, `content-types.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the demo post types and taxonomies, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
 - `fixtures.php`: the seven test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
 - `admin.php`: Shopify → Test lab.
 - `health.php`: the theme's own rows for the plugin's health block.
@@ -130,7 +155,7 @@ The theme's blocks are Blockstudio blocks, like the plugin's. **Before writing c
 - A template's `return;` tells Blockstudio the block rendered nothing, so its styles and scripts are skipped. End branches that print markup with `if`/`else` instead.
 - The plugin's README section "Building on Blockstudio" lists the deliberate exceptions (REST routes rather than RPC, the Access panel).
 
-The theme stylesheet labels which gate area reached the page ("Rendered: members only area", "public teaser area" or "locked message"), so a tester can see the server's decision at a glance.
+On Test lab pages (body class `sfwp-lab`) the theme stylesheet labels which gate area reached the page ("Rendered: members only area", "public teaser area" or "locked message"), so a tester can see the server's decision at a glance. The Ledger's stories show the reader view instead: the teaser fades into the paywall box.
 
 ## Requirements
 

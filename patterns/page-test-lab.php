@@ -4,7 +4,7 @@
  * Slug: sfwp-test/page-test-lab
  * Categories: sfwp-test
  * Post Types: page
- * Description: The sandbox landing page: health, visitor state and a list of things to try.
+ * Description: The sandbox landing page: health, visitor state, the content-type rule table and a list of things to try.
  */
 ?>
 <!-- wp:paragraph {"fontSize":"large"} -->
@@ -39,6 +39,18 @@
 <!-- /wp:table -->
 
 <!-- wp:heading -->
+<h2 class="wp-block-heading">Content types and their rules</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>The plugin gates more than posts. The theme registers four demo post types and four taxonomies (Editions, Series, Neighborhoods and a Topics taxonomy shared by posts and every type) and seeds rules on each layer: Shopify → Access → Content rules for the post types, each term’s edit screen for term rules, and the Access box on each item. The table shows which layer should decide each item and the badge a guest should see.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table {"className":"sfwp-matrix"} -->
+<figure class="wp-block-table sfwp-matrix"><table><thead><tr><th>Item</th><th>Type</th><th>Decided by</th><th>Guest badge</th></tr></thead><tbody><?php foreach ( sfwp_test_cpt_items() as $sfwp_key => $sfwp_item ) : ?><?php $sfwp_type = get_post_type_object( $sfwp_item['type'] ); ?><?php $sfwp_base = 'post' === $sfwp_item['type'] ? '' : (string) ( $sfwp_type->rewrite['slug'] ?? '' ); ?><tr><td><a href="<?php echo esc_url( '/' . ( $sfwp_base ? $sfwp_base . '/' : '' ) . $sfwp_key . '/' ); ?>"><?php echo esc_html( $sfwp_item['title'] ); ?></a></td><td><?php echo esc_html( $sfwp_type ? $sfwp_type->labels->singular_name : $sfwp_item['type'] ); ?></td><td><?php echo esc_html( $sfwp_item['rule'] ); ?></td><td><?php echo esc_html( $sfwp_item['expect'] ); ?></td></tr><?php endforeach; ?></tbody></table><figcaption class="wp-element-caption">Dates count from the last seeding or restore: the storm briefing locks after 7 days, the Tidewater report opens after 14 and the Weekend edition’s Opens rule ends after 30. Restore test content starts them again. Locked items carry a <code>SFWP-SECRET-CPT-…</code> marker; items that should be open to everyone carry <code>SFWP-OPEN-CPT-…</code>.</figcaption></figure>
+<!-- /wp:table -->
+
+<!-- wp:heading -->
 <h2 class="wp-block-heading">What to try</h2>
 <!-- /wp:heading -->
 
@@ -64,6 +76,9 @@
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
 	<li><strong>Check the section rules.</strong> The Investigations stories have no gate block: the plugin's content rules lock them (Shopify → Access → Content rules, and each category's edit screen). <em>Harbor pilots</em> follows the Gold column above, <em>The arts council’s grant audit</em> the Gold + Silver column (it is in Investigations and Culture), and <em>Ferry fuel contract</em> is open to everyone while its "Free to read" tag lasts. The post list's Access column says where each story’s rule comes from. Change a category’s rule and reload a story: the change applies at once.</li>
+	<!-- /wp:list-item -->
+	<!-- wp:list-item -->
+	<li><strong>Check the content types.</strong> Open each item in the table above as a guest and as each test account. Then try to leak them: <a href="/?s=SFWP-SECRET-CPT">search</a>, the <a href="/reports/feed/">Reports feed</a> and the REST routes (<a href="/wp-json/wp/v2/sfwp_report">reports</a>, <a href="/wp-json/wp/v2/sfwp_briefing">briefings</a>, <a href="/wp-json/wp/v2/sfwp_guide">guides</a>). Change a post type row, a term rule or an item’s Access box and reload: the badge and the paywall follow at once. Corrections never lock, because gating is switched off for that post type.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
 	<li><strong>Refresh membership.</strong> Signed in and linked, use “Refresh membership” in the header (or in a story’s paywall box). It calls the plugin’s <code>POST /wp2-shopify/v1/account/sync</code> and reloads; a second press within a minute says to wait. For a simulated test account it puts the seeded state back; for a real customer it asks Shopify, so a tag you just added in Shopify opens the matching stories.</li>

@@ -47,9 +47,27 @@ function sfwp_test_story_access(): array {
  */
 function sfwp_test_plugin_levels(): array {
 	return [
-		'gold'    => [ 'label' => 'Gold', 'groups' => [ [ 'tags' => [ 'gold-member' ], 'match' => 'any' ] ] ],
-		'silver'  => [ 'label' => 'Silver', 'groups' => [ [ 'tags' => [ 'silver-member' ], 'match' => 'any' ] ] ],
-		'premium' => [ 'label' => 'Gold + Silver', 'groups' => [ [ 'tags' => [ 'gold-member', 'silver-member' ], 'match' => 'all' ] ] ],
+		'gold'    => [
+			'label'     => 'Gold',
+			'groups'    => [ [ 'tags' => [ 'gold-member' ], 'match' => 'any' ] ],
+			'message'   => __( 'This is a Gold story. Gold members read every investigation and Ledger Report in full.', 'sfwp-test' ),
+			'cta_label' => __( 'Join Gold', 'sfwp-test' ),
+			'cta_url'   => '/join/',
+		],
+		'silver'  => [
+			'label'     => 'Silver',
+			'groups'    => [ [ 'tags' => [ 'silver-member' ], 'match' => 'any' ] ],
+			'message'   => __( 'This is a Silver story. Silver members read our culture desk, features and neighborhood guides.', 'sfwp-test' ),
+			'cta_label' => __( 'Join Silver', 'sfwp-test' ),
+			'cta_url'   => '/join/',
+		],
+		'premium' => [
+			'label'     => 'Gold + Silver',
+			'groups'    => [ [ 'tags' => [ 'gold-member', 'silver-member' ], 'match' => 'all' ] ],
+			'message'   => __( 'This story is for members with both Gold and Silver: everything the Ledger publishes.', 'sfwp-test' ),
+			'cta_label' => __( 'See membership', 'sfwp-test' ),
+			'cta_url'   => '/join/',
+		],
 	];
 }
 
@@ -443,6 +461,14 @@ function sfwp_test_seed_access_rules( bool $restore ): void {
 	foreach ( sfwp_test_plugin_levels() as $slug => $level ) {
 		if ( ! isset( $saved[ $slug ] ) ) {
 			\WP2_Shopify\Access\LevelStore::save( $slug, $level );
+			continue;
+		}
+
+		// A level seeded before the wall copy existed gets it, without touching anything an administrator set.
+		$fill = array_filter( array_intersect_key( $level, array_flip( [ 'message', 'cta_label', 'cta_url' ] ) ), static fn( $v, $k ) => '' === trim( (string) ( $saved[ $slug ][ $k ] ?? '' ) ), ARRAY_FILTER_USE_BOTH );
+
+		if ( $fill ) {
+			\WP2_Shopify\Access\LevelStore::save( $slug, $fill + $saved[ $slug ] );
 		}
 	}
 
@@ -468,4 +494,6 @@ function sfwp_test_seed_access_rules( bool $restore ): void {
 			\WP2_Shopify\Access\ItemRule::save( $post->ID, $story['item_rule'] );
 		}
 	}
+
+	sfwp_test_seed_cpt_rules( $restore );
 }
