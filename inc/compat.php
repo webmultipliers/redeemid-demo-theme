@@ -65,6 +65,10 @@ function sfwp_test_upgrade_content( int $from ): void {
 		sfwp_test_seed( true, [ 'home', 'join', 'test-lab' ] );
 	}
 
+	if ( $from < 7 ) {
+		sfwp_test_seed( true, [ 'account', 'test-lab' ] );
+	}
+
 	if ( $from >= 5 ) {
 		return;
 	}

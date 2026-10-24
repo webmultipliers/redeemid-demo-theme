@@ -998,3 +998,51 @@ body .wp2-shopify-access-badge[data-wp2-level="premium"] { color: #fff; backgrou
 	color: var(--wp--preset--color--muted);
 	font-size: var(--wp--preset--font-size--small);
 }
+
+/* Features (the plugin's feature registry). The sponsor slot and the early
+   briefing are shown or withheld by the plugin on the server; these rules
+   only style them. */
+.sfwp-sponsor {
+	gap: 0.5rem 1rem;
+	align-items: baseline;
+	margin-block: var(--wp--preset--spacing--40, 2rem);
+	padding: 0.75rem 1rem;
+	border: 1px dashed color-mix(in srgb, currentColor 35%, transparent);
+	font-size: var(--wp--preset--font-size--small, 0.875rem);
+}
+
+.sfwp-sponsor p {
+	margin: 0;
+}
+
+.sfwp-sponsor__label {
+	font-size: 0.7rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.7;
+}
+
+.sfwp-early {
+	margin-block-end: var(--wp--preset--spacing--40, 2rem);
+	padding: 1rem 1.25rem;
+	border-left: 4px solid var(--wp--preset--color--accent, currentColor);
+	background: color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.sfwp-early.is-prompt {
+	border-left-style: dashed;
+}
+
+.sfwp-early__title {
+	margin-block: 0.25rem 0.5rem;
+}
+
+/* Feature chips in the header: the plugin's Membership Features block in menu mode. */
+.sfwp-account .wp2-shopify-member-features.is-menu {
+	font-size: 0.75rem;
+}
+
+/* The body class the plugin adds for a granted body-signal feature. */
+.wp2-feature-ad-free .sfwp-masthead__tagline::after {
+	content: " · Ad-free";
+}

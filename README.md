@@ -26,7 +26,7 @@ On the first request with the theme active, it creates the test content from its
 | `/gate-redirect/` | Redirect fallback mode |
 | `/join/` | Where calls to action point: a reader-facing membership page (what each level opens, Gold and Silver plan cards with handles `gold-membership`, `silver-membership`), then for testers how a test customer gets a tag |
 | `/shop/` | Shopify's own collection block. Created only while Shopify's WordPress plugin is active |
-| `/account/` | Connect and log out, until the plugin's account card ships |
+| `/account/` | The plugin's Membership Features list (held and not included), connect and log out, until the plugin's account card ships |
 | `/members-only-article/` | A paywalled post with the phrase `SFWP-SECRET-MEMBERS-ONLY` for leak checks |
 
 The tag gates use `gold-member` and `silver-member`. Add those tags to a test customer in Shopify, or edit the gates.
@@ -95,10 +95,22 @@ The theme seeds these subscribers (`inc/fixtures.php`), marked with user meta `_
 | `sfwp-premium` | `gold-member` + `silver-member` |
 | `sfwp-lapsed` | `gold-member`, Shopify account disabled |
 | `sfwp-stale` | `gold-member`, last synced 30 days ago |
+| `sfwp-addon` | `silver-member` + `ad-free-addon` (a standalone add-on tag) |
 
 Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `wp2_shopify_customer_is_fixture` filter (the reconciler skips them), adds a "Test fixture" badge through `wp2_shopify_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `wp2_shopify_pre_sync_now` filter, so Shopify is never asked about a made-up customer). Shopify → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
 
 With User Switching active, administrators get a **Test accounts** toolbar menu on every page, and the menu offers **Switch back** while switched in.
+
+## Features
+
+The theme registers two demo features with the plugin's `wp2_shopify_features` filter (`inc/features.php`). It only registers them and places blocks; the plugin decides who holds each one, server-side, from the synced mirror:
+
+| Feature | Who holds it | Where it shows |
+|---|---|---|
+| **Ad-free reading** (`ad-free`) | Gold, or the `ad-free-addon` tag (stacks with any tier). Mapped on Shopify → Access → Features and seeded once (Restore puts it back) | The sponsor slot in `templates/single.html` and `page-home.html` uses the block **Access → Feature: does not hold it**, so holders never receive it. Holders also get the `wp2-feature-ad-free` body class (the masthead says "Ad-free") and the JS signal |
+| **Early briefing** (`early-briefing`) | Silver or Gold, set in code (shown as managed in code) | The Briefings archive: tomorrow's briefing (marker `SFWP-FEATURE-EARLY-BRIEFING`) for holders, a prompt for everyone else |
+
+Both are listed as primary, so the header shows them as chips (the plugin's **Membership Features** block in menu mode), and the Account page lists them with where each comes from. The Test lab has the expected result for every test account.
 
 ## Plugin features the theme uses
 
@@ -107,6 +119,8 @@ The theme builds no features of its own; it places the plugin's blocks and answe
 | Where | Plugin block or hook |
 |---|---|
 | Header, Join page, every paywall teaser | **Refresh Membership** (`wp2-shopify/membership-refresh`) |
+| Header, Account | **Membership Features** (`wp2-shopify/member-features`), menu mode in the header |
+| Sponsor slot, Briefings | the plugin's per-block **Access → Feature** setting and the feature registry (`wp2_shopify_features`) |
 | Test lab, Account, callback, Members area, Join, Sign-in controls | **Shopify Account Status** (`wp2-shopify/account-status`) |
 | Test lab | **Shopify Health** (`wp2-shopify/health`, administrators only), with the theme's rows added through `wp2_shopify_health_checks` (theme block registered, seeded blocks match their fields, test content version) |
 | Story cards and single stories of every type | **Access Badge** (`wp2-shopify/access-badge`) with its free label, inside `sfwp-test/story-meta`; the `wp2-gated`/`is-locked` post classes for the lock on card titles |
@@ -140,7 +154,8 @@ One Blockstudio block in `blockstudio/`, registered through the Blockstudio copy
 Everything in `inc/` is demo content or sandbox test tooling, not a feature a real site would want from the plugin:
 
 - `news-content.php`, `content-types.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the demo post types and taxonomies, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
-- `fixtures.php`: the seven test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
+- `features.php`: the two demo feature registrations and the seeded Ad-free mapping (through the plugin's `Features\Registry`).
+- `fixtures.php`: the eight test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
 - `admin.php`: Shopify → Test lab.
 - `health.php`: the theme's own rows for the plugin's health block.
 - `compat.php`: renders blocks the theme used to ship as the plugin blocks that replaced them.

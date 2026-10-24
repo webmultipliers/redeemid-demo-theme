@@ -87,6 +87,14 @@ function sfwp_test_fixtures(): array {
 			'stale'  => true,
 			'expect' => __( 'gold-member, last synced 30 days ago (past the freshness window). Tag gates stay locked until a real sync.', 'sfwp-test' ),
 		],
+		'sfwp-addon'   => [
+			'name'   => 'Ada Add-on',
+			'linked' => true,
+			'tags'   => [ 'silver-member', 'ad-free-addon' ],
+			'state'  => 'enabled',
+			'stale'  => false,
+			'expect' => __( 'silver-member plus the ad-free-addon tag. Silver stories open; the add-on gives Ad-free reading without Gold.', 'sfwp-test' ),
+		],
 	];
 }
 
