@@ -15,14 +15,14 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const SFWP_TEST_CONTENT_VERSION = 3;
+const SFWP_TEST_CONTENT_VERSION = 4;
 const SFWP_TEST_CONTENT_OPTION  = 'sfwp_test_content_version';
 const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
 
 /**
  * Every seeded item. An item takes its markup from a theme pattern
- * (`pattern`) or a callback (`content`), and may set an excerpt, a category,
- * a publish date and post meta.
+ * (`pattern`) or a callback (`content`), and may set an excerpt, a category
+ * (or several), tags, a publish date and post meta.
  *
  * @return array<string, array<string, mixed>>
  */
@@ -140,8 +140,14 @@ function sfwp_test_seed( bool $restore ): array {
 			$postarr['post_excerpt'] = $item['excerpt'];
 		}
 
-		if ( isset( $item['category'] ) && sfwp_test_term_id( $item['category'] ) ) {
-			$postarr['post_category'] = [ sfwp_test_term_id( $item['category'] ) ];
+		$categories = array_filter( array_map( 'sfwp_test_term_id', $item['categories'] ?? ( isset( $item['category'] ) ? [ $item['category'] ] : [] ) ) );
+
+		if ( $categories ) {
+			$postarr['post_category'] = array_values( $categories );
+		}
+
+		if ( ! empty( $item['tags'] ) ) {
+			$postarr['tags_input'] = $item['tags'];
 		}
 
 		if ( isset( $item['date'] ) ) {
@@ -160,6 +166,8 @@ function sfwp_test_seed( bool $restore ): array {
 
 		$results[ $key ] = is_wp_error( $id ) ? 'failed' : ( $existing ? 'restored' : 'created' );
 	}
+
+	sfwp_test_seed_access_rules( $restore );
 
 	return $results;
 }

@@ -63,6 +63,9 @@
 	<li><strong>Read the Ledger as each account.</strong> Switch to each test account and open one story of each badge from the <a href="/">home page</a>. The result should match the table above. Paywalled stories carry a <code>SFWP-SECRET-NEWS-…</code> leak marker that must stay out of the source, feed, REST and search for anyone not entitled.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
+	<li><strong>Check the section rules.</strong> The Investigations stories have no gate block: the plugin's content rules lock them (Shopify → Access → Content rules, and each category's edit screen). <em>Harbor pilots</em> follows the Gold column above, <em>The arts council’s grant audit</em> the Gold + Silver column (it is in Investigations and Culture), and <em>Ferry fuel contract</em> is open to everyone while its "Free to read" tag lasts. The post list's Access column says where each story’s rule comes from. Change a category’s rule and reload a story: the change applies at once.</li>
+	<!-- /wp:list-item -->
+	<!-- wp:list-item -->
 	<li><strong>Refresh membership.</strong> Signed in and linked, use “Refresh membership” in the header (or in a story’s paywall box). It calls the plugin’s <code>POST /wp2-shopify/v1/account/sync</code> and reloads; a second press within a minute says to wait. For a simulated test account it puts the seeded state back; for a real customer it asks Shopify, so a tag you just added in Shopify opens the matching stories.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->

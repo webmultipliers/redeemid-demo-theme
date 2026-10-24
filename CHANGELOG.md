@@ -1,7 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.4.0
 
+- Investigations section with three stories locked by the plugin's content rules instead of a gate: one needs Gold by section, one needs Gold and Silver because it is also in Culture, and one is opened for 30 days by the "Free to read" tag. They use the paywall break block for their teaser.
+- Seeding sets up the plugin's access levels (`gold`, `silver`, only if missing) and section rules (Investigations needs Gold, Culture needs Silver), and gives the night market story its own Public rule so it stays free.
+- Story badges for rule-locked stories read the plugin's effective rule.
+- Seeded items can have several categories and tags.
+- The newest story is dated at least an hour ago, so seeding before 08:00 UTC no longer schedules it for later instead of publishing it.
+- Content version 4.
 - Tag gates case 6: the leak check now looks for a product `shopify-context`, because the instructions themselves named the product handle and so always matched.
 
 ## 0.3.0

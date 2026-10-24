@@ -1,7 +1,8 @@
 <?php
 /**
  * Access badge and byline for a Harborview Ledger story. The badge only
- * labels the story; the membership gate inside the post decides access.
+ * labels the story; the membership gate inside the post, or the plugin's
+ * content rules for the Investigations stories, decide access.
  *
  * @var array $a        Block attributes.
  * @var bool  $isEditor Rendering inside the block editor.
@@ -13,6 +14,10 @@ $sfwp_post   = get_the_ID();
 $sfwp_access = $sfwp_post ? (string) get_post_meta( $sfwp_post, SFWP_TEST_ACCESS_META, true ) : '';
 $sfwp_byline = $sfwp_post ? (string) get_post_meta( $sfwp_post, SFWP_TEST_BYLINE_META, true ) : '';
 $sfwp_levels = sfwp_test_access_levels();
+
+if ( 'rule' === $sfwp_access ) {
+	$sfwp_access = sfwp_test_rule_access( get_post( $sfwp_post ) );
+}
 
 if ( $isEditor && '' === $sfwp_access ) {
 	$sfwp_access = 'gold';
