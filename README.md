@@ -1,12 +1,19 @@
 # Shopify for WP Test theme
 
-A block theme for the WP2 Shopify sandbox (`https://shopify-for-wp.instawp.site`). It gives the plugin ([webmultipliers/shopify-for-wp](https://github.com/webmultipliers/shopify-for-wp)) a test experience: **The Harborview Ledger**, a faux news site with free and paywalled stories, a Test lab with one page per feature, a paywalled post for leak checks, and test accounts to switch between with [User Switching](https://wordpress.org/plugins/user-switching/).
+A demo and test theme for the [WP2 Shopify](https://github.com/webmultipliers/shopify-for-wp) plugin. Install it on a development or staging site to see every plugin feature working and to test changes against it:
 
-## Deploy
+- **The Harborview Ledger**, a fictional news site with free and paywalled stories, demo post types and taxonomies, and section rules.
+- **A Test lab** with one page per plugin feature, and paywalled content with marker phrases for leak checks.
+- **Test accounts** in every membership state, to switch between with [User Switching](https://wordpress.org/plugins/user-switching/).
 
-InstaWP syncs this repository like the plugin and runs `composer build-prod` after each sync. `build-prod` runs `composer install --no-dev`, exactly like the plugin. The theme has no Composer dependencies, so it only writes an empty `vendor/` autoloader (ignored by git).
+It is a block theme that only consumes the plugin: every access decision, block and setting is the plugin's. It is not meant for a production site, because it creates pages, posts and user accounts on activation.
 
-Activate it once: Appearance → Themes → Shopify for WP Test (or `wp theme activate <folder>`).
+## Install
+
+1. Install and configure the WP2 Shopify plugin (see its README).
+2. Copy this repository into `wp-content/themes/`, or have your host sync it from Git and run `composer build-prod` after each sync. `build-prod` runs `composer install --no-dev`, like the plugin. The theme has no Composer dependencies, so it only writes an empty `vendor/` autoloader (ignored by git).
+3. Activate it: Appearance → Themes → Shopify for WP Test (or `wp theme activate <folder>`).
+4. Optional: install [User Switching](https://wordpress.org/plugins/user-switching/) to sign in as the test accounts.
 
 ## What happens on activation
 
@@ -18,7 +25,7 @@ On the first request with the theme active, it creates the test content from its
 | `/about/` | About the Ledger: what is free and what is for members, and how corrections work |
 | `/briefings/`, `/reports/`, `/guides/`, `/corrections/` | The demo post types (see [Content types](#content-types)), each with its own archive and single template |
 | `/category/<section>/` | Investigations, City Hall, Business, Technology, Science, Culture, Opinion |
-| `/test-lab/` | Sandbox health, account status, the test-account matrix, the feature table and the list of things to try |
+| `/test-lab/` | Site health, account status, the test-account matrix, the feature table and the list of things to try |
 | `/auth-callback/` | The plugin's sign-in callback page (follows the `wp2_shopify_auth_callback_slug` filter) |
 | `/sign-in-controls/` | `wp2-shopify/auth-action` in every mode and style |
 | `/members-area/` | A gate that admits any signed-in visitor |
@@ -151,7 +158,7 @@ One Blockstudio block in `blockstudio/`, registered through the Blockstudio copy
 
 ## What stays in the theme, and why
 
-Everything in `inc/` is demo content or sandbox test tooling, not a feature a real site would want from the plugin:
+Everything in `inc/` is demo content or test tooling, not a feature a real site would want from the plugin:
 
 - `news-content.php`, `content-types.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the demo post types and taxonomies, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
 - `features.php`: the two demo feature registrations and the seeded Ad-free mapping (through the plugin's `Features\Registry`).
@@ -180,3 +187,11 @@ WordPress 6.7+, PHP 8.2+, and the WP2 Shopify plugin. Without the plugin the the
 composer lint        # php -l on every PHP file
 composer build-prod  # deploy hook (composer install --no-dev)
 ```
+
+## Contributing
+
+Issues and pull requests are welcome. Work branches from `development`, and pull requests go back into it. Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
+
+## License
+
+GPL-2.0-or-later. See [LICENSE](LICENSE). All people, places, organisations and stories in the demo content are fictional.

@@ -114,5 +114,5 @@
 <!-- /wp:list -->
 
 <!-- wp:paragraph {"className":"sfwp-note"} -->
-<p class="sfwp-note">Coming in later plugin phases, so not testable yet: the account card, the full member menu (today the header shows only the feature chips), cart count and catalog blocks.</p>
+<p class="sfwp-note">Not in the plugin yet, so not testable here: the account card, the full member menu (today the header shows only the feature chips) and a cart count. Catalog blocks come from Shopify’s own plugin, not WP2.</p>
 <!-- /wp:paragraph -->

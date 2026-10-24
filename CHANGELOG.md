@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- README rewritten for a public audience: what the theme is for, install steps, contributing and license. Added the GPL-2.0 LICENSE file.
+- Copy no longer refers to internal plugin phases (Account and Test lab pages, the search leak note).
+
 ## 0.8.0
 
 Demo features for the plugin's feature registry (needs the plugin's feature registry release). The theme only registers them and places the plugin's blocks; who holds each one is the plugin's decision.
@@ -29,7 +34,7 @@ A more complete news site, and content types to stress the plugin's content rule
 The theme only consumes the plugin now. Features it used to build itself moved into the WP2 Shopify plugin (needs the matching plugin release):
 
 - Refresh membership, the visitor panel and the sandbox health checklist are the plugin's **Refresh Membership**, **Shopify Account Status** and **Shopify Health** blocks. The theme's `resync`, `visitor-state` and `sandbox-health` blocks are gone; content still using their names renders the plugin blocks (`inc/compat.php`).
-- Sandbox health no longer keeps its own copy of the plugin's config rules (audit item C4). The plugin's block reads `Config::definitions()`; the theme adds only its own rows through `wp2_shopify_health_checks`. The checklist now shows to administrators only.
+- Sandbox health no longer keeps its own copy of the plugin's config rules. The plugin's block reads `Config::definitions()`; the theme adds only its own rows through `wp2_shopify_health_checks`. The checklist now shows to administrators only.
 - Story badges are the plugin's Access Badge. Gated stories ask for plugin access levels (`signed-in`, `silver`, `gold`, and a new `premium` for Gold + Silver) instead of listing tags, so the badge can name the level. The theme's own access labels, `_sfwp_test_access` meta and rule-to-badge mapping are gone. Free stories have no badge, and Members stories read "Signed in".
 - Test accounts answer the plugin's new `wp2_shopify_pre_sync_now` filter instead of intercepting `POST /account/sync` with `rest_pre_dispatch`.
 - The keyboard fix for Shopify's cart toggle moved into the plugin.

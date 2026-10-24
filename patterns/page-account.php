@@ -8,7 +8,7 @@
  */
 ?>
 <!-- wp:paragraph {"className":"sfwp-note"} -->
-<p class="sfwp-note">The plugin’s account card arrives in Phase 1. Until then this page collects the account blocks that exist today.</p>
+<p class="sfwp-note">The plugin’s account card is still to come. Until then this page collects the account blocks that exist today.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:wp2-shopify/member-features {"title":"Your membership features","showMissing":true} /-->
