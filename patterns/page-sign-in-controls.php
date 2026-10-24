@@ -43,7 +43,7 @@
 	<!-- wp:paragraph {"className":"sfwp-expect"} -->
 	<p class="sfwp-expect">Guest: “Sign in and open the members area”, which lands on /members-area/ after Shopify. Signed in: hidden.</p>
 	<!-- /wp:paragraph -->
-	<!-- wp:wp2-shopify/auth-action {"mode":{"value":"login","label":"Log in only (hidden when signed in)"},"loginLabel":"Sign in and open the members area","redirectAfterLogin":"/members-area/"} /-->
+	<!-- wp:wp2-shopify/auth-action {"mode":{"value":"login","label":"Log in only (hidden when signed in)"},"loginLabel":"Sign in and open the members area","redirectAfterLogin":{"url":"/members-area/"}} /-->
 </div>
 <!-- /wp:group -->
 
@@ -55,7 +55,7 @@
 	<!-- wp:paragraph {"className":"sfwp-expect"} -->
 	<p class="sfwp-expect">Guest: nothing. Linked or shadow user: “Sign out of both”, which ends the Shopify session and returns to the Test lab.</p>
 	<!-- /wp:paragraph -->
-	<!-- wp:wp2-shopify/auth-action {"mode":{"value":"logout","label":"Log out only (hidden for guests)"},"logoutLabel":"Sign out of both","redirectAfterLogout":"/"} /-->
+	<!-- wp:wp2-shopify/auth-action {"mode":{"value":"logout","label":"Log out only (hidden for guests)"},"logoutLabel":"Sign out of both","redirectAfterLogout":{"url":"/"}} /-->
 </div>
 <!-- /wp:group -->
 

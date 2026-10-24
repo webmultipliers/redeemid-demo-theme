@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0
+
+- Visitor state, Refresh membership and Sandbox health are Blockstudio dynamic islands. The cached page carries a neutral placeholder and Blockstudio renders the block for each visitor in one never-cached request, so the two status-fetching scripts are gone (Refresh membership keeps a small click handler) and administrator-only health rows no longer reach the cached page.
+- Sandbox health checks seeded pages with `bs_validate_block()` and warns about blocks stored in an older field shape.
+- Patterns store the plugin's new field shapes: link objects for the sign-in and gate redirects and the gate's call-to-action URL, and `{value, label}` for plan-card products. Existing pages keep working through the plugin's upgrade shim; Test lab → Restore rewrites them.
+- Inserter previews for all theme blocks, and Story access refreshes its editor preview on save.
+- README: "Check Blockstudio first".
+
 ## 0.4.0
 
 - Investigations section with three stories locked by the plugin's content rules instead of a gate: one needs Gold by section, one needs Gold and Silver because it is also in Culture, and one is opened for 30 days by the "Free to read" tag. They use the paywall break block for their teaser.

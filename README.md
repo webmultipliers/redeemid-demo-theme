@@ -78,7 +78,7 @@ With User Switching active, administrators get a **Test accounts** toolbar menu 
 
 ## Refresh membership
 
-`sfwp-test/resync` is in the header, on the Join page and in every paywall teaser. It renders a hidden, cacheable shell; after load it asks the plugin's status endpoint who the visitor is and, for a signed-in linked visitor, shows the last sync time and a button that calls `POST /wp-json/wp2-shopify/v1/account/sync` with the REST nonce from the status call, then reloads so the gates re-render.
+`sfwp-test/resync` is in the header, on the Join page and in every paywall teaser. It is a Blockstudio [dynamic island](https://blockstudio.dev/docs/blocks/islands): the cached page carries an empty, hidden placeholder, and Blockstudio's island request renders the block again for the visitor. A signed-in linked visitor gets the last sync time and a button that calls `POST /wp-json/wp2-shopify/v1/account/sync` with the REST nonce from that fragment, then reloads so the gates re-render. `script.view.js` only handles the click.
 
 ## Shopify's WordPress plugin
 
@@ -96,10 +96,22 @@ Shopify → Test lab (under the plugin's top-level Shopify menu; Appearance → 
 
 Blockstudio blocks in `blockstudio/`, registered through the Blockstudio copy the plugin bundles (Blockstudio's default theme folder, which the plugin leaves intact):
 
-- **Visitor state** (`sfwp-test/visitor-state`): a cacheable shell that fills itself from the plugin's status endpoint (`admin-ajax.php?action=wp2_shopify_status`), the same call the sign-in control makes. Nonces in the raw view are redacted.
+- **Visitor state** (`sfwp-test/visitor-state`): a dynamic island. The cached page says "Checking who you are…"; the island fragment fills the table from the plugin's `Rest\Status::for_current_user()`. Nonces in the raw view are redacted.
 - **Refresh membership** (`sfwp-test/resync`): see above.
 - **Story access and byline** (`sfwp-test/story-meta`): the access badge and byline of the current story, in query loops and on single posts.
-- **Sandbox health** (`sfwp-test/sandbox-health`): plugin and Blockstudio versions, block registration, pretty permalinks, the callback page and Shopify discovery. Administrators also see which Shopify constants are set, never their values.
+- **Sandbox health** (`sfwp-test/sandbox-health`): plugin and Blockstudio versions, block registration, pretty permalinks, the callback page and Shopify discovery. It also checks every seeded page with Blockstudio's `bs_validate_block()` and warns when a block is stored in an older field shape (Test lab → Restore rewrites it). It is a dynamic island too, so administrators see which Shopify constants are set, never their values, without that reaching the cached page.
+
+All four have inserter previews (`example`), and Story access refreshes its editor preview when the post is saved (`refreshOn`).
+
+### Check Blockstudio first
+
+The theme's blocks are Blockstudio blocks, like the plugin's. **Before writing code for a block, check whether Blockstudio already does it**: the docs are at [blockstudio.dev/docs](https://blockstudio.dev/docs), and in the plugin's `vendor/blockstudio/blockstudio/docs`. Hand-written versions drift from the plugin's blocks and have to be secured and maintained here. In particular:
+
+- Anything that differs per visitor on a cacheable page is a [dynamic island](https://blockstudio.dev/docs/blocks/islands) (`"island": {"mode": "dynamic"}` in `block.json`, then `$isIslandFragment` in the template). Don't fetch a status endpoint from `script.view.js`.
+- Sidebar fields use Blockstudio field types (`select`, `link`, `toggle`) with `conditions` and `populate`, not custom controls.
+- Pattern markup stores values in the shape the field returns: links as `{"url": "…"}`, selects as `{"value": "…", "label": "…"}`. The sandbox health check flags anything else.
+- A template's `return;` tells Blockstudio the block rendered nothing, so its styles and scripts are skipped. End branches that print markup with `if`/`else` instead.
+- The plugin's README section "Building on Blockstudio" lists the deliberate exceptions (REST routes rather than RPC, the Access panel).
 
 The theme stylesheet labels which gate area reached the page ("Rendered: members only area", "public teaser area" or "locked message"), so a tester can see the server's decision at a glance.
 

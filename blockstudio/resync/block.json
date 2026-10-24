@@ -5,16 +5,18 @@
 	"title": "Refresh membership",
 	"category": "widgets",
 	"icon": "update",
-	"description": "Lets a signed-in, linked visitor re-sync their membership from Shopify (POST /wp2-shopify/v1/account/sync) and reloads the page when it is done. Renders a cacheable empty shell; guests see nothing.",
+	"description": "Lets a signed-in, linked visitor re-sync their membership from Shopify (POST /wp2-shopify/v1/account/sync) and reloads the page when it is done. A Blockstudio dynamic island: the page carries an empty placeholder and guests see nothing.",
 	"keywords": [ "shopify", "sync", "resync", "membership", "refresh" ],
 	"textdomain": "sfwp-test",
 	"supports": {
 		"html": false
 	},
+	"example": {},
 	"blockstudio": {
 		"attributes": [
 			{ "id": "label", "type": "text", "label": "Button label", "default": "Refresh membership" },
 			{ "id": "compact", "type": "toggle", "label": "Compact (button and result only, no last-sync line)", "default": false }
-		]
+		],
+		"island": { "mode": "dynamic" }
 	}
 }

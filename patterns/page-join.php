@@ -23,12 +23,12 @@
 <div class="wp-block-columns sfwp-plans">
 	<!-- wp:column -->
 	<div class="wp-block-column">
-		<!-- wp:wp2-shopify/plan-card {"productHandle":"gold-membership","heading":"Gold","buttonLabel":"Join Gold","highlight":true} /-->
+		<!-- wp:wp2-shopify/plan-card {"productHandle":{"value":"gold-membership","label":"Gold membership"},"heading":"Gold","buttonLabel":"Join Gold","highlight":true} /-->
 	</div>
 	<!-- /wp:column -->
 	<!-- wp:column -->
 	<div class="wp-block-column">
-		<!-- wp:wp2-shopify/plan-card {"productHandle":"silver-membership","heading":"Silver","buttonLabel":"Join Silver"} /-->
+		<!-- wp:wp2-shopify/plan-card {"productHandle":{"value":"silver-membership","label":"Silver membership"},"heading":"Silver","buttonLabel":"Join Silver"} /-->
 	</div>
 	<!-- /wp:column -->
 </div>

@@ -4,12 +4,18 @@
  * yes/no; which credential constants exist is shown to administrators only,
  * and no value is ever printed.
  *
- * @var bool $isEditor Rendering inside the block editor.
+ * The block is a Blockstudio dynamic island: the cached page carries the
+ * visitor version, and the never-cached island fragment adds the
+ * administrator rows for whoever is signed in.
+ *
+ * @var bool $isEditor         Rendering inside the block editor.
+ * @var bool $isIslandFragment Rendering the visitor's own fragment.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$sfwp_checks = sfwp_test_health_checks( current_user_can( 'manage_options' ) );
+$sfwp_admin  = ( $isEditor || $isIslandFragment ) && current_user_can( 'manage_options' );
+$sfwp_checks = sfwp_test_health_checks( $sfwp_admin );
 ?>
 <div useBlockProps class="sfwp-panel sfwp-health">
 	<p class="sfwp-panel__title"><?php esc_html_e( 'Sandbox health', 'sfwp-test' ); ?></p>
@@ -22,7 +28,7 @@ $sfwp_checks = sfwp_test_health_checks( current_user_can( 'manage_options' ) );
 			</li>
 		<?php endforeach; ?>
 	</ul>
-	<?php if ( ! current_user_can( 'manage_options' ) ) : ?>
+	<?php if ( ! $sfwp_admin ) : ?>
 		<p class="sfwp-panel__note"><?php esc_html_e( 'Administrators also see which Shopify constants are set.', 'sfwp-test' ); ?></p>
 	<?php endif; ?>
 </div>
