@@ -18,7 +18,7 @@ On the first request with the theme active, it creates the test content from its
 | `/about/` | About the Ledger: what is free and what is for members, and how corrections work |
 | `/briefings/`, `/reports/`, `/guides/`, `/corrections/` | The demo post types (see [Content types](#content-types)), each with its own archive and single template |
 | `/category/<section>/` | Investigations, City Hall, Business, Technology, Science, Culture, Opinion |
-| `/test-lab/` | Sandbox health, visitor state, the test-account matrix and the list of things to try |
+| `/test-lab/` | Sandbox health, account status, the test-account matrix, the feature table and the list of things to try |
 | `/auth-callback/` | The plugin's sign-in callback page (follows the `wp2_shopify_auth_callback_slug` filter) |
 | `/sign-in-controls/` | `wp2-shopify/auth-action` in every mode and style |
 | `/members-area/` | A gate that admits any signed-in visitor |

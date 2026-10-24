@@ -2,7 +2,7 @@
 /**
  * Blocks the theme used to ship and the plugin now provides.
  *
- * Up to theme 0.4, the refresh button, the visitor panel and the health
+ * Up to theme 0.5, the refresh button, the visitor panel and the health
  * checklist were theme blocks. They are plugin blocks now, so content saved
  * with the old names (a page edited by hand, a template part customised in
  * the Site Editor) renders the plugin block instead of nothing. Content the
@@ -53,6 +53,9 @@ add_filter(
  * - Before 6: rewrite the home, Become a member and Test lab pages from the
  *   theme, for the new front page, the reader-facing membership page and the
  *   content-type rule table.
+ *
+ * - Before 7: rewrite the Account and Test lab pages from the theme, for the
+ *   Membership Features list and the feature table.
  *
  * @param int $from The content version the site had.
  */

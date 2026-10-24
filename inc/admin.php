@@ -3,8 +3,9 @@
  * Shopify → Test lab: lists the seeded test content and test accounts, and
  * restores them from the theme after a deploy changes them.
  *
- * The page sits under the plugin's top-level Shopify menu. With an older
- * plugin that has no such menu, it falls back to Appearance → Test lab.
+ * The page sits under the plugin's top-level Shopify menu. Without the
+ * plugin (or with one too old to have that menu), it falls back to
+ * Appearance → Test lab.
  *
  * @package sfwp-test
  */
