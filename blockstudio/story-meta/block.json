@@ -11,9 +11,11 @@
 	"supports": {
 		"html": false
 	},
+	"example": { "attributes": { "showByline": true } },
 	"blockstudio": {
 		"attributes": [
 			{ "id": "showByline", "type": "toggle", "label": "Show the byline", "default": false }
-		]
+		],
+		"refreshOn": [ "save" ]
 	}
 }

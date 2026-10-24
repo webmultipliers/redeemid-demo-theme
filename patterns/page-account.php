@@ -31,4 +31,4 @@
 <p class="sfwp-expect">Ends the WordPress session and the Shopify session together. WordPress’s own logout link ends only the WordPress session.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:wp2-shopify/auth-action {"mode":{"value":"logout","label":"Log out only (hidden for guests)"},"redirectAfterLogout":"/"} /-->
+<!-- wp:wp2-shopify/auth-action {"mode":{"value":"logout","label":"Log out only (hidden for guests)"},"redirectAfterLogout":{"url":"/"}} /-->

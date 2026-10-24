@@ -19,7 +19,7 @@
 	<!-- wp:paragraph {"className":"sfwp-expect"} -->
 	<p class="sfwp-expect">Customers tagged gold-member see the members area. Others see a message, a “Become a member” button and, for guests, sign-in.</p>
 	<!-- /wp:paragraph -->
-	<!-- wp:wp2-shopify/membership-gate {"requiredTags":[{"tag":"gold-member"}],"matchMode":{"value":"any","label":"Any of these tags"},"requireLogin":true,"fallbackMode":{"value":"message","label":"A message and a call to action"},"fallbackMessage":"This box is for gold members.","fallbackCtaLabel":"Become a member","fallbackCtaUrl":"/join/","showSignIn":true} -->
+	<!-- wp:wp2-shopify/membership-gate {"requiredTags":[{"tag":"gold-member"}],"matchMode":{"value":"any","label":"Any of these tags"},"requireLogin":true,"fallbackMode":{"value":"message","label":"A message and a call to action"},"fallbackMessage":"This box is for gold members.","fallbackCtaLabel":"Become a member","fallbackCtaUrl":{"url":"/join/"},"showSignIn":true} -->
 	<!-- wp:wp2-shopify/membership-gate-content -->
 	<!-- wp:paragraph -->
 	<p>Gold confirmed. Marker: <code>SFWP-GOLD</code>.</p>
@@ -129,7 +129,7 @@
 	<!-- wp:paragraph -->
 	<p>This product is for gold members.</p>
 	<!-- /wp:paragraph -->
-	<!-- wp:wp2-shopify/plan-card {"productHandle":"gold-membership","heading":"Gold","buttonLabel":"Join Gold"} /-->
+	<!-- wp:wp2-shopify/plan-card {"productHandle":{"value":"gold-membership","label":"Gold membership"},"heading":"Gold","buttonLabel":"Join Gold"} /-->
 	<!-- /wp:wp2-shopify/membership-gate-fallback -->
 	<!-- /wp:wp2-shopify/membership-gate -->
 </div>

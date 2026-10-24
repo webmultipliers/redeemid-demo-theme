@@ -5,15 +5,17 @@
 	"title": "Visitor state (test)",
 	"category": "widgets",
 	"icon": "id",
-	"description": "Shows what the WP2 Shopify status endpoint says about the current visitor. Renders a cacheable shell and fills it after load, like the plugin's own chrome.",
+	"description": "Shows what the WP2 Shopify status helper says about the current visitor. Renders a cacheable placeholder that Blockstudio's dynamic island fills in for each visitor.",
 	"keywords": [ "shopify", "status", "debug", "test" ],
 	"textdomain": "sfwp-test",
 	"supports": {
 		"html": false
 	},
+	"example": {},
 	"blockstudio": {
 		"attributes": [
 			{ "id": "showRaw", "type": "toggle", "label": "Show the raw response (nonces redacted)", "default": true }
-		]
+		],
+		"island": { "mode": "dynamic" }
 	}
 }

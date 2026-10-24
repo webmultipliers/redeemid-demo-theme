@@ -1,43 +1,16 @@
 /**
- * Fills sfwp-test/resync shells. One status request per page; the button
- * posts to the plugin's /account/sync route with the REST nonce the status
- * call returned, then reloads so the gates re-render with the new tags.
+ * Click handler for sfwp-test/resync. The button and its REST nonce arrive in
+ * the block's island fragment after load, so listen on the document rather
+ * than on the button. Posts to the plugin's /account/sync route, then reloads
+ * so the gates re-render with the new tags.
  */
-let statusRequest;
-
-function fetchStatus(url) {
-	statusRequest ??= fetch(url, { credentials: 'same-origin', headers: { Accept: 'application/json' } })
-		.then((response) => (response.ok ? response.json() : null))
-		.catch(() => null);
-
-	return statusRequest;
-}
-
-function describeSync(seconds) {
-	if (!seconds) {
-		return 'Not synced yet.';
-	}
-
-	const minutes = Math.round((Date.now() - seconds * 1000) / 60000);
-
-	if (minutes < 1) {
-		return 'Synced from Shopify just now.';
-	}
-
-	if (minutes < 120) {
-		return `Synced from Shopify ${minutes} min ago.`;
-	}
-
-	return minutes < 2880 ? `Synced from Shopify ${Math.round(minutes / 60)} h ago.` : `Synced from Shopify ${Math.round(minutes / 1440)} days ago.`;
-}
-
 const messages = {
 	synced: 'Membership updated. Reloading…',
 	sync_wait: 'You just refreshed. Try again in a minute.',
 	sync_failed: 'Shopify could not be reached. Try again later.',
 };
 
-async function resync(root, status) {
+async function resync(root) {
 	const button = root.querySelector('.sfwp-resync__button');
 	const message = root.querySelector('.sfwp-resync__message');
 
@@ -50,7 +23,7 @@ async function resync(root, status) {
 		const response = await fetch(root.dataset.sfwpResyncEndpoint, {
 			method: 'POST',
 			credentials: 'same-origin',
-			headers: { Accept: 'application/json', 'X-WP-Nonce': status.nonces.rest },
+			headers: { Accept: 'application/json', 'X-WP-Nonce': root.dataset.sfwpResyncNonce },
 		});
 		const body = await response.json().catch(() => null);
 		result = response.ok && body && body.result ? body.result : 'sync_failed';
@@ -68,21 +41,10 @@ async function resync(root, status) {
 	button.disabled = false;
 }
 
-for (const root of document.querySelectorAll('[data-sfwp-resync-status]')) {
-	if (!root.dataset.sfwpResyncStatus) {
-		continue;
+document.addEventListener('click', (event) => {
+	const root = event.target.closest('.sfwp-resync__button')?.closest('[data-sfwp-resync-nonce]');
+
+	if (root) {
+		resync(root);
 	}
-
-	fetchStatus(root.dataset.sfwpResyncStatus).then((status) => {
-		if (!status || !status.signedIn || !(status.linked || status.shadow) || !status.nonces || !status.nonces.rest) {
-			return; // Guests and unlinked accounts have nothing to re-sync.
-		}
-
-		if (!root.classList.contains('is-compact')) {
-			root.querySelector('.sfwp-resync__message').textContent = describeSync(status.lastSync);
-		}
-
-		root.querySelector('.sfwp-resync__button').addEventListener('click', () => resync(root, status));
-		root.hidden = false;
-	});
-}
+});

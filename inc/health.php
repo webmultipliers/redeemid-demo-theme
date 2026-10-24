@@ -110,10 +110,54 @@ function sfwp_test_health_checks( bool $show_config ): array {
 		$add( __( 'Admin app credentials', 'sfwp-test' ), $admin ? 'ok' : 'warn', $admin ? __( 'set', 'sfwp-test' ) : __( 'missing: purchase-to-tag, reconciliation and webhook registration are off', 'sfwp-test' ) );
 	}
 
+	if ( function_exists( 'bs_validate_block' ) ) {
+		$stale = sfwp_test_invalid_blocks();
+		$add(
+			__( 'Seeded blocks match their fields', 'sfwp-test' ),
+			$stale ? 'warn' : 'ok',
+			$stale
+				/* translators: %s: list of "page: block field" entries */
+				? sprintf( __( 'stored in an older shape (still rendered, via the plugin\'s upgrade shim): %s. Use Shopify → Test lab → Restore.', 'sfwp-test' ), implode( ', ', array_slice( $stale, 0, 5 ) ) . ( count( $stale ) > 5 ? ', …' : '' ) )
+				: __( 'checked with bs_validate_block()', 'sfwp-test' )
+		);
+	}
+
 	$version = (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 );
 	$add( __( 'Test content', 'sfwp-test' ), $version >= SFWP_TEST_CONTENT_VERSION ? 'ok' : 'warn', $version >= SFWP_TEST_CONTENT_VERSION ? sprintf( 'v%d', $version ) : __( 'not seeded yet', 'sfwp-test' ) );
 
 	return $checks;
+}
+
+/**
+ * Seeded blocks whose stored values no longer match their Blockstudio fields,
+ * for example a URL saved as text before the field became a link field.
+ * Uses Blockstudio's own validator rather than re-implementing field checks.
+ *
+ * @return string[] "Page title: block field" entries.
+ */
+function sfwp_test_invalid_blocks(): array {
+	$found = [];
+	$walk  = static function ( array $blocks, WP_Post $post ) use ( &$walk, &$found ): void {
+		foreach ( $blocks as $block ) {
+			if ( ! empty( $block['blockName'] ) ) {
+				foreach ( bs_validate_block( $block['blockName'], $block['attrs'] ?? [] ) ?? [] as $finding ) {
+					$found[] = sprintf( '%s: %s %s', $post->post_title, $block['blockName'], $finding['path'] );
+				}
+			}
+
+			$walk( $block['innerBlocks'] ?? [], $post );
+		}
+	};
+
+	foreach ( array_keys( sfwp_test_seed_items() ) as $key ) {
+		$post = sfwp_test_find( (string) $key );
+
+		if ( $post ) {
+			$walk( parse_blocks( $post->post_content ), $post );
+		}
+	}
+
+	return array_values( array_unique( $found ) );
 }
 
 /**

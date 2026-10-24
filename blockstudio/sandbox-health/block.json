@@ -5,11 +5,14 @@
 	"title": "Sandbox health (test)",
 	"category": "widgets",
 	"icon": "heart",
-	"description": "Site-level checks for the WP2 Shopify sandbox: plugin, Blockstudio, permalinks, the callback page and the plugin's blocks. Configuration rows show only to administrators.",
+	"description": "Site-level checks for the WP2 Shopify sandbox: plugin, Blockstudio, permalinks, the callback page and the plugin's blocks. Configuration rows show only to administrators, in a Blockstudio dynamic island so the cached page never carries them.",
 	"keywords": [ "shopify", "health", "debug", "test" ],
 	"textdomain": "sfwp-test",
 	"supports": {
 		"html": false
 	},
-	"blockstudio": true
+	"example": {},
+	"blockstudio": {
+		"island": { "mode": "dynamic" }
+	}
 }
