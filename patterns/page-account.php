@@ -4,11 +4,17 @@
  * Slug: sfwp-test/page-account
  * Categories: sfwp-test
  * Post Types: page
- * Description: Account actions available today: connect, log out and the visitor state.
+ * Description: Account blocks available today: membership features, connect, log out and the visitor state.
  */
 ?>
 <!-- wp:paragraph {"className":"sfwp-note"} -->
-<p class="sfwp-note">The plugin’s account card arrives in Phase 1. Until then this page collects the account actions that exist as blocks today.</p>
+<p class="sfwp-note">The plugin’s account card arrives in Phase 1. Until then this page collects the account blocks that exist today.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:wp2-shopify/member-features {"title":"Your membership features","showMissing":true} /-->
+
+<!-- wp:paragraph {"className":"sfwp-expect"} -->
+<p class="sfwp-expect">Lists the features you hold and where each comes from (“Ad-free reading, from Gold”), then the ones you don’t, marked “not included”. Ada Add-on holds Ad-free reading from the add-on, not from Gold.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:wp2-shopify/account-status {"title":"Visitor state","showRaw":true} /-->

@@ -16,7 +16,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const SFWP_TEST_CONTENT_VERSION = 6;
+const SFWP_TEST_CONTENT_VERSION = 7;
 const SFWP_TEST_CONTENT_OPTION  = 'sfwp_test_content_version';
 const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
 
@@ -186,6 +186,7 @@ function sfwp_test_seed( bool $restore, ?array $only = null ): array {
 
 	// A partial restore (a content upgrade) leaves rules an administrator changed alone.
 	sfwp_test_seed_access_rules( $restore && null === $only );
+	sfwp_test_seed_features( $restore && null === $only );
 
 	return $results;
 }

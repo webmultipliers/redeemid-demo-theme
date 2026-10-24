@@ -4,7 +4,7 @@
  * Slug: sfwp-test/page-test-lab
  * Categories: sfwp-test
  * Post Types: page
- * Description: The sandbox landing page: health, visitor state, the content-type rule table and a list of things to try.
+ * Description: The sandbox landing page: health, visitor state, the feature and content-type tables and a list of things to try.
  */
 ?>
 <!-- wp:paragraph {"fontSize":"large"} -->
@@ -35,7 +35,19 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:table {"className":"sfwp-matrix"} -->
-<figure class="wp-block-table sfwp-matrix"><table><thead><tr><th>Account</th><th>State</th><th>Free</th><th>Members</th><th>Silver</th><th>Gold</th><th>Gold + Silver</th></tr></thead><tbody><tr><td>Guest (signed out)</td><td>—</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Riley Reader (sfwp-reader)</td><td>WordPress only, not linked</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Milo Member (sfwp-member)</td><td>Linked, no tags</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Sasha Silver (sfwp-silver)</td><td>silver-member</td><td>Open</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Gia Gold (sfwp-gold)</td><td>gold-member</td><td>Open</td><td>Open</td><td>Teaser</td><td>Open</td><td>Teaser</td></tr><tr><td>Paz Premium (sfwp-premium)</td><td>gold-member + silver-member</td><td>Open</td><td>Open</td><td>Open</td><td>Open</td><td>Open</td></tr><tr><td>Lou Lapsed (sfwp-lapsed)</td><td>gold-member, account disabled</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Stella Stale (sfwp-stale)</td><td>gold-member, synced 30 days ago</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr></tbody></table><figcaption class="wp-element-caption">What each story badge should show for each account. Members stories need only a signed-in WordPress user. Stella stays locked until a real sync because her mirror is older than the freshness window.</figcaption></figure>
+<figure class="wp-block-table sfwp-matrix"><table><thead><tr><th>Account</th><th>State</th><th>Free</th><th>Members</th><th>Silver</th><th>Gold</th><th>Gold + Silver</th></tr></thead><tbody><tr><td>Guest (signed out)</td><td>—</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Riley Reader (sfwp-reader)</td><td>WordPress only, not linked</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Milo Member (sfwp-member)</td><td>Linked, no tags</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Sasha Silver (sfwp-silver)</td><td>silver-member</td><td>Open</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Gia Gold (sfwp-gold)</td><td>gold-member</td><td>Open</td><td>Open</td><td>Teaser</td><td>Open</td><td>Teaser</td></tr><tr><td>Paz Premium (sfwp-premium)</td><td>gold-member + silver-member</td><td>Open</td><td>Open</td><td>Open</td><td>Open</td><td>Open</td></tr><tr><td>Lou Lapsed (sfwp-lapsed)</td><td>gold-member, account disabled</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Stella Stale (sfwp-stale)</td><td>gold-member, synced 30 days ago</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td><td>Teaser</td></tr><tr><td>Ada Add-on (sfwp-addon)</td><td>silver-member + ad-free-addon</td><td>Open</td><td>Open</td><td>Open</td><td>Teaser</td><td>Teaser</td></tr></tbody></table><figcaption class="wp-element-caption">What each story badge should show for each account. Members stories need only a signed-in WordPress user. Stella stays locked until a real sync because her mirror is older than the freshness window.</figcaption></figure>
+<!-- /wp:table -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Features</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Features are site behaviours a membership unlocks, from the plugin’s feature registry. The theme registers two and only places the plugin’s blocks. <strong>Ad-free reading</strong> goes to Gold, or to anyone with the <code>ad-free-addon</code> tag, which stacks with any tier. It is mapped on Shopify → Access → Features, and it hides the sponsor slot on stories and the home page. <strong>Early briefing</strong> goes to Silver or Gold, is set in code (so that screen shows it as managed in code), and shows tomorrow’s briefing on <a href="/briefings/">Briefings</a>. Both appear as chips in the header and on the <a href="/account/">Account</a> page.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table {"className":"sfwp-matrix"} -->
+<figure class="wp-block-table sfwp-matrix"><table><thead><tr><th>Account</th><th>Ad-free reading</th><th>Early briefing</th></tr></thead><tbody><tr><td>Guest</td><td>No: sponsor slot</td><td>No: prompt</td></tr><tr><td>Riley Reader</td><td>No</td><td>No</td></tr><tr><td>Milo Member</td><td>No</td><td>No</td></tr><tr><td>Sasha Silver</td><td>No</td><td>Yes, from Silver</td></tr><tr><td>Gia Gold</td><td>Yes, from Gold</td><td>Yes, from Gold</td></tr><tr><td>Paz Premium</td><td>Yes, from Gold</td><td>Yes, from Silver and Gold</td></tr><tr><td>Ada Add-on</td><td>Yes, from Ad-free add-on</td><td>Yes, from Silver</td></tr><tr><td>Lou Lapsed</td><td>No (disabled)</td><td>No (disabled)</td></tr><tr><td>Stella Stale</td><td>No (stale)</td><td>No (stale)</td></tr></tbody></table><figcaption class="wp-element-caption">The plugin decides each feature on the server, so a withheld block is not in the page source at all. The early briefing carries the marker <code>SFWP-FEATURE-EARLY-BRIEFING</code>, which must appear only for Silver and Gold. Ad-free holders also get the <code>wp2-feature-ad-free</code> body class (the masthead says “Ad-free”) and <code>window.wp2ShopifyFeatures</code>, which is presentation only.</figcaption></figure>
 <!-- /wp:table -->
 
 <!-- wp:heading -->
@@ -84,6 +96,9 @@
 	<li><strong>Refresh membership.</strong> Signed in and linked, use “Refresh membership” in the header (or in a story’s paywall box). It calls the plugin’s <code>POST /wp2-shopify/v1/account/sync</code> and reloads; a second press within a minute says to wait. For a simulated test account it puts the seeded state back; for a real customer it asks Shopify, so a tag you just added in Shopify opens the matching stories.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
+	<li><strong>Check the features.</strong> Switch to each account and compare the header chips, a story’s sponsor slot and the <a href="/briefings/">Briefings</a> page with the Features table. As Ada Add-on, remove <code>ad-free-addon</code> on Shopify → Customers (or let a refund do it): the sponsor slot comes back on the next page, and she keeps Early briefing from Silver. Shopify → Access → Test prints each account’s features with the route that grants them, and Shopify → Access → Features lets you remap Ad-free reading.</li>
+	<!-- /wp:list-item -->
+	<!-- wp:list-item -->
 	<li><strong>Redirect mode.</strong> <a href="/gate-redirect/">Redirect gate</a> sends non-members to the Become a member page.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
@@ -99,5 +114,5 @@
 <!-- /wp:list -->
 
 <!-- wp:paragraph {"className":"sfwp-note"} -->
-<p class="sfwp-note">Coming in later plugin phases, so not testable yet: the account card, the member menu, cart count and catalog blocks.</p>
+<p class="sfwp-note">Coming in later plugin phases, so not testable yet: the account card, the full member menu (today the header shows only the feature chips), cart count and catalog blocks.</p>
 <!-- /wp:paragraph -->
