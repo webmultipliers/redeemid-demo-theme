@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ruleset name="Shopify for WP test theme">
+	<description>WordPress VIP rules (WordPress-VIP-Go) for the theme. Run with: composer phpcs</description>
+
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/blockstudio/*/_dist/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<config name="minimum_wp_version" value="6.7"/>
+
+	<rule ref="WordPress-VIP-Go"/>
+
+	<!-- It misreads translators: comments as commented-out code. -->
+	<rule ref="Squiz.PHP.CommentedOutCode">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="sfwp-test"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

@@ -185,6 +185,7 @@ WordPress 6.7+, PHP 8.2+, and the WP2 Shopify plugin. Without the plugin the the
 
 ```sh
 composer lint        # php -l on every PHP file
+composer phpcs       # WordPress VIP coding standards (phpcs.xml.dist)
 composer build-prod  # deploy hook (composer install --no-dev)
 ```
 
