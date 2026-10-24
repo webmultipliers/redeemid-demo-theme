@@ -15,7 +15,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const SFWP_TEST_CONTENT_VERSION = 4;
+const SFWP_TEST_CONTENT_VERSION = 5;
 const SFWP_TEST_CONTENT_OPTION  = 'sfwp_test_content_version';
 const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
 
@@ -89,7 +89,10 @@ function sfwp_test_maybe_seed(): void {
 		update_option( 'sfwp_test_seeding', time(), false );
 	}
 
+	$from = (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 );
+
 	sfwp_test_seed( false );
+	sfwp_test_upgrade_content( $from );
 	sfwp_test_seed_fixtures();
 	sfwp_test_set_front_page();
 
@@ -100,17 +103,19 @@ add_action( 'init', 'sfwp_test_maybe_seed', 20 );
 
 /**
  * Create missing items, and with $restore also rewrite existing seeded items
- * from their patterns.
+ * from their patterns. $only limits both to those item keys.
  *
+ * @param string[]|null $only Item keys, or null for every item.
  * @return array<string, string> Item key => created|restored|kept|failed.
  */
-function sfwp_test_seed( bool $restore ): array {
+function sfwp_test_seed( bool $restore, ?array $only = null ): array {
 	$results = [];
 	$author  = sfwp_test_author();
+	$items   = sfwp_test_seed_items();
 
 	sfwp_test_seed_categories();
 
-	foreach ( sfwp_test_seed_items() as $key => $item ) {
+	foreach ( null === $only ? $items : array_intersect_key( $items, array_flip( $only ) ) as $key => $item ) {
 		$content  = isset( $item['content'] ) ? trim( (string) ( $item['content'] )() ) : sfwp_test_pattern_content( $item['pattern'] );
 		$existing = sfwp_test_find( $key );
 
@@ -167,7 +172,8 @@ function sfwp_test_seed( bool $restore ): array {
 		$results[ $key ] = is_wp_error( $id ) ? 'failed' : ( $existing ? 'restored' : 'created' );
 	}
 
-	sfwp_test_seed_access_rules( $restore );
+	// A partial restore (a content upgrade) leaves rules an administrator changed alone.
+	sfwp_test_seed_access_rules( $restore && null === $only );
 
 	return $results;
 }
@@ -236,6 +242,13 @@ function sfwp_test_pattern_content( string $pattern ): string {
 	include $file;
 
 	return trim( (string) ob_get_clean() );
+}
+
+/**
+ * The plugin's callback slug, or its default when the plugin is inactive.
+ */
+function sfwp_test_callback_slug(): string {
+	return class_exists( \WP2_Shopify\Config::class ) ? \WP2_Shopify\Config::callback_slug() : 'auth-callback';
 }
 
 function sfwp_test_author(): int {

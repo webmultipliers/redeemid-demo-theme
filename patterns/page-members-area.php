@@ -23,4 +23,4 @@
 <!-- wp:wp2-shopify/membership-gate-fallback /-->
 <!-- /wp:wp2-shopify/membership-gate -->
 
-<!-- wp:sfwp-test/visitor-state {"showRaw":false} /-->
+<!-- wp:wp2-shopify/account-status /-->

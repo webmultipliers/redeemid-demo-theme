@@ -11,7 +11,7 @@
 <p class="sfwp-note">The plugin’s account card arrives in Phase 1. Until then this page collects the account actions that exist as blocks today.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:sfwp-test/visitor-state /-->
+<!-- wp:wp2-shopify/account-status {"title":"Visitor state","showRaw":true} /-->
 
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Connect an existing WordPress account</h3>

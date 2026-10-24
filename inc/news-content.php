@@ -4,7 +4,9 @@
  * membership gate is exercised on realistic stories as well as test cases.
  *
  * Every story is fiction. Most paywalled stories wrap their body in a
- * wp2-shopify/membership-gate with a teaser fallback. The Investigations
+ * wp2-shopify/membership-gate set to one of the plugin's access levels, with
+ * a teaser fallback, so the plugin's Access Badge can name the level. The
+ * Investigations
  * stories have no gate at all: the plugin's content rules lock them by
  * category (sfwp_test_seed_access_rules()), and a paywall break block marks
  * where their teaser ends. Every members-only part carries a leak marker
@@ -16,23 +18,38 @@
 
 defined( 'ABSPATH' ) || exit;
 
-const SFWP_TEST_ACCESS_META = '_sfwp_test_access';
 const SFWP_TEST_BYLINE_META = '_sfwp_test_byline';
 
 /**
- * Access levels: who may read the full story.
+ * A story's access: which plugin access level its gate asks for, and how the
+ * paywall copy names the readers. `free` stories have no gate and `rule`
+ * stories are locked by the plugin's section rules instead.
  *
- * @return array<string, array{label: string, tags: string[], match: string, login: bool}>
+ * @return array<string, array{level: string, who: string}>
  */
-function sfwp_test_access_levels(): array {
+function sfwp_test_story_access(): array {
 	return [
-		'free'    => [ 'label' => __( 'Free', 'sfwp-test' ), 'tags' => [], 'match' => 'any', 'login' => false ],
-		'members' => [ 'label' => __( 'Members', 'sfwp-test' ), 'tags' => [], 'match' => 'any', 'login' => true ],
-		'silver'  => [ 'label' => __( 'Silver', 'sfwp-test' ), 'tags' => [ 'silver-member' ], 'match' => 'any', 'login' => true ],
-		'gold'    => [ 'label' => __( 'Gold', 'sfwp-test' ), 'tags' => [ 'gold-member' ], 'match' => 'any', 'login' => true ],
-		'premium' => [ 'label' => __( 'Gold + Silver', 'sfwp-test' ), 'tags' => [ 'gold-member', 'silver-member' ], 'match' => 'all', 'login' => true ],
-		// Locked by the plugin's content rules; the badge reads the rule (sfwp_test_rule_access()).
-		'rule'    => [ 'label' => __( 'By section', 'sfwp-test' ), 'tags' => [], 'match' => 'any', 'login' => false ],
+		'free'    => [ 'level' => '', 'who' => '' ],
+		// The plugin's built-in Signed in level: any signed-in WordPress user.
+		'members' => [ 'level' => 'signed-in', 'who' => __( 'signed-in members', 'sfwp-test' ) ],
+		'silver'  => [ 'level' => 'silver', 'who' => __( 'Silver members', 'sfwp-test' ) ],
+		'gold'    => [ 'level' => 'gold', 'who' => __( 'Gold members', 'sfwp-test' ) ],
+		'premium' => [ 'level' => 'premium', 'who' => __( 'Gold + Silver members', 'sfwp-test' ) ],
+		'rule'    => [ 'level' => '', 'who' => '' ],
+	];
+}
+
+/**
+ * The access levels the Ledger needs in the plugin (Shopify → Access). Each
+ * is added only if the site has no level with that slug.
+ *
+ * @return array<string, array{label: string, groups: array<int, array{tags: string[], match: string}>}>
+ */
+function sfwp_test_plugin_levels(): array {
+	return [
+		'gold'    => [ 'label' => 'Gold', 'groups' => [ [ 'tags' => [ 'gold-member' ], 'match' => 'any' ] ] ],
+		'silver'  => [ 'label' => 'Silver', 'groups' => [ [ 'tags' => [ 'silver-member' ], 'match' => 'any' ] ] ],
+		'premium' => [ 'label' => 'Gold + Silver', 'groups' => [ [ 'tags' => [ 'gold-member', 'silver-member' ], 'match' => 'all' ] ] ],
 	];
 }
 
@@ -329,7 +346,6 @@ function sfwp_test_news_seed_items(): array {
 			'tags'       => $story['tags'] ?? [],
 			'date'       => gmdate( 'Y-m-d H:i:s', $base - ( $day++ * DAY_IN_SECONDS ) ),
 			'meta'       => [
-				SFWP_TEST_ACCESS_META => $story['access'],
 				SFWP_TEST_BYLINE_META => $story['byline'],
 			] + ( isset( $story['item_rule'] ) ? [ '_wp2_access' => $story['item_rule'] ] : [] ),
 		];
@@ -370,23 +386,13 @@ function sfwp_test_story_markup( string $slug, array $story ): string {
 		return trim( $markup );
 	}
 
-	$level = sfwp_test_access_levels()[ $story['access'] ];
-	$attrs = [
-		'matchMode'    => 'all' === $level['match']
-			? [ 'value' => 'all', 'label' => 'All of these tags' ]
-			: [ 'value' => 'any', 'label' => 'Any of these tags' ],
-		'requireLogin' => true,
+	$access = sfwp_test_story_access()[ $story['access'] ];
+	$attrs  = [
+		'ruleSource'   => [ 'value' => 'level', 'label' => 'An access level' ],
+		'level'        => [ 'value' => $access['level'], 'label' => sfwp_test_plugin_levels()[ $access['level'] ]['label'] ?? 'Signed in' ],
 		'fallbackMode' => [ 'value' => 'teaser-blocks', 'label' => 'The Public teaser area' ],
 	];
-
-	if ( $level['tags'] ) {
-		$attrs = [ 'requiredTags' => array_map( static fn( $tag ) => [ 'tag' => $tag ], $level['tags'] ) ] + $attrs;
-	}
-
-	$who = $level['tags']
-		/* translators: %s: membership level, e.g. Gold */
-		? sprintf( __( '%s members', 'sfwp-test' ), $level['label'] )
-		: __( 'signed-in members', 'sfwp-test' );
+	$who    = $access['who'];
 
 	$marker = 'SFWP-SECRET-NEWS-' . strtoupper( $slug );
 
@@ -404,7 +410,7 @@ function sfwp_test_story_markup( string $slug, array $story ): string {
 	$markup .= "<!-- wp:wp2-shopify/auth-action {\"mode\":{\"value\":\"login\",\"label\":\"Log in only (hidden when signed in)\"}} /-->\n";
 	$markup .= "<!-- wp:paragraph -->\n<p><a href=\"/join/\">" . esc_html__( 'Become a member', 'sfwp-test' ) . "</a></p>\n<!-- /wp:paragraph -->\n";
 	$markup .= "</div>\n<!-- /wp:group -->\n";
-	$markup .= "<!-- wp:sfwp-test/resync {\"compact\":true} /-->\n";
+	$markup .= "<!-- wp:wp2-shopify/membership-refresh {\"compact\":true} /-->\n";
 	$markup .= "</div>\n<!-- /wp:group -->\n";
 	$markup .= "<!-- /wp:wp2-shopify/membership-gate-fallback -->\n";
 	$markup .= "<!-- /wp:wp2-shopify/membership-gate -->";
@@ -415,7 +421,9 @@ function sfwp_test_story_markup( string $slug, array $story ): string {
 /**
  * The plugin's content rules for the Ledger, when the plugin has them:
  *
- * - Levels gold (gold-member) and silver (silver-member), added only if missing.
+ * - Levels gold (gold-member), silver (silver-member) and premium (both),
+ *   added only if missing (sfwp_test_plugin_levels()). The gated stories ask
+ *   for these levels too.
  * - Investigations needs Gold. Culture needs Silver. A story in both needs
  *   both, because terms combine most-restrictively by default.
  * - The "Free to read" tag opens its stories to everyone for 30 days from
@@ -432,9 +440,9 @@ function sfwp_test_seed_access_rules( bool $restore ): void {
 
 	$saved = \WP2_Shopify\Access\LevelStore::saved();
 
-	foreach ( [ 'gold' => [ 'Gold', 'gold-member' ], 'silver' => [ 'Silver', 'silver-member' ] ] as $slug => [ $label, $tag ] ) {
+	foreach ( sfwp_test_plugin_levels() as $slug => $level ) {
 		if ( ! isset( $saved[ $slug ] ) ) {
-			\WP2_Shopify\Access\LevelStore::save( $slug, [ 'label' => $label, 'groups' => [ [ 'tags' => [ $tag ], 'match' => 'any' ] ] ] );
+			\WP2_Shopify\Access\LevelStore::save( $slug, $level );
 		}
 	}
 
@@ -460,29 +468,4 @@ function sfwp_test_seed_access_rules( bool $restore ): void {
 			\WP2_Shopify\Access\ItemRule::save( $post->ID, $story['item_rule'] );
 		}
 	}
-}
-
-/**
- * The badge for a story the content rules lock: free while its rule is
- * open, otherwise the level its rule needs.
- */
-function sfwp_test_rule_access( WP_Post $post ): string {
-	if ( ! class_exists( \WP2_Shopify\Access\Gatekeeper::class ) ) {
-		return 'free';
-	}
-
-	$rule = \WP2_Shopify\Access\Gatekeeper::rule( $post );
-
-	if ( $rule->open() ) {
-		return 'free';
-	}
-
-	$levels = $rule->levels();
-
-	return match ( true ) {
-		in_array( 'gold', $levels, true ) && in_array( 'silver', $levels, true ) => 'premium',
-		in_array( 'gold', $levels, true ) => 'gold',
-		in_array( 'silver', $levels, true ) => 'silver',
-		default => 'members',
-	};
 }
