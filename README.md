@@ -1,6 +1,6 @@
 # RedeemID Demo theme
 
-A demo and test theme for the [RedeemID](https://github.com/webmultipliers/redeemid) plugin. Install it on a development or staging site to see every plugin feature working and to test changes against it:
+A demo and test theme for the [RedeemID](https://github.com/webmultipliers/redeemid-core) plugin. Install it on a development or staging site to see every plugin feature working and to test changes against it:
 
 - **The Harborview Ledger**, a fictional news site with free and paywalled stories, demo post types and taxonomies, and section rules.
 - **A Test lab** with one page per plugin feature, and paywalled content with marker phrases for leak checks.
@@ -193,7 +193,7 @@ composer build-prod  # deploy hook (composer install --no-dev)
 
 ## Contributing
 
-Issues and pull requests are welcome. Work branches from `development`, and pull requests go back into it. Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
+Issues and pull requests are welcome. Work branches from `main`, and pull requests go back into it. Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
