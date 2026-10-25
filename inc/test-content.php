@@ -6,19 +6,19 @@
  * (inc/fixtures.php).
  *
  * Content comes from the theme's patterns/ files, so a deploy that changes a
- * pattern can be applied with Shopify → Test lab → Restore. Seeding only
+ * pattern can be applied with RedeemID → Test lab → Restore. Seeding only
  * creates what is missing; it never overwrites a page someone edited unless
  * an administrator asks for a restore.
  *
- * @package sfwp-test
+ * @package redeemid-demo
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const SFWP_TEST_CONTENT_VERSION = 9;
-const SFWP_TEST_CONTENT_OPTION  = 'sfwp_test_content_version';
-const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
+const REDEEMID_DEMO_CONTENT_VERSION = 9;
+const REDEEMID_DEMO_CONTENT_OPTION  = 'redeemid_demo_content_version';
+const REDEEMID_DEMO_SEED_META       = '_redeemid_demo_seed';
 
 /**
  * Every seeded item. An item takes its markup from a theme pattern
@@ -27,29 +27,29 @@ const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
  *
  * @return array<string, array<string, mixed>>
  */
-function sfwp_test_seed_items(): array {
+function redeemid_demo_seed_items(): array {
 	return [
-		'home'                 => [ 'type' => 'page', 'title' => __( 'Home', 'sfwp-test' ), 'slug' => 'home', 'pattern' => 'page-home' ],
-		'about'                => [ 'type' => 'page', 'title' => __( 'About the Ledger', 'sfwp-test' ), 'slug' => 'about', 'pattern' => 'page-about' ],
-		'test-lab'             => [ 'type' => 'page', 'title' => __( 'Test lab', 'sfwp-test' ), 'slug' => 'test-lab', 'pattern' => 'page-test-lab' ],
-		'auth-callback'        => [ 'type' => 'page', 'title' => __( 'Signing you in', 'sfwp-test' ), 'slug' => sfwp_test_callback_slug(), 'pattern' => 'page-auth-callback' ],
-		'sign-in-controls'     => [ 'type' => 'page', 'title' => __( 'Sign-in controls', 'sfwp-test' ), 'slug' => 'sign-in-controls', 'pattern' => 'page-sign-in-controls' ],
-		'members-area'         => [ 'type' => 'page', 'title' => __( 'Members area', 'sfwp-test' ), 'slug' => 'members-area', 'pattern' => 'page-members-area' ],
-		'tag-gates'            => [ 'type' => 'page', 'title' => __( 'Tag gates', 'sfwp-test' ), 'slug' => 'tag-gates', 'pattern' => 'page-tag-gates' ],
-		'gate-redirect'        => [ 'type' => 'page', 'title' => __( 'Redirect gate', 'sfwp-test' ), 'slug' => 'gate-redirect', 'pattern' => 'page-gate-redirect' ],
-		'join'                 => [ 'type' => 'page', 'title' => __( 'Become a member', 'sfwp-test' ), 'slug' => 'join', 'pattern' => 'page-join' ],
-		'account'              => [ 'type' => 'page', 'title' => __( 'Account', 'sfwp-test' ), 'slug' => 'account', 'pattern' => 'page-account' ],
-		'members-only-article' => [ 'type' => 'post', 'title' => __( 'Members-only article', 'sfwp-test' ), 'slug' => 'members-only-article', 'pattern' => 'post-members-only-article' ],
-	] + sfwp_test_shop_seed_items() + sfwp_test_news_seed_items() + sfwp_test_cpt_seed_items();
+		'home'                 => [ 'type' => 'page', 'title' => __( 'Home', 'redeemid-demo' ), 'slug' => 'home', 'pattern' => 'page-home' ],
+		'about'                => [ 'type' => 'page', 'title' => __( 'About the Ledger', 'redeemid-demo' ), 'slug' => 'about', 'pattern' => 'page-about' ],
+		'test-lab'             => [ 'type' => 'page', 'title' => __( 'Test lab', 'redeemid-demo' ), 'slug' => 'test-lab', 'pattern' => 'page-test-lab' ],
+		'auth-callback'        => [ 'type' => 'page', 'title' => __( 'Signing you in', 'redeemid-demo' ), 'slug' => redeemid_demo_callback_slug(), 'pattern' => 'page-auth-callback' ],
+		'sign-in-controls'     => [ 'type' => 'page', 'title' => __( 'Sign-in controls', 'redeemid-demo' ), 'slug' => 'sign-in-controls', 'pattern' => 'page-sign-in-controls' ],
+		'members-area'         => [ 'type' => 'page', 'title' => __( 'Members area', 'redeemid-demo' ), 'slug' => 'members-area', 'pattern' => 'page-members-area' ],
+		'tag-gates'            => [ 'type' => 'page', 'title' => __( 'Tag gates', 'redeemid-demo' ), 'slug' => 'tag-gates', 'pattern' => 'page-tag-gates' ],
+		'gate-redirect'        => [ 'type' => 'page', 'title' => __( 'Redirect gate', 'redeemid-demo' ), 'slug' => 'gate-redirect', 'pattern' => 'page-gate-redirect' ],
+		'join'                 => [ 'type' => 'page', 'title' => __( 'Become a member', 'redeemid-demo' ), 'slug' => 'join', 'pattern' => 'page-join' ],
+		'account'              => [ 'type' => 'page', 'title' => __( 'Account', 'redeemid-demo' ), 'slug' => 'account', 'pattern' => 'page-account' ],
+		'members-only-article' => [ 'type' => 'post', 'title' => __( 'Members-only article', 'redeemid-demo' ), 'slug' => 'members-only-article', 'pattern' => 'post-members-only-article' ],
+	] + redeemid_demo_shop_seed_items() + redeemid_demo_news_seed_items() + redeemid_demo_cpt_seed_items();
 }
 
 /**
  * The Shop page, only while Shopify's WordPress plugin is active: its blocks
  * render nothing without it.
  */
-function sfwp_test_shop_seed_items(): array {
+function redeemid_demo_shop_seed_items(): array {
 	return defined( 'SHOPIFY_WP_VERSION' )
-		? [ 'shop' => [ 'type' => 'page', 'title' => __( 'Shop', 'sfwp-test' ), 'slug' => 'shop', 'pattern' => 'page-shop' ] ]
+		? [ 'shop' => [ 'type' => 'page', 'title' => __( 'Shop', 'redeemid-demo' ), 'slug' => 'shop', 'pattern' => 'page-shop' ] ]
 		: [];
 }
 
@@ -57,51 +57,51 @@ function sfwp_test_shop_seed_items(): array {
  * Seed the Shop page when Shopify's plugin is activated after the rest of the
  * test content, without reseeding anything else.
  */
-function sfwp_test_maybe_seed_shop(): void {
-	if ( ! defined( 'SHOPIFY_WP_VERSION' ) || wp_installing() || get_option( 'sfwp_test_shop_seeded' ) ) {
+function redeemid_demo_maybe_seed_shop(): void {
+	if ( ! defined( 'SHOPIFY_WP_VERSION' ) || wp_installing() || get_option( 'redeemid_demo_shop_seeded' ) ) {
 		return;
 	}
 
-	if ( (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 ) < SFWP_TEST_CONTENT_VERSION ) {
+	if ( (int) get_option( REDEEMID_DEMO_CONTENT_OPTION, 0 ) < REDEEMID_DEMO_CONTENT_VERSION ) {
 		return; // The full seed will create it.
 	}
 
-	if ( ! sfwp_test_find( 'shop' ) ) {
-		sfwp_test_seed( false );
+	if ( ! redeemid_demo_find( 'shop' ) ) {
+		redeemid_demo_seed( false );
 	}
 
-	update_option( 'sfwp_test_shop_seeded', time(), false );
+	update_option( 'redeemid_demo_shop_seeded', time(), false );
 }
-add_action( 'init', 'sfwp_test_maybe_seed_shop', 21 );
+add_action( 'init', 'redeemid_demo_maybe_seed_shop', 21 );
 
 /**
  * Seed on the first request after activation or after a deploy that bumps the version.
  * Runs on init, after patterns and the plugin's blocks are registered.
  */
-function sfwp_test_maybe_seed(): void {
-	if ( wp_installing() || (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 ) >= SFWP_TEST_CONTENT_VERSION ) {
+function redeemid_demo_maybe_seed(): void {
+	if ( wp_installing() || (int) get_option( REDEEMID_DEMO_CONTENT_OPTION, 0 ) >= REDEEMID_DEMO_CONTENT_VERSION ) {
 		return;
 	}
 
 	// One request seeds; concurrent ones skip instead of creating duplicates.
-	if ( ! add_option( 'sfwp_test_seeding', time(), '', false ) ) {
-		if ( time() - (int) get_option( 'sfwp_test_seeding' ) < MINUTE_IN_SECONDS ) {
+	if ( ! add_option( 'redeemid_demo_seeding', time(), '', false ) ) {
+		if ( time() - (int) get_option( 'redeemid_demo_seeding' ) < MINUTE_IN_SECONDS ) {
 			return;
 		}
-		update_option( 'sfwp_test_seeding', time(), false );
+		update_option( 'redeemid_demo_seeding', time(), false );
 	}
 
-	$from = (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 );
+	$from = (int) get_option( REDEEMID_DEMO_CONTENT_OPTION, 0 );
 
-	sfwp_test_seed( false );
-	sfwp_test_upgrade_content( $from );
-	sfwp_test_seed_fixtures();
-	sfwp_test_set_front_page();
+	redeemid_demo_seed( false );
+	redeemid_demo_upgrade_content( $from );
+	redeemid_demo_seed_fixtures();
+	redeemid_demo_set_front_page();
 
-	update_option( SFWP_TEST_CONTENT_OPTION, SFWP_TEST_CONTENT_VERSION );
-	delete_option( 'sfwp_test_seeding' );
+	update_option( REDEEMID_DEMO_CONTENT_OPTION, REDEEMID_DEMO_CONTENT_VERSION );
+	delete_option( 'redeemid_demo_seeding' );
 }
-add_action( 'init', 'sfwp_test_maybe_seed', 20 );
+add_action( 'init', 'redeemid_demo_maybe_seed', 20 );
 
 /**
  * Create missing items, and with $restore also rewrite existing seeded items
@@ -110,17 +110,17 @@ add_action( 'init', 'sfwp_test_maybe_seed', 20 );
  * @param string[]|null $only Item keys, or null for every item.
  * @return array<string, string> Item key => created|restored|kept|failed.
  */
-function sfwp_test_seed( bool $restore, ?array $only = null ): array {
+function redeemid_demo_seed( bool $restore, ?array $only = null ): array {
 	$results = [];
-	$author  = sfwp_test_author();
-	$items   = sfwp_test_seed_items();
+	$author  = redeemid_demo_author();
+	$items   = redeemid_demo_seed_items();
 
-	sfwp_test_seed_categories();
-	sfwp_test_seed_cpt_terms();
+	redeemid_demo_seed_categories();
+	redeemid_demo_seed_cpt_terms();
 
 	foreach ( null === $only ? $items : array_intersect_key( $items, array_flip( $only ) ) as $key => $item ) {
-		$content  = isset( $item['content'] ) ? trim( (string) ( $item['content'] )() ) : sfwp_test_pattern_content( $item['pattern'] );
-		$existing = sfwp_test_find( $key );
+		$content  = isset( $item['content'] ) ? trim( (string) ( $item['content'] )() ) : redeemid_demo_pattern_content( $item['pattern'] );
+		$existing = redeemid_demo_find( $key );
 
 		if ( '' === $content ) {
 			$results[ $key ] = 'failed';
@@ -140,7 +140,7 @@ function sfwp_test_seed( bool $restore, ?array $only = null ): array {
 			'post_status'  => 'publish',
 			'post_author'  => $author,
 			'comment_status' => 'closed',
-			'meta_input'   => [ SFWP_TEST_SEED_META => $key ] + ( $item['meta'] ?? [] ),
+			'meta_input'   => [ REDEEMID_DEMO_SEED_META => $key ] + ( $item['meta'] ?? [] ),
 		];
 
 		if ( isset( $item['excerpt'] ) ) {
@@ -148,7 +148,7 @@ function sfwp_test_seed( bool $restore, ?array $only = null ): array {
 			$postarr['post_excerpt'] = $item['excerpt'];
 		}
 
-		$categories = array_filter( array_map( 'sfwp_test_term_id', $item['categories'] ?? ( isset( $item['category'] ) ? [ $item['category'] ] : [] ) ) );
+		$categories = array_filter( array_map( 'redeemid_demo_term_id', $item['categories'] ?? ( isset( $item['category'] ) ? [ $item['category'] ] : [] ) ) );
 
 		if ( $categories ) {
 			$postarr['post_category'] = array_values( $categories );
@@ -185,8 +185,8 @@ function sfwp_test_seed( bool $restore, ?array $only = null ): array {
 	}
 
 	// A partial restore (a content upgrade) leaves rules an administrator changed alone.
-	sfwp_test_seed_access_rules( $restore && null === $only );
-	sfwp_test_seed_features( $restore && null === $only );
+	redeemid_demo_seed_access_rules( $restore && null === $only );
+	redeemid_demo_seed_features( $restore && null === $only );
 
 	return $results;
 }
@@ -196,9 +196,9 @@ function sfwp_test_seed( bool $restore, ?array $only = null ): array {
  * lists latest posts, and on upgrade if the front page is the Test lab, as
  * content version 1 set it.
  */
-function sfwp_test_set_front_page(): void {
-	$home = sfwp_test_find( 'home' );
-	$lab  = sfwp_test_find( 'test-lab' );
+function redeemid_demo_set_front_page(): void {
+	$home = redeemid_demo_find( 'home' );
+	$lab  = redeemid_demo_find( 'test-lab' );
 
 	if ( ! $home ) {
 		return;
@@ -215,13 +215,13 @@ function sfwp_test_set_front_page(): void {
 /**
  * A seeded item: by its seed key first, then by slug for a page someone created by hand.
  */
-function sfwp_test_find( string $key ): ?WP_Post {
-	$item  = sfwp_test_seed_items()[ $key ] ?? null;
+function redeemid_demo_find( string $key ): ?WP_Post {
+	$item  = redeemid_demo_seed_items()[ $key ] ?? null;
 	$found = get_posts(
 		[
 			'post_type'      => $item['type'] ?? 'any',
 			'post_status'    => 'any',
-			'meta_key'       => SFWP_TEST_SEED_META, // phpcs:ignore WordPress.DB.SlowDBQuery
+			'meta_key'       => REDEEMID_DEMO_SEED_META, // phpcs:ignore WordPress.DB.SlowDBQuery
 			'meta_value'     => $key, // phpcs:ignore WordPress.DB.SlowDBQuery
 			'posts_per_page' => 1,
 			'no_found_rows'  => true,
@@ -244,7 +244,7 @@ function sfwp_test_find( string $key ): ?WP_Post {
 /**
  * Markup of a theme pattern file, without its header.
  */
-function sfwp_test_pattern_content( string $pattern ): string {
+function redeemid_demo_pattern_content( string $pattern ): string {
 	$file = get_theme_file_path( 'patterns/' . $pattern . '.php' );
 
 	if ( ! is_readable( $file ) ) {
@@ -260,11 +260,11 @@ function sfwp_test_pattern_content( string $pattern ): string {
 /**
  * The plugin's callback slug, or its default when the plugin is inactive.
  */
-function sfwp_test_callback_slug(): string {
-	return class_exists( \WP2_Shopify\Config::class ) ? \WP2_Shopify\Config::callback_slug() : 'auth-callback';
+function redeemid_demo_callback_slug(): string {
+	return class_exists( \RedeemID\Config::class ) ? \RedeemID\Config::callback_slug() : 'auth-callback';
 }
 
-function sfwp_test_author(): int {
+function redeemid_demo_author(): int {
 	if ( current_user_can( 'manage_options' ) ) {
 		return get_current_user_id();
 	}

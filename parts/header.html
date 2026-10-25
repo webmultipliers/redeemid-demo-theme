@@ -1,41 +1,41 @@
-<!-- wp:group {"tagName":"header","className":"sfwp-header","backgroundColor":"surface","layout":{"type":"constrained","contentSize":"1120px"}} -->
-<header class="wp-block-group sfwp-header has-surface-background-color has-background">
-	<!-- wp:group {"className":"sfwp-topbar","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-	<div class="wp-block-group sfwp-topbar">
+<!-- wp:group {"tagName":"header","className":"ledger-header","backgroundColor":"surface","layout":{"type":"constrained","contentSize":"1120px"}} -->
+<header class="wp-block-group ledger-header has-surface-background-color has-background">
+	<!-- wp:group {"className":"ledger-topbar","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group ledger-topbar">
 		<!-- wp:group {"style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"flex","flexWrap":"wrap"}} -->
 		<div class="wp-block-group">
-			<!-- wp:pattern {"slug":"sfwp-test/dateline"} /-->
-			<!-- wp:paragraph {"className":"sfwp-topbar__links","fontSize":"small"} -->
-			<p class="sfwp-topbar__links has-small-font-size"><a href="/briefings/">Today’s briefing</a> · <a href="/corrections/">Corrections</a> · <a class="sfwp-badge" href="/test-lab/">Sandbox</a></p>
+			<!-- wp:pattern {"slug":"redeemid-demo/dateline"} /-->
+			<!-- wp:paragraph {"className":"ledger-topbar__links","fontSize":"small"} -->
+			<p class="ledger-topbar__links has-small-font-size"><a href="/briefings/">Today’s briefing</a> · <a href="/corrections/">Corrections</a> · <a class="ledger-badge" href="/test-lab/">Sandbox</a></p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->
-		<!-- wp:group {"className":"sfwp-account","style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"right"}} -->
-		<div class="wp-block-group sfwp-account">
-			<!-- wp:wp2-shopify/member-features {"display":{"value":"menu","label":"Primary features only, at most three (member menu)"}} /-->
-			<!-- wp:wp2-shopify/membership-refresh {"label":"Refresh membership","compact":true} /-->
+		<!-- wp:group {"className":"ledger-account","style":{"spacing":{"blockGap":"0.75rem"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"right"}} -->
+		<div class="wp-block-group ledger-account">
+			<!-- wp:redeemid/member-features {"display":{"value":"menu","label":"Primary features only, at most three (member menu)"}} /-->
+			<!-- wp:redeemid/membership-refresh {"label":"Refresh membership","compact":true} /-->
 			<!-- wp:paragraph {"fontSize":"small"} -->
 			<p class="has-small-font-size"><a href="/account/">Account</a></p>
 			<!-- /wp:paragraph -->
-			<!-- wp:create-block/shopify-cart-toggle-block {"toggleText":"Cart","className":"sfwp-cart-toggle"} /-->
-			<!-- wp:wp2-shopify/auth-action {"controlStyle":{"value":"button","label":"Button"}} /-->
+			<!-- wp:create-block/shopify-cart-toggle-block {"toggleText":"Cart","className":"ledger-cart-toggle"} /-->
+			<!-- wp:redeemid/auth-action {"controlStyle":{"value":"button","label":"Button"}} /-->
 		</div>
 		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"className":"sfwp-masthead","layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
-	<div class="wp-block-group sfwp-masthead">
-		<!-- wp:paragraph {"className":"sfwp-masthead__name"} -->
-		<p class="sfwp-masthead__name"><a href="/">The Harborview Ledger</a></p>
+	<!-- wp:group {"className":"ledger-masthead","layout":{"type":"flex","orientation":"vertical","justifyContent":"center"}} -->
+	<div class="wp-block-group ledger-masthead">
+		<!-- wp:paragraph {"className":"ledger-masthead__name"} -->
+		<p class="ledger-masthead__name"><a href="/">The Harborview Ledger</a></p>
 		<!-- /wp:paragraph -->
-		<!-- wp:paragraph {"className":"sfwp-masthead__tagline","fontSize":"small"} -->
-		<p class="sfwp-masthead__tagline has-small-font-size">Independent news for the harbor and the islands · Most of it free, the deepest reporting for members</p>
+		<!-- wp:paragraph {"className":"ledger-masthead__tagline","fontSize":"small"} -->
+		<p class="ledger-masthead__tagline has-small-font-size">Independent news for the harbor and the islands · Most of it free, the deepest reporting for members</p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:navigation {"overlayMenu":"mobile","className":"sfwp-sections","metadata":{"ignoredHookedBlocks":["create-block/shopify-cart-toggle-block"]},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"center"},"fontSize":"small"} -->
+	<!-- wp:navigation {"overlayMenu":"mobile","className":"ledger-sections","metadata":{"ignoredHookedBlocks":["create-block/shopify-cart-toggle-block"]},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"center"},"fontSize":"small"} -->
 		<!-- wp:navigation-link {"label":"Investigations","url":"/category/investigations/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"City Hall","url":"/category/city-hall/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Business","url":"/category/business/","kind":"custom"} /-->
@@ -43,10 +43,10 @@
 		<!-- wp:navigation-link {"label":"Science","url":"/category/science/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Culture","url":"/category/culture/","kind":"custom"} /-->
 		<!-- wp:navigation-link {"label":"Opinion","url":"/category/opinion/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Briefings","url":"/briefings/","kind":"custom","className":"sfwp-sections__type"} /-->
-		<!-- wp:navigation-link {"label":"Reports","url":"/reports/","kind":"custom","className":"sfwp-sections__type"} /-->
-		<!-- wp:navigation-link {"label":"Guides","url":"/guides/","kind":"custom","className":"sfwp-sections__type"} /-->
-		<!-- wp:navigation-link {"label":"Become a member","url":"/join/","kind":"custom","className":"sfwp-sections__join"} /-->
+		<!-- wp:navigation-link {"label":"Briefings","url":"/briefings/","kind":"custom","className":"ledger-sections__type"} /-->
+		<!-- wp:navigation-link {"label":"Reports","url":"/reports/","kind":"custom","className":"ledger-sections__type"} /-->
+		<!-- wp:navigation-link {"label":"Guides","url":"/guides/","kind":"custom","className":"ledger-sections__type"} /-->
+		<!-- wp:navigation-link {"label":"Become a member","url":"/join/","kind":"custom","className":"ledger-sections__join"} /-->
 	<!-- /wp:navigation -->
 </header>
 <!-- /wp:group -->

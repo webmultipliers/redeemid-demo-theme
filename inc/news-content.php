@@ -4,21 +4,21 @@
  * membership gate is exercised on realistic stories as well as test cases.
  *
  * Every story is fiction. Most paywalled stories wrap their body in a
- * wp2-shopify/membership-gate set to one of the plugin's access levels, with
+ * redeemid/membership-gate set to one of the plugin's access levels, with
  * a teaser fallback, so the plugin's Access Badge can name the level. The
  * Investigations
  * stories have no gate at all: the plugin's content rules lock them by
- * category (sfwp_test_seed_access_rules()), and a paywall break block marks
+ * category (redeemid_demo_seed_access_rules()), and a paywall break block marks
  * where their teaser ends. Every members-only part carries a leak marker
- * starting with SFWP-SECRET, so the same search, feed and REST leak checks
+ * starting with LEDGER-SECRET, so the same search, feed and REST leak checks
  * cover both kinds.
  *
- * @package sfwp-test
+ * @package redeemid-demo
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const SFWP_TEST_BYLINE_META = '_sfwp_test_byline';
+const REDEEMID_DEMO_BYLINE_META = '_redeemid_demo_byline';
 
 /**
  * A story's access: which plugin access level its gate asks for, and how the
@@ -27,45 +27,45 @@ const SFWP_TEST_BYLINE_META = '_sfwp_test_byline';
  *
  * @return array<string, array{level: string, who: string}>
  */
-function sfwp_test_story_access(): array {
+function redeemid_demo_story_access(): array {
 	return [
 		'free'    => [ 'level' => '', 'who' => '' ],
 		// The plugin's built-in Signed in level: any signed-in WordPress user.
-		'members' => [ 'level' => 'signed-in', 'who' => __( 'signed-in members', 'sfwp-test' ) ],
-		'silver'  => [ 'level' => 'silver', 'who' => __( 'Silver members', 'sfwp-test' ) ],
-		'gold'    => [ 'level' => 'gold', 'who' => __( 'Gold members', 'sfwp-test' ) ],
-		'premium' => [ 'level' => 'premium', 'who' => __( 'Gold + Silver members', 'sfwp-test' ) ],
+		'members' => [ 'level' => 'signed-in', 'who' => __( 'signed-in members', 'redeemid-demo' ) ],
+		'silver'  => [ 'level' => 'silver', 'who' => __( 'Silver members', 'redeemid-demo' ) ],
+		'gold'    => [ 'level' => 'gold', 'who' => __( 'Gold members', 'redeemid-demo' ) ],
+		'premium' => [ 'level' => 'premium', 'who' => __( 'Gold + Silver members', 'redeemid-demo' ) ],
 		'rule'    => [ 'level' => '', 'who' => '' ],
 	];
 }
 
 /**
- * The access levels the Ledger needs in the plugin (Shopify → Access). Each
+ * The access levels the Ledger needs in the plugin (RedeemID → Access). Each
  * is added only if the site has no level with that slug.
  *
  * @return array<string, array{label: string, groups: array<int, array{tags: string[], match: string}>}>
  */
-function sfwp_test_plugin_levels(): array {
+function redeemid_demo_plugin_levels(): array {
 	return [
 		'gold'    => [
 			'label'     => 'Gold',
 			'groups'    => [ [ 'tags' => [ 'gold-member' ], 'match' => 'any' ] ],
-			'message'   => __( 'This is a Gold story. Gold members read every investigation and Ledger Report in full.', 'sfwp-test' ),
-			'cta_label' => __( 'Join Gold', 'sfwp-test' ),
+			'message'   => __( 'This is a Gold story. Gold members read every investigation and Ledger Report in full.', 'redeemid-demo' ),
+			'cta_label' => __( 'Join Gold', 'redeemid-demo' ),
 			'cta_url'   => '/join/',
 		],
 		'silver'  => [
 			'label'     => 'Silver',
 			'groups'    => [ [ 'tags' => [ 'silver-member' ], 'match' => 'any' ] ],
-			'message'   => __( 'This is a Silver story. Silver members read our culture desk, features and neighborhood guides.', 'sfwp-test' ),
-			'cta_label' => __( 'Join Silver', 'sfwp-test' ),
+			'message'   => __( 'This is a Silver story. Silver members read our culture desk, features and neighborhood guides.', 'redeemid-demo' ),
+			'cta_label' => __( 'Join Silver', 'redeemid-demo' ),
 			'cta_url'   => '/join/',
 		],
 		'premium' => [
 			'label'     => 'Gold + Silver',
 			'groups'    => [ [ 'tags' => [ 'gold-member', 'silver-member' ], 'match' => 'all' ] ],
-			'message'   => __( 'This story is for members with both Gold and Silver: everything the Ledger publishes.', 'sfwp-test' ),
-			'cta_label' => __( 'See membership', 'sfwp-test' ),
+			'message'   => __( 'This story is for members with both Gold and Silver: everything the Ledger publishes.', 'redeemid-demo' ),
+			'cta_label' => __( 'See membership', 'redeemid-demo' ),
 			'cta_url'   => '/join/',
 		],
 	];
@@ -74,19 +74,19 @@ function sfwp_test_plugin_levels(): array {
 /**
  * @return array<string, string> Category slug => name.
  */
-function sfwp_test_news_categories(): array {
+function redeemid_demo_news_categories(): array {
 	return [
-		'investigations' => __( 'Investigations', 'sfwp-test' ),
-		'city-hall'  => __( 'City Hall', 'sfwp-test' ),
-		'business'   => __( 'Business', 'sfwp-test' ),
-		'technology' => __( 'Technology', 'sfwp-test' ),
-		'science'    => __( 'Science', 'sfwp-test' ),
-		'culture'    => __( 'Culture', 'sfwp-test' ),
-		'opinion'    => __( 'Opinion', 'sfwp-test' ),
+		'investigations' => __( 'Investigations', 'redeemid-demo' ),
+		'city-hall'  => __( 'City Hall', 'redeemid-demo' ),
+		'business'   => __( 'Business', 'redeemid-demo' ),
+		'technology' => __( 'Technology', 'redeemid-demo' ),
+		'science'    => __( 'Science', 'redeemid-demo' ),
+		'culture'    => __( 'Culture', 'redeemid-demo' ),
+		'opinion'    => __( 'Opinion', 'redeemid-demo' ),
 	];
 }
 
-function sfwp_test_term_id( string $slug ): int {
+function redeemid_demo_term_id( string $slug ): int {
 	$term = get_term_by( 'slug', $slug, 'category' );
 
 	return $term instanceof WP_Term ? (int) $term->term_id : 0;
@@ -95,8 +95,8 @@ function sfwp_test_term_id( string $slug ): int {
 /**
  * Create the news categories that are missing.
  */
-function sfwp_test_seed_categories(): void {
-	foreach ( sfwp_test_news_categories() as $slug => $name ) {
+function redeemid_demo_seed_categories(): void {
+	foreach ( redeemid_demo_news_categories() as $slug => $name ) {
 		if ( ! term_exists( $slug, 'category' ) ) {
 			wp_insert_term( $name, 'category', [ 'slug' => $slug ] );
 		}
@@ -109,7 +109,7 @@ function sfwp_test_seed_categories(): void {
  *
  * @return array<string, array{title: string, category: string, access: string, byline: string, dek: string, public: string[], locked: string[]}>
  */
-function sfwp_test_news_stories(): array {
+function redeemid_demo_news_stories(): array {
 	return [
 		'harbor-pilot-overtime'     => [
 			'title'    => 'Harbor pilots billed 14,000 overtime hours last year. The port never checked.',
@@ -132,7 +132,7 @@ function sfwp_test_news_stories(): array {
 			'category' => 'investigations',
 			'tags'     => [ 'Free to read' ],
 			'access'   => 'rule',
-			'marker'   => 'SFWP-OPEN-NEWS-FERRY-FUEL-CONTRACT',
+			'marker'   => 'LEDGER-OPEN-NEWS-FERRY-FUEL-CONTRACT',
 			'byline'   => 'Dana Okafor',
 			'dek'      => 'Free to read this month: our investigation into the city’s largest no-bid deal.',
 			'public'   => [
@@ -342,37 +342,37 @@ function sfwp_test_news_stories(): array {
 }
 
 /**
- * Seed items for the stories, in the shape sfwp_test_seed_items() returns.
+ * Seed items for the stories, in the shape redeemid_demo_seed_items() returns.
  * Stories are dated a day apart, newest first, so the home page is stable.
  *
  * @return array<string, array<string, mixed>>
  */
-function sfwp_test_news_seed_items(): array {
+function redeemid_demo_news_seed_items(): array {
 	$items = [];
 	$day   = 0;
 	// Never in the future: a story dated later today would be scheduled, not published.
 	$base = min( strtotime( 'today 08:00' ), time() - HOUR_IN_SECONDS );
 
-	foreach ( sfwp_test_news_stories() as $slug => $story ) {
+	foreach ( redeemid_demo_news_stories() as $slug => $story ) {
 		$items[ 'news-' . $slug ] = [
 			'type'       => 'post',
 			'title'      => $story['title'],
 			'slug'       => $slug,
-			'content'    => static fn() => sfwp_test_story_markup( $slug, $story ),
+			'content'    => static fn() => redeemid_demo_story_markup( $slug, $story ),
 			'excerpt'    => $story['dek'],
 			'categories' => $story['categories'] ?? [ $story['category'] ],
 			'tags'       => $story['tags'] ?? [],
 			'date'       => gmdate( 'Y-m-d H:i:s', $base - ( $day++ * DAY_IN_SECONDS ) ),
 			'meta'       => [
-				SFWP_TEST_BYLINE_META => $story['byline'],
-			] + ( isset( $story['item_rule'] ) ? [ '_wp2_access' => $story['item_rule'] ] : [] ),
+				REDEEMID_DEMO_BYLINE_META => $story['byline'],
+			] + ( isset( $story['item_rule'] ) ? [ '_redeemid_access' => $story['item_rule'] ] : [] ),
 		];
 	}
 
 	return $items;
 }
 
-function sfwp_test_paragraphs( array $paragraphs ): string {
+function redeemid_demo_paragraphs( array $paragraphs ): string {
 	$out = '';
 
 	foreach ( $paragraphs as $text ) {
@@ -387,15 +387,15 @@ function sfwp_test_paragraphs( array $paragraphs ): string {
  * put the locked paragraphs, plus a leak marker, in the gate's members area
  * and a sign-up teaser in its public area.
  */
-function sfwp_test_story_markup( string $slug, array $story ): string {
-	$markup = sfwp_test_paragraphs( $story['public'] );
+function redeemid_demo_story_markup( string $slug, array $story ): string {
+	$markup = redeemid_demo_paragraphs( $story['public'] );
 
 	if ( 'rule' === $story['access'] ) {
 		// No gate: the plugin's content rules decide, and the break marks where the teaser ends.
-		$marker  = $story['marker'] ?? 'SFWP-SECRET-NEWS-' . strtoupper( $slug );
-		$markup .= "<!-- wp:wp2-shopify/paywall-break /-->\n\n";
-		$markup .= sfwp_test_paragraphs( $story['locked'] );
-		$markup .= "<!-- wp:paragraph {\"className\":\"sfwp-marker\"} -->\n<p class=\"sfwp-marker\">Leak marker: " . esc_html( $marker ) . "</p>\n<!-- /wp:paragraph -->";
+		$marker  = $story['marker'] ?? 'LEDGER-SECRET-NEWS-' . strtoupper( $slug );
+		$markup .= "<!-- wp:redeemid/paywall-break /-->\n\n";
+		$markup .= redeemid_demo_paragraphs( $story['locked'] );
+		$markup .= "<!-- wp:paragraph {\"className\":\"ledger-marker\"} -->\n<p class=\"ledger-marker\">Leak marker: " . esc_html( $marker ) . "</p>\n<!-- /wp:paragraph -->";
 
 		return trim( $markup );
 	}
@@ -404,34 +404,34 @@ function sfwp_test_story_markup( string $slug, array $story ): string {
 		return trim( $markup );
 	}
 
-	$access = sfwp_test_story_access()[ $story['access'] ];
+	$access = redeemid_demo_story_access()[ $story['access'] ];
 	$attrs  = [
 		'ruleSource'   => [ 'value' => 'level', 'label' => 'An access level' ],
-		'level'        => [ 'value' => $access['level'], 'label' => sfwp_test_plugin_levels()[ $access['level'] ]['label'] ?? 'Signed in' ],
+		'level'        => [ 'value' => $access['level'], 'label' => redeemid_demo_plugin_levels()[ $access['level'] ]['label'] ?? 'Signed in' ],
 		'fallbackMode' => [ 'value' => 'teaser-blocks', 'label' => 'The Public teaser area' ],
 	];
 	$who    = $access['who'];
 
-	$marker = 'SFWP-SECRET-NEWS-' . strtoupper( $slug );
+	$marker = 'LEDGER-SECRET-NEWS-' . strtoupper( $slug );
 
-	$markup .= '<!-- wp:wp2-shopify/membership-gate ' . wp_json_encode( $attrs, JSON_UNESCAPED_SLASHES ) . " -->\n";
-	$markup .= "<!-- wp:wp2-shopify/membership-gate-content -->\n";
-	$markup .= sfwp_test_paragraphs( $story['locked'] );
-	$markup .= "<!-- wp:paragraph {\"className\":\"sfwp-marker\"} -->\n<p class=\"sfwp-marker\">Leak marker: " . esc_html( $marker ) . "</p>\n<!-- /wp:paragraph -->\n";
-	$markup .= "<!-- /wp:wp2-shopify/membership-gate-content -->\n";
-	$markup .= "<!-- wp:wp2-shopify/membership-gate-fallback -->\n";
-	$markup .= "<!-- wp:group {\"className\":\"sfwp-paywall\",\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group sfwp-paywall\">\n";
-	$markup .= "<!-- wp:paragraph {\"className\":\"sfwp-paywall__title\"} -->\n<p class=\"sfwp-paywall__title\">" . esc_html__( 'Keep reading with a membership', 'sfwp-test' ) . "</p>\n<!-- /wp:paragraph -->\n";
+	$markup .= '<!-- wp:redeemid/membership-gate ' . wp_json_encode( $attrs, JSON_UNESCAPED_SLASHES ) . " -->\n";
+	$markup .= "<!-- wp:redeemid/membership-gate-content -->\n";
+	$markup .= redeemid_demo_paragraphs( $story['locked'] );
+	$markup .= "<!-- wp:paragraph {\"className\":\"ledger-marker\"} -->\n<p class=\"ledger-marker\">Leak marker: " . esc_html( $marker ) . "</p>\n<!-- /wp:paragraph -->\n";
+	$markup .= "<!-- /wp:redeemid/membership-gate-content -->\n";
+	$markup .= "<!-- wp:redeemid/membership-gate-fallback -->\n";
+	$markup .= "<!-- wp:group {\"className\":\"ledger-paywall\",\"layout\":{\"type\":\"constrained\"}} -->\n<div class=\"wp-block-group ledger-paywall\">\n";
+	$markup .= "<!-- wp:paragraph {\"className\":\"ledger-paywall__title\"} -->\n<p class=\"ledger-paywall__title\">" . esc_html__( 'Keep reading with a membership', 'redeemid-demo' ) . "</p>\n<!-- /wp:paragraph -->\n";
 	/* translators: %s: who can read the story, e.g. "Gold members" */
-	$markup .= "<!-- wp:paragraph -->\n<p>" . esc_html( sprintf( __( 'The rest of this story is for %s. Sign in if you already are one, or see what membership includes.', 'sfwp-test' ), $who ) ) . "</p>\n<!-- /wp:paragraph -->\n";
+	$markup .= "<!-- wp:paragraph -->\n<p>" . esc_html( sprintf( __( 'The rest of this story is for %s. Sign in if you already are one, or see what membership includes.', 'redeemid-demo' ), $who ) ) . "</p>\n<!-- /wp:paragraph -->\n";
 	$markup .= "<!-- wp:group {\"layout\":{\"type\":\"flex\",\"flexWrap\":\"wrap\"}} -->\n<div class=\"wp-block-group\">\n";
-	$markup .= "<!-- wp:wp2-shopify/auth-action {\"mode\":{\"value\":\"login\",\"label\":\"Log in only (hidden when signed in)\"}} /-->\n";
-	$markup .= "<!-- wp:paragraph -->\n<p><a href=\"/join/\">" . esc_html__( 'Become a member', 'sfwp-test' ) . "</a></p>\n<!-- /wp:paragraph -->\n";
+	$markup .= "<!-- wp:redeemid/auth-action {\"mode\":{\"value\":\"login\",\"label\":\"Log in only (hidden when signed in)\"}} /-->\n";
+	$markup .= "<!-- wp:paragraph -->\n<p><a href=\"/join/\">" . esc_html__( 'Become a member', 'redeemid-demo' ) . "</a></p>\n<!-- /wp:paragraph -->\n";
 	$markup .= "</div>\n<!-- /wp:group -->\n";
-	$markup .= "<!-- wp:wp2-shopify/membership-refresh {\"compact\":true} /-->\n";
+	$markup .= "<!-- wp:redeemid/membership-refresh {\"compact\":true} /-->\n";
 	$markup .= "</div>\n<!-- /wp:group -->\n";
-	$markup .= "<!-- /wp:wp2-shopify/membership-gate-fallback -->\n";
-	$markup .= "<!-- /wp:wp2-shopify/membership-gate -->";
+	$markup .= "<!-- /wp:redeemid/membership-gate-fallback -->\n";
+	$markup .= "<!-- /wp:redeemid/membership-gate -->";
 
 	return trim( $markup );
 }
@@ -440,7 +440,7 @@ function sfwp_test_story_markup( string $slug, array $story ): string {
  * The plugin's content rules for the Ledger, when the plugin has them:
  *
  * - Levels gold (gold-member), silver (silver-member) and premium (both),
- *   added only if missing (sfwp_test_plugin_levels()). The gated stories ask
+ *   added only if missing (redeemid_demo_plugin_levels()). The gated stories ask
  *   for these levels too.
  * - Investigations needs Gold. Culture needs Silver. A story in both needs
  *   both, because terms combine most-restrictively by default.
@@ -451,16 +451,16 @@ function sfwp_test_story_markup( string $slug, array $story ): string {
  *
  * Without $restore, a term that already has a rule keeps it.
  */
-function sfwp_test_seed_access_rules( bool $restore ): void {
-	if ( ! class_exists( \WP2_Shopify\Access\TermRules::class ) || ! class_exists( \WP2_Shopify\Access\LevelStore::class ) ) {
+function redeemid_demo_seed_access_rules( bool $restore ): void {
+	if ( ! class_exists( \RedeemID\Access\TermRules::class ) || ! class_exists( \RedeemID\Access\LevelStore::class ) ) {
 		return;
 	}
 
-	$saved = \WP2_Shopify\Access\LevelStore::saved();
+	$saved = \RedeemID\Access\LevelStore::saved();
 
-	foreach ( sfwp_test_plugin_levels() as $slug => $level ) {
+	foreach ( redeemid_demo_plugin_levels() as $slug => $level ) {
 		if ( ! isset( $saved[ $slug ] ) ) {
-			\WP2_Shopify\Access\LevelStore::save( $slug, $level );
+			\RedeemID\Access\LevelStore::save( $slug, $level );
 			continue;
 		}
 
@@ -468,32 +468,32 @@ function sfwp_test_seed_access_rules( bool $restore ): void {
 		$fill = array_filter( array_intersect_key( $level, array_flip( [ 'message', 'cta_label', 'cta_url' ] ) ), static fn( $v, $k ) => '' === trim( (string) ( $saved[ $slug ][ $k ] ?? '' ) ), ARRAY_FILTER_USE_BOTH );
 
 		if ( $fill ) {
-			\WP2_Shopify\Access\LevelStore::save( $slug, $fill + $saved[ $slug ] );
+			\RedeemID\Access\LevelStore::save( $slug, $fill + $saved[ $slug ] );
 		}
 	}
 
-	$free = term_exists( 'free-to-read', 'post_tag' ) ?: wp_insert_term( __( 'Free to read', 'sfwp-test' ), 'post_tag', [ 'slug' => 'free-to-read' ] );
+	$free = term_exists( 'free-to-read', 'post_tag' ) ?: wp_insert_term( __( 'Free to read', 'redeemid-demo' ), 'post_tag', [ 'slug' => 'free-to-read' ] );
 	$free = is_array( $free ) ? (int) $free['term_id'] : 0;
 	$set  = [
-		sfwp_test_term_id( 'investigations' ) => [ 'kind' => 'requires', 'levels' => [ 'gold' ] ],
-		sfwp_test_term_id( 'culture' )        => [ 'kind' => 'requires', 'levels' => [ 'silver' ] ],
+		redeemid_demo_term_id( 'investigations' ) => [ 'kind' => 'requires', 'levels' => [ 'gold' ] ],
+		redeemid_demo_term_id( 'culture' )        => [ 'kind' => 'requires', 'levels' => [ 'silver' ] ],
 		$free                                 => [ 'kind' => 'opens', 'opens_until' => time() + 30 * DAY_IN_SECONDS ],
 	];
 
 	foreach ( $set as $term_id => $rule ) {
-		if ( $term_id && ( $restore || '' === \WP2_Shopify\Access\TermRules::get( $term_id )['kind'] ) ) {
-			\WP2_Shopify\Access\TermRules::save( $term_id, $rule );
+		if ( $term_id && ( $restore || '' === \RedeemID\Access\TermRules::get( $term_id )['kind'] ) ) {
+			\RedeemID\Access\TermRules::save( $term_id, $rule );
 		}
 	}
 
 	// Stories seeded before the rules existed get their own rule too, or Culture's would lock the night market.
-	foreach ( sfwp_test_news_stories() as $slug => $story ) {
-		$post = isset( $story['item_rule'] ) ? sfwp_test_find( 'news-' . $slug ) : null;
+	foreach ( redeemid_demo_news_stories() as $slug => $story ) {
+		$post = isset( $story['item_rule'] ) ? redeemid_demo_find( 'news-' . $slug ) : null;
 
-		if ( $post && ( $restore || '' === get_post_meta( $post->ID, '_wp2_access', true ) ) ) {
-			\WP2_Shopify\Access\ItemRule::save( $post->ID, $story['item_rule'] );
+		if ( $post && ( $restore || '' === get_post_meta( $post->ID, '_redeemid_access', true ) ) ) {
+			\RedeemID\Access\ItemRule::save( $post->ID, $story['item_rule'] );
 		}
 	}
 
-	sfwp_test_seed_cpt_rules( $restore );
+	redeemid_demo_seed_cpt_rules( $restore );
 }

@@ -8,24 +8,24 @@
  * across several) and per-item rules each have seeded content to run
  * against. Every access decision is still the plugin's.
  *
- * - Briefings (sfwp_briefing): the post type needs Signed in, with a word
+ * - Briefings (ledger_briefing): the post type needs Signed in, with a word
  *   teaser. Taxonomy Editions (flat); Weekend opens its briefings for 30 days.
- * - Reports (sfwp_report): the post type needs Gold, opens after a year, and
+ * - Reports (ledger_report): the post type needs Gold, opens after a year, and
  *   keeps locked reports out of search engines. Taxonomy Series
  *   (hierarchical, inherits): Harbor Money needs Gold + Silver and passes it
  *   to its children; its child Pensions has its own Silver rule.
- * - City guides (sfwp_guide): no post type rule. Taxonomy Neighborhoods
+ * - City guides (ledger_guide): no post type rule. Taxonomy Neighborhoods
  *   (flat); Fennel Hill needs Silver.
- * - Corrections (sfwp_notice): gating switched off for the post type, so no
+ * - Corrections (ledger_notice): gating switched off for the post type, so no
  *   term rule can lock a correction.
- * - Topics (sfwp_topic): one flat taxonomy shared by posts and all four
+ * - Topics (ledger_topic): one flat taxonomy shared by posts and all four
  *   types; Elections 2026 needs Signed in.
  *
- * Items marked SFWP-SECRET-CPT-<SLUG> must stay out of the source, feeds,
- * REST and search for visitors the rule locks out; SFWP-OPEN-CPT-<SLUG>
+ * Items marked LEDGER-SECRET-CPT-<SLUG> must stay out of the source, feeds,
+ * REST and search for visitors the rule locks out; LEDGER-OPEN-CPT-<SLUG>
  * marks text that everyone should see.
  *
- * @package sfwp-test
+ * @package redeemid-demo
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,35 +33,35 @@ defined( 'ABSPATH' ) || exit;
 /**
  * @return array<string, array{singular: string, plural: string, slug: string, icon: string, description: string}>
  */
-function sfwp_test_post_types(): array {
+function redeemid_demo_post_types(): array {
 	return [
-		'sfwp_briefing' => [
-			'singular'    => __( 'Briefing', 'sfwp-test' ),
-			'plural'      => __( 'Briefings', 'sfwp-test' ),
+		'ledger_briefing' => [
+			'singular'    => __( 'Briefing', 'redeemid-demo' ),
+			'plural'      => __( 'Briefings', 'redeemid-demo' ),
 			'slug'        => 'briefings',
 			'icon'        => 'dashicons-email-alt',
-			'description' => __( 'The morning, evening and weekend briefings: what happened, in five minutes. Free with a Ledger account.', 'sfwp-test' ),
+			'description' => __( 'The morning, evening and weekend briefings: what happened, in five minutes. Free with a Ledger account.', 'redeemid-demo' ),
 		],
-		'sfwp_report' => [
-			'singular'    => __( 'Report', 'sfwp-test' ),
-			'plural'      => __( 'Reports', 'sfwp-test' ),
+		'ledger_report' => [
+			'singular'    => __( 'Report', 'redeemid-demo' ),
+			'plural'      => __( 'Reports', 'redeemid-demo' ),
 			'slug'        => 'reports',
 			'icon'        => 'dashicons-chart-bar',
-			'description' => __( 'Ledger Reports: long data investigations for Gold members. Reports open to everyone a year after publication.', 'sfwp-test' ),
+			'description' => __( 'Ledger Reports: long data investigations for Gold members. Reports open to everyone a year after publication.', 'redeemid-demo' ),
 		],
-		'sfwp_guide' => [
-			'singular'    => __( 'City guide', 'sfwp-test' ),
-			'plural'      => __( 'City guides', 'sfwp-test' ),
+		'ledger_guide' => [
+			'singular'    => __( 'City guide', 'redeemid-demo' ),
+			'plural'      => __( 'City guides', 'redeemid-demo' ),
 			'slug'        => 'guides',
 			'icon'        => 'dashicons-location-alt',
-			'description' => __( 'Where to eat, walk and wait for the ferry, neighborhood by neighborhood. Most guides are free.', 'sfwp-test' ),
+			'description' => __( 'Where to eat, walk and wait for the ferry, neighborhood by neighborhood. Most guides are free.', 'redeemid-demo' ),
 		],
-		'sfwp_notice' => [
-			'singular'    => __( 'Correction', 'sfwp-test' ),
-			'plural'      => __( 'Corrections', 'sfwp-test' ),
+		'ledger_notice' => [
+			'singular'    => __( 'Correction', 'redeemid-demo' ),
+			'plural'      => __( 'Corrections', 'redeemid-demo' ),
 			'slug'        => 'corrections',
 			'icon'        => 'dashicons-warning',
-			'description' => __( 'Corrections and editor’s notes. Always free to read.', 'sfwp-test' ),
+			'description' => __( 'Corrections and editor’s notes. Always free to read.', 'redeemid-demo' ),
 		],
 	];
 }
@@ -69,12 +69,12 @@ function sfwp_test_post_types(): array {
 /**
  * @return array<string, array{singular: string, plural: string, slug: string, hierarchical: bool, types: string[]}>
  */
-function sfwp_test_taxonomies(): array {
+function redeemid_demo_taxonomies(): array {
 	return [
-		'sfwp_edition'      => [ 'singular' => __( 'Edition', 'sfwp-test' ), 'plural' => __( 'Editions', 'sfwp-test' ), 'slug' => 'edition', 'hierarchical' => false, 'types' => [ 'sfwp_briefing' ] ],
-		'sfwp_series'       => [ 'singular' => __( 'Series', 'sfwp-test' ), 'plural' => __( 'Series', 'sfwp-test' ), 'slug' => 'series', 'hierarchical' => true, 'types' => [ 'sfwp_report' ] ],
-		'sfwp_neighborhood' => [ 'singular' => __( 'Neighborhood', 'sfwp-test' ), 'plural' => __( 'Neighborhoods', 'sfwp-test' ), 'slug' => 'neighborhood', 'hierarchical' => false, 'types' => [ 'sfwp_guide' ] ],
-		'sfwp_topic'        => [ 'singular' => __( 'Topic', 'sfwp-test' ), 'plural' => __( 'Topics', 'sfwp-test' ), 'slug' => 'topic', 'hierarchical' => false, 'types' => [ 'post', 'sfwp_briefing', 'sfwp_report', 'sfwp_guide', 'sfwp_notice' ] ],
+		'ledger_edition'      => [ 'singular' => __( 'Edition', 'redeemid-demo' ), 'plural' => __( 'Editions', 'redeemid-demo' ), 'slug' => 'edition', 'hierarchical' => false, 'types' => [ 'ledger_briefing' ] ],
+		'ledger_series'       => [ 'singular' => __( 'Series', 'redeemid-demo' ), 'plural' => __( 'Series', 'redeemid-demo' ), 'slug' => 'series', 'hierarchical' => true, 'types' => [ 'ledger_report' ] ],
+		'ledger_neighborhood' => [ 'singular' => __( 'Neighborhood', 'redeemid-demo' ), 'plural' => __( 'Neighborhoods', 'redeemid-demo' ), 'slug' => 'neighborhood', 'hierarchical' => false, 'types' => [ 'ledger_guide' ] ],
+		'ledger_topic'        => [ 'singular' => __( 'Topic', 'redeemid-demo' ), 'plural' => __( 'Topics', 'redeemid-demo' ), 'slug' => 'topic', 'hierarchical' => false, 'types' => [ 'post', 'ledger_briefing', 'ledger_report', 'ledger_guide', 'ledger_notice' ] ],
 	];
 }
 
@@ -82,8 +82,8 @@ function sfwp_test_taxonomies(): array {
  * Registered early on init, before the plugin registers its access meta for
  * every gated post type (init 20) and before seeding (also init 20).
  */
-function sfwp_test_register_content_types(): void {
-	foreach ( sfwp_test_post_types() as $type => $t ) {
+function redeemid_demo_register_content_types(): void {
+	foreach ( redeemid_demo_post_types() as $type => $t ) {
 		register_post_type(
 			$type,
 			[
@@ -92,9 +92,9 @@ function sfwp_test_register_content_types(): void {
 					'name'          => $t['plural'],
 					'singular_name' => $t['singular'],
 					/* translators: %s: singular post type name */
-					'add_new_item'  => sprintf( __( 'Add %s', 'sfwp-test' ), $t['singular'] ),
+					'add_new_item'  => sprintf( __( 'Add %s', 'redeemid-demo' ), $t['singular'] ),
 					/* translators: %s: singular post type name */
-					'edit_item'     => sprintf( __( 'Edit %s', 'sfwp-test' ), $t['singular'] ),
+					'edit_item'     => sprintf( __( 'Edit %s', 'redeemid-demo' ), $t['singular'] ),
 					'all_items'     => $t['plural'],
 				],
 				'description'   => $t['description'],
@@ -109,7 +109,7 @@ function sfwp_test_register_content_types(): void {
 		);
 	}
 
-	foreach ( sfwp_test_taxonomies() as $taxonomy => $t ) {
+	foreach ( redeemid_demo_taxonomies() as $taxonomy => $t ) {
 		register_taxonomy(
 			$taxonomy,
 			$t['types'],
@@ -124,35 +124,35 @@ function sfwp_test_register_content_types(): void {
 		);
 	}
 }
-add_action( 'init', 'sfwp_test_register_content_types', 5 );
+add_action( 'init', 'redeemid_demo_register_content_types', 5 );
 
 /**
  * The terms each taxonomy starts with. A `parent` names another term's slug.
  *
  * @return array<string, array<string, array{name: string, parent?: string, description?: string}>>
  */
-function sfwp_test_cpt_terms(): array {
+function redeemid_demo_cpt_terms(): array {
 	return [
-		'sfwp_edition'      => [
-			'morning' => [ 'name' => __( 'Morning', 'sfwp-test' ) ],
-			'evening' => [ 'name' => __( 'Evening', 'sfwp-test' ) ],
-			'weekend' => [ 'name' => __( 'Weekend', 'sfwp-test' ), 'description' => __( 'The weekend briefing is free to everyone this month.', 'sfwp-test' ) ],
+		'ledger_edition'      => [
+			'morning' => [ 'name' => __( 'Morning', 'redeemid-demo' ) ],
+			'evening' => [ 'name' => __( 'Evening', 'redeemid-demo' ) ],
+			'weekend' => [ 'name' => __( 'Weekend', 'redeemid-demo' ), 'description' => __( 'The weekend briefing is free to everyone this month.', 'redeemid-demo' ) ],
 		],
-		'sfwp_series'       => [
-			'harbor-money' => [ 'name' => __( 'Harbor Money', 'sfwp-test' ), 'description' => __( 'Where the port’s money goes. For Gold + Silver members.', 'sfwp-test' ) ],
-			'port-budgets' => [ 'name' => __( 'Port budgets', 'sfwp-test' ), 'parent' => 'harbor-money' ],
-			'pensions'     => [ 'name' => __( 'Pensions', 'sfwp-test' ), 'parent' => 'harbor-money', 'description' => __( 'Public pensions, for Silver members.', 'sfwp-test' ) ],
-			'city-data'    => [ 'name' => __( 'City data', 'sfwp-test' ) ],
+		'ledger_series'       => [
+			'harbor-money' => [ 'name' => __( 'Harbor Money', 'redeemid-demo' ), 'description' => __( 'Where the port’s money goes. For Gold + Silver members.', 'redeemid-demo' ) ],
+			'port-budgets' => [ 'name' => __( 'Port budgets', 'redeemid-demo' ), 'parent' => 'harbor-money' ],
+			'pensions'     => [ 'name' => __( 'Pensions', 'redeemid-demo' ), 'parent' => 'harbor-money', 'description' => __( 'Public pensions, for Silver members.', 'redeemid-demo' ) ],
+			'city-data'    => [ 'name' => __( 'City data', 'redeemid-demo' ) ],
 		],
-		'sfwp_neighborhood' => [
-			'lowmarket'   => [ 'name' => __( 'Lowmarket', 'sfwp-test' ) ],
-			'fennel-hill' => [ 'name' => __( 'Fennel Hill', 'sfwp-test' ), 'description' => __( 'Our Fennel Hill guides are for Silver members.', 'sfwp-test' ) ],
-			'gull-island' => [ 'name' => __( 'Gull Island', 'sfwp-test' ) ],
+		'ledger_neighborhood' => [
+			'lowmarket'   => [ 'name' => __( 'Lowmarket', 'redeemid-demo' ) ],
+			'fennel-hill' => [ 'name' => __( 'Fennel Hill', 'redeemid-demo' ), 'description' => __( 'Our Fennel Hill guides are for Silver members.', 'redeemid-demo' ) ],
+			'gull-island' => [ 'name' => __( 'Gull Island', 'redeemid-demo' ) ],
 		],
-		'sfwp_topic'        => [
-			'harbor-bridge'  => [ 'name' => __( 'Harbor bridge', 'sfwp-test' ) ],
-			'elections-2026' => [ 'name' => __( 'Elections 2026', 'sfwp-test' ), 'description' => __( 'Our election coverage needs a free Ledger account.', 'sfwp-test' ) ],
-			'ferries'        => [ 'name' => __( 'Ferries', 'sfwp-test' ) ],
+		'ledger_topic'        => [
+			'harbor-bridge'  => [ 'name' => __( 'Harbor bridge', 'redeemid-demo' ) ],
+			'elections-2026' => [ 'name' => __( 'Elections 2026', 'redeemid-demo' ), 'description' => __( 'Our election coverage needs a free Ledger account.', 'redeemid-demo' ) ],
+			'ferries'        => [ 'name' => __( 'Ferries', 'redeemid-demo' ) ],
 		],
 	];
 }
@@ -160,8 +160,8 @@ function sfwp_test_cpt_terms(): array {
 /**
  * Create the missing terms, parents first. Existing terms are left alone.
  */
-function sfwp_test_seed_cpt_terms(): void {
-	foreach ( sfwp_test_cpt_terms() as $taxonomy => $terms ) {
+function redeemid_demo_seed_cpt_terms(): void {
+	foreach ( redeemid_demo_cpt_terms() as $taxonomy => $terms ) {
 		if ( ! taxonomy_exists( $taxonomy ) ) {
 			continue;
 		}
@@ -186,23 +186,23 @@ function sfwp_test_seed_cpt_terms(): void {
 	}
 }
 
-function sfwp_test_cpt_term_id( string $taxonomy, string $slug ): int {
+function redeemid_demo_cpt_term_id( string $taxonomy, string $slug ): int {
 	$term = get_term_by( 'slug', $slug, $taxonomy );
 
 	return $term instanceof WP_Term ? (int) $term->term_id : 0;
 }
 
 /**
- * The plugin's post type rows for the demo types (Shopify → Access → Content rules).
+ * The plugin's post type rows for the demo types (RedeemID → Access → Content rules).
  *
  * @return array<string, array<string, mixed>>
  */
-function sfwp_test_type_rules(): array {
+function redeemid_demo_type_rules(): array {
 	return [
-		'sfwp_briefing' => [ 'enabled' => true, 'levels' => [ 'signed-in' ], 'teaser' => [ 'mode' => 'words', 'count' => 40 ] ],
-		'sfwp_report'   => [ 'enabled' => true, 'levels' => [ 'gold' ], 'teaser' => [ 'mode' => 'words', 'count' => 60 ], 'public_after_days' => 365, 'noindex' => true ],
-		'sfwp_guide'    => [ 'enabled' => true, 'levels' => [], 'comments' => 'everyone' ],
-		'sfwp_notice'   => [ 'enabled' => false ],
+		'ledger_briefing' => [ 'enabled' => true, 'levels' => [ 'signed-in' ], 'teaser' => [ 'mode' => 'words', 'count' => 40 ] ],
+		'ledger_report'   => [ 'enabled' => true, 'levels' => [ 'gold' ], 'teaser' => [ 'mode' => 'words', 'count' => 60 ], 'public_after_days' => 365, 'noindex' => true ],
+		'ledger_guide'    => [ 'enabled' => true, 'levels' => [], 'comments' => 'everyone' ],
+		'ledger_notice'   => [ 'enabled' => false ],
 	];
 }
 
@@ -212,13 +212,13 @@ function sfwp_test_type_rules(): array {
  *
  * @return array<int, array{taxonomy: string, slug: string, rule: array<string, mixed>}>
  */
-function sfwp_test_cpt_term_rules(): array {
+function redeemid_demo_cpt_term_rules(): array {
 	return [
-		[ 'taxonomy' => 'sfwp_edition', 'slug' => 'weekend', 'rule' => [ 'kind' => 'opens', 'opens_for' => 30 ] ],
-		[ 'taxonomy' => 'sfwp_series', 'slug' => 'harbor-money', 'rule' => [ 'kind' => 'requires', 'levels' => [ 'premium' ] ] ],
-		[ 'taxonomy' => 'sfwp_series', 'slug' => 'pensions', 'rule' => [ 'kind' => 'requires', 'levels' => [ 'silver' ] ] ],
-		[ 'taxonomy' => 'sfwp_neighborhood', 'slug' => 'fennel-hill', 'rule' => [ 'kind' => 'requires', 'levels' => [ 'silver' ] ] ],
-		[ 'taxonomy' => 'sfwp_topic', 'slug' => 'elections-2026', 'rule' => [ 'kind' => 'requires', 'levels' => [ 'signed-in' ] ] ],
+		[ 'taxonomy' => 'ledger_edition', 'slug' => 'weekend', 'rule' => [ 'kind' => 'opens', 'opens_for' => 30 ] ],
+		[ 'taxonomy' => 'ledger_series', 'slug' => 'harbor-money', 'rule' => [ 'kind' => 'requires', 'levels' => [ 'premium' ] ] ],
+		[ 'taxonomy' => 'ledger_series', 'slug' => 'pensions', 'rule' => [ 'kind' => 'requires', 'levels' => [ 'silver' ] ] ],
+		[ 'taxonomy' => 'ledger_neighborhood', 'slug' => 'fennel-hill', 'rule' => [ 'kind' => 'requires', 'levels' => [ 'silver' ] ] ],
+		[ 'taxonomy' => 'ledger_topic', 'slug' => 'elections-2026', 'rule' => [ 'kind' => 'requires', 'levels' => [ 'signed-in' ] ] ],
 	];
 }
 
@@ -231,13 +231,13 @@ function sfwp_test_cpt_term_rules(): array {
  *
  * @return array<string, array<string, mixed>>
  */
-function sfwp_test_cpt_items(): array {
+function redeemid_demo_cpt_items(): array {
 	return [
 		// Briefings: the post type needs Signed in.
 		'briefing-monday'           => [
-			'type'     => 'sfwp_briefing',
+			'type'     => 'ledger_briefing',
 			'title'    => 'Monday briefing: the bridge vote, a ferry warning and a record oyster count',
-			'terms'    => [ 'sfwp_edition' => [ 'morning' ], 'sfwp_topic' => [ 'harbor-bridge' ] ],
+			'terms'    => [ 'ledger_edition' => [ 'morning' ], 'ledger_topic' => [ 'harbor-bridge' ] ],
 			'byline'   => 'Leah Brandt',
 			'dek'      => 'Five things to know before you leave the house.',
 			'public'   => [ 'Good morning. The council’s bridge vote ran past midnight, the islands are bracing for hourly ferries, and volunteers counted more oysters in the south bay than at any time since the 1950s.' ],
@@ -251,9 +251,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago' => 0,
 		],
 		'briefing-evening-arts'     => [
-			'type'      => 'sfwp_briefing',
+			'type'      => 'ledger_briefing',
 			'title'     => 'Evening briefing: the arts edition',
-			'terms'     => [ 'sfwp_edition' => [ 'evening' ] ],
+			'terms'     => [ 'ledger_edition' => [ 'evening' ] ],
 			'byline'    => 'Priya Raman',
 			'dek'       => 'Openings, closings and the gallery audit, for Silver members.',
 			'public'    => [ 'Tonight: the Maritime Museum’s new hall, two gallery closings on Canal Street and what the arts council said about its audit.' ],
@@ -267,9 +267,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago'  => 1,
 		],
 		'briefing-weekend'          => [
-			'type'     => 'sfwp_briefing',
+			'type'     => 'ledger_briefing',
 			'title'    => 'Weekend briefing: what to do on the harbor this weekend',
-			'terms'    => [ 'sfwp_edition' => [ 'weekend' ] ],
+			'terms'    => [ 'ledger_edition' => [ 'weekend' ] ],
 			'byline'   => 'Priya Raman',
 			'dek'      => 'Free for everyone this month: the night market, a tide-pool walk and a ferry discount.',
 			'public'   => [ 'The night market is on Friday, the tide is low enough for the Gull Island pools on Saturday morning, and ferries are half price on Sunday.' ],
@@ -283,9 +283,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago' => 2,
 		],
 		'briefing-storm-special'    => [
-			'type'      => 'sfwp_briefing',
+			'type'      => 'ledger_briefing',
 			'title'     => 'Storm briefing: closures, shelters and the ferry schedule',
-			'terms'     => [ 'sfwp_edition' => [ 'morning' ], 'sfwp_topic' => [ 'ferries' ] ],
+			'terms'     => [ 'ledger_edition' => [ 'morning' ], 'ledger_topic' => [ 'ferries' ] ],
 			'byline'    => 'Dana Okafor',
 			'dek'       => 'Free to everyone for a week while the storm passes.',
 			'public'    => [ 'A winter storm reaches the harbor tonight. Here is what is closed and where to go.' ],
@@ -302,9 +302,9 @@ function sfwp_test_cpt_items(): array {
 
 		// Reports: the post type needs Gold; the Series terms replace it.
 		'report-port-budget'        => [
-			'type'     => 'sfwp_report',
+			'type'     => 'ledger_report',
 			'title'    => 'The port’s $90 million maintenance backlog, berth by berth',
-			'terms'    => [ 'sfwp_series' => [ 'port-budgets' ], 'sfwp_topic' => [ 'harbor-bridge' ] ],
+			'terms'    => [ 'ledger_series' => [ 'port-budgets' ], 'ledger_topic' => [ 'harbor-bridge' ] ],
 			'byline'   => 'Marcus Feld',
 			'dek'      => 'Ten years of inspection reports, mapped. Part of Harbor Money.',
 			'public'   => [
@@ -320,9 +320,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago' => 0,
 		],
 		'report-pension-gap'        => [
-			'type'     => 'sfwp_report',
+			'type'     => 'ledger_report',
 			'title'    => 'Harborview’s pension gap is $1.2 billion. Here is how it grew.',
-			'terms'    => [ 'sfwp_series' => [ 'pensions' ] ],
+			'terms'    => [ 'ledger_series' => [ 'pensions' ] ],
 			'byline'   => 'Marcus Feld',
 			'dek'      => 'Twenty years of actuarial reports in one chart. Part of Harbor Money.',
 			'public'   => [ 'In 2006 the city’s pension fund held 94 cents for every dollar it owed. Today it holds 61.' ],
@@ -335,9 +335,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago' => 2,
 		],
 		'report-housing-permits'    => [
-			'type'     => 'sfwp_report',
+			'type'     => 'ledger_report',
 			'title'    => 'Every housing permit Harborview issued since 2015',
-			'terms'    => [ 'sfwp_series' => [ 'city-data' ] ],
+			'terms'    => [ 'ledger_series' => [ 'city-data' ] ],
 			'byline'   => 'Leah Brandt',
 			'dek'      => 'Where the city built, where it did not, and how long the wait was.',
 			'public'   => [
@@ -354,9 +354,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago' => 4,
 		],
 		'report-tidewater-storm'    => [
-			'type'      => 'sfwp_report',
+			'type'      => 'ledger_report',
 			'title'     => 'What last winter’s storms really cost Tidewater Power',
-			'terms'     => [ 'sfwp_series' => [ 'city-data' ] ],
+			'terms'     => [ 'ledger_series' => [ 'city-data' ] ],
 			'byline'    => 'Marcus Feld',
 			'dek'       => 'Under embargo for two weeks; open to everyone after that.',
 			'public'    => [ 'Tidewater says last winter’s storms cost it $212 million. We rebuilt the number from its own filings.' ],
@@ -369,9 +369,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago'  => 5,
 		],
 		'report-ferry-ridership'    => [
-			'type'      => 'sfwp_report',
+			'type'      => 'ledger_report',
 			'title'     => 'Ferry ridership, ten years on: a free Ledger Report',
-			'terms'     => [ 'sfwp_series' => [ 'city-data' ], 'sfwp_topic' => [ 'ferries' ] ],
+			'terms'     => [ 'ledger_series' => [ 'city-data' ], 'ledger_topic' => [ 'ferries' ] ],
 			'byline'    => 'Dana Okafor',
 			'dek'       => 'A sample of what Gold members get, free to everyone.',
 			'public'    => [ 'Island ferries carried 3.1 million passengers last year, 14 percent more than in 2015.' ],
@@ -383,9 +383,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago'  => 6,
 		],
 		'report-2024-flood-review'  => [
-			'type'     => 'sfwp_report',
+			'type'     => 'ledger_report',
 			'title'    => 'The 2024 flood review: what the city promised, and what it built',
-			'terms'    => [ 'sfwp_series' => [ 'city-data' ] ],
+			'terms'    => [ 'ledger_series' => [ 'city-data' ] ],
 			'byline'   => 'Tomasz Wierzbicki',
 			'dek'      => 'From our archive: more than a year old, so free to everyone.',
 			'public'   => [ 'After the 2024 floods the city promised forty projects. We tracked every one.' ],
@@ -398,9 +398,9 @@ function sfwp_test_cpt_items(): array {
 
 		// City guides: no post type rule.
 		'guide-lowmarket-eats'      => [
-			'type'     => 'sfwp_guide',
+			'type'     => 'ledger_guide',
 			'title'    => 'Where to eat in Lowmarket: a dumpling crawl',
-			'terms'    => [ 'sfwp_neighborhood' => [ 'lowmarket' ] ],
+			'terms'    => [ 'ledger_neighborhood' => [ 'lowmarket' ] ],
 			'byline'   => 'Priya Raman',
 			'dek'      => 'Six stops, all within ten minutes of the night market.',
 			'public'   => [
@@ -413,9 +413,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago' => 1,
 		],
 		'guide-fennel-hill-walks'   => [
-			'type'     => 'sfwp_guide',
+			'type'     => 'ledger_guide',
 			'title'    => 'Three walks on Fennel Hill, with the best views of the harbor',
-			'terms'    => [ 'sfwp_neighborhood' => [ 'fennel-hill' ] ],
+			'terms'    => [ 'ledger_neighborhood' => [ 'fennel-hill' ] ],
 			'byline'   => 'Tomasz Wierzbicki',
 			'dek'      => 'Stairs, gardens and a lookout most residents have never found.',
 			'public'   => [ 'Fennel Hill has more public stairways than any other neighborhood in the city: forty-one, by our count.' ],
@@ -428,9 +428,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago' => 3,
 		],
 		'guide-fennel-hill-market'  => [
-			'type'      => 'sfwp_guide',
+			'type'      => 'ledger_guide',
 			'title'     => 'The Fennel Hill Saturday market, stall by stall',
-			'terms'     => [ 'sfwp_neighborhood' => [ 'fennel-hill' ] ],
+			'terms'     => [ 'ledger_neighborhood' => [ 'fennel-hill' ] ],
 			'byline'    => 'Leah Brandt',
 			'dek'       => 'Free to read: the item’s own rule beats the neighborhood’s.',
 			'public'    => [ 'Twenty-two stalls, one rule: everything is grown or made on the hill.' ],
@@ -442,9 +442,9 @@ function sfwp_test_cpt_items(): array {
 			'days_ago'  => 5,
 		],
 		'guide-island-ferries'      => [
-			'type'      => 'sfwp_guide',
+			'type'      => 'ledger_guide',
 			'title'     => 'The insider’s guide to Gull Island by ferry',
-			'terms'     => [ 'sfwp_neighborhood' => [ 'gull-island' ], 'sfwp_topic' => [ 'ferries' ] ],
+			'terms'     => [ 'ledger_neighborhood' => [ 'gull-island' ], 'ledger_topic' => [ 'ferries' ] ],
 			'byline'    => 'Dana Okafor',
 			'dek'       => 'Which boat to take, where to sit and what to skip. For Gold members.',
 			'public'    => [ 'Gull Island is forty minutes from Pier 1 and feels much further.' ],
@@ -460,9 +460,9 @@ function sfwp_test_cpt_items(): array {
 
 		// Corrections: gating is off for the post type.
 		'notice-bridge-vote'        => [
-			'type'     => 'sfwp_notice',
+			'type'     => 'ledger_notice',
 			'title'    => 'Correction: the bridge vote count',
-			'terms'    => [ 'sfwp_topic' => [ 'elections-2026', 'harbor-bridge' ] ],
+			'terms'    => [ 'ledger_topic' => [ 'elections-2026', 'harbor-bridge' ] ],
 			'byline'   => 'The Editors',
 			'dek'      => 'An earlier version of our story had the vote wrong.',
 			'public'   => [ 'An earlier version of our story on the harbor bridge said the council voted 7–2. The vote was 6–3. Councilmember Ruth Abernethy voted in favor.' ],
@@ -478,7 +478,7 @@ function sfwp_test_cpt_items(): array {
 			'type'       => 'post',
 			'title'      => 'Who is running for council in 2026: every candidate, district by district',
 			'categories' => [ 'city-hall' ],
-			'terms'      => [ 'sfwp_topic' => [ 'elections-2026' ] ],
+			'terms'      => [ 'ledger_topic' => [ 'elections-2026' ] ],
 			'byline'     => 'Dana Okafor',
 			'dek'        => 'Twenty-three candidates for nine seats. Free with a Ledger account.',
 			'public'     => [ 'Filing closed on Friday with twenty-three candidates for the nine council seats on the ballot in November.' ],
@@ -494,26 +494,26 @@ function sfwp_test_cpt_items(): array {
 }
 
 /**
- * Seed items for the demo content, in the shape sfwp_test_seed_items() returns.
+ * Seed items for the demo content, in the shape redeemid_demo_seed_items() returns.
  *
  * @return array<string, array<string, mixed>>
  */
-function sfwp_test_cpt_seed_items(): array {
+function redeemid_demo_cpt_seed_items(): array {
 	$items = [];
 	// Never in the future: an item dated later today would be scheduled, not published.
 	$base = min( strtotime( 'today 07:00' ), time() - 2 * HOUR_IN_SECONDS );
 
-	foreach ( sfwp_test_cpt_items() as $key => $item ) {
+	foreach ( redeemid_demo_cpt_items() as $key => $item ) {
 		$items[ 'cpt-' . $key ] = [
 			'type'       => $item['type'],
 			'title'      => $item['title'],
 			'slug'       => $key,
-			'content'    => static fn() => sfwp_test_cpt_markup( $key, $item ),
+			'content'    => static fn() => redeemid_demo_cpt_markup( $key, $item ),
 			'excerpt'    => $item['dek'],
 			'categories' => $item['categories'] ?? [],
 			'terms'      => $item['terms'] ?? [],
 			'date'       => gmdate( 'Y-m-d H:i:s', $base - (int) $item['days_ago'] * DAY_IN_SECONDS - HOUR_IN_SECONDS * count( $items ) ),
-			'meta'       => [ SFWP_TEST_BYLINE_META => $item['byline'] ],
+			'meta'       => [ REDEEMID_DEMO_BYLINE_META => $item['byline'] ],
 		];
 	}
 
@@ -524,21 +524,21 @@ function sfwp_test_cpt_seed_items(): array {
  * An item's body: the public paragraphs, a paywall break (unless `break` is
  * false), then the rest and the leak marker. Locking is left to the rules.
  */
-function sfwp_test_cpt_markup( string $slug, array $item ): string {
-	$markup = sfwp_test_paragraphs( $item['public'] );
+function redeemid_demo_cpt_markup( string $slug, array $item ): string {
+	$markup = redeemid_demo_paragraphs( $item['public'] );
 
 	if ( ! $item['locked'] ) {
 		return trim( $markup );
 	}
 
-	$marker = ( 'open' === ( $item['marker'] ?? '' ) ? 'SFWP-OPEN-CPT-' : 'SFWP-SECRET-CPT-' ) . strtoupper( $slug );
+	$marker = ( 'open' === ( $item['marker'] ?? '' ) ? 'LEDGER-OPEN-CPT-' : 'LEDGER-SECRET-CPT-' ) . strtoupper( $slug );
 
 	if ( false !== ( $item['break'] ?? true ) ) {
-		$markup .= "<!-- wp:wp2-shopify/paywall-break /-->\n\n";
+		$markup .= "<!-- wp:redeemid/paywall-break /-->\n\n";
 	}
 
-	$markup .= sfwp_test_paragraphs( $item['locked'] );
-	$markup .= "<!-- wp:paragraph {\"className\":\"sfwp-marker\"} -->\n<p class=\"sfwp-marker\">Leak marker: " . esc_html( $marker ) . "</p>\n<!-- /wp:paragraph -->";
+	$markup .= redeemid_demo_paragraphs( $item['locked'] );
+	$markup .= "<!-- wp:paragraph {\"className\":\"ledger-marker\"} -->\n<p class=\"ledger-marker\">Leak marker: " . esc_html( $marker ) . "</p>\n<!-- /wp:paragraph -->";
 
 	return trim( $markup );
 }
@@ -546,7 +546,7 @@ function sfwp_test_cpt_markup( string $slug, array $item ): string {
 /**
  * An item rule with its relative times (`+7 days`) turned into timestamps.
  */
-function sfwp_test_item_rule( array $rule ): array {
+function redeemid_demo_item_rule( array $rule ): array {
 	foreach ( [ 'locked_until', 'public_until' ] as $key ) {
 		if ( isset( $rule[ $key ] ) && is_string( $rule[ $key ] ) ) {
 			$rule[ $key ] = (int) strtotime( $rule[ $key ] );
@@ -561,15 +561,15 @@ function sfwp_test_item_rule( array $rule ): array {
  * rules. Without $restore, a post type row, term rule or item rule that
  * already exists is left alone.
  */
-function sfwp_test_seed_cpt_rules( bool $restore ): void {
-	if ( ! class_exists( \WP2_Shopify\Access\RuleStore::class ) || ! class_exists( \WP2_Shopify\Access\Rules::class ) ) {
+function redeemid_demo_seed_cpt_rules( bool $restore ): void {
+	if ( ! class_exists( \RedeemID\Access\RuleStore::class ) || ! class_exists( \RedeemID\Access\Rules::class ) ) {
 		return;
 	}
 
-	$config  = \WP2_Shopify\Access\RuleStore::saved();
+	$config  = \RedeemID\Access\RuleStore::saved();
 	$changed = false;
 
-	foreach ( sfwp_test_type_rules() as $type => $row ) {
+	foreach ( redeemid_demo_type_rules() as $type => $row ) {
 		if ( $restore || ! isset( $config['types'][ $type ] ) ) {
 			$config['types'][ $type ] = $row;
 			$changed                  = true;
@@ -577,11 +577,11 @@ function sfwp_test_seed_cpt_rules( bool $restore ): void {
 	}
 
 	if ( $changed ) {
-		\WP2_Shopify\Access\RuleStore::save( \WP2_Shopify\Access\Rules::from_array( $config ) );
+		\RedeemID\Access\RuleStore::save( \RedeemID\Access\Rules::from_array( $config ) );
 	}
 
-	foreach ( sfwp_test_cpt_term_rules() as $set ) {
-		$term_id = sfwp_test_cpt_term_id( $set['taxonomy'], $set['slug'] );
+	foreach ( redeemid_demo_cpt_term_rules() as $set ) {
+		$term_id = redeemid_demo_cpt_term_id( $set['taxonomy'], $set['slug'] );
 		$rule    = $set['rule'];
 
 		if ( isset( $rule['opens_for'] ) ) {
@@ -589,16 +589,16 @@ function sfwp_test_seed_cpt_rules( bool $restore ): void {
 			unset( $rule['opens_for'] );
 		}
 
-		if ( $term_id && ( $restore || '' === \WP2_Shopify\Access\TermRules::get( $term_id )['kind'] ) ) {
-			\WP2_Shopify\Access\TermRules::save( $term_id, $rule );
+		if ( $term_id && ( $restore || '' === \RedeemID\Access\TermRules::get( $term_id )['kind'] ) ) {
+			\RedeemID\Access\TermRules::save( $term_id, $rule );
 		}
 	}
 
-	foreach ( sfwp_test_cpt_items() as $key => $item ) {
-		$post = isset( $item['item_rule'] ) ? sfwp_test_find( 'cpt-' . $key ) : null;
+	foreach ( redeemid_demo_cpt_items() as $key => $item ) {
+		$post = isset( $item['item_rule'] ) ? redeemid_demo_find( 'cpt-' . $key ) : null;
 
-		if ( $post && ( $restore || '' === get_post_meta( $post->ID, '_wp2_access', true ) ) ) {
-			\WP2_Shopify\Access\ItemRule::save( $post->ID, sfwp_test_item_rule( $item['item_rule'] ) );
+		if ( $post && ( $restore || '' === get_post_meta( $post->ID, '_redeemid_access', true ) ) ) {
+			\RedeemID\Access\ItemRule::save( $post->ID, redeemid_demo_item_rule( $item['item_rule'] ) );
 		}
 	}
 }
@@ -610,11 +610,11 @@ function sfwp_test_seed_cpt_rules( bool $restore ): void {
 add_action(
 	'wp_loaded',
 	static function (): void {
-		if ( (int) get_option( 'sfwp_test_rewrite_version', 0 ) < SFWP_TEST_CONTENT_VERSION && (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 ) >= SFWP_TEST_CONTENT_VERSION ) {
+		if ( (int) get_option( 'redeemid_demo_rewrite_version', 0 ) < REDEEMID_DEMO_CONTENT_VERSION && (int) get_option( REDEEMID_DEMO_CONTENT_OPTION, 0 ) >= REDEEMID_DEMO_CONTENT_VERSION ) {
 			flush_rewrite_rules( false ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.flush_rewrite_rules_flush_rewrite_rules -- once per demo content version.
-			update_option( 'sfwp_test_rewrite_version', SFWP_TEST_CONTENT_VERSION, false );
+			update_option( 'redeemid_demo_rewrite_version', REDEEMID_DEMO_CONTENT_VERSION, false );
 		}
 	}
 );
 
-add_action( 'after_switch_theme', static fn() => delete_option( 'sfwp_test_rewrite_version' ) );
+add_action( 'after_switch_theme', static fn() => delete_option( 'redeemid_demo_rewrite_version' ) );

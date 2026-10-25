@@ -1,37 +1,37 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","className":"sfwp-article","style":{"spacing":{"padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
-<main class="wp-block-group sfwp-article" style="padding-top:var(--wp--preset--spacing--50)">
-	<!-- wp:group {"className":"sfwp-article__kickers","layout":{"type":"flex","flexWrap":"wrap"}} -->
-	<div class="wp-block-group sfwp-article__kickers">
-		<!-- wp:post-terms {"term":"category","className":"sfwp-kicker"} /-->
+<!-- wp:group {"tagName":"main","className":"ledger-article","style":{"spacing":{"padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group ledger-article" style="padding-top:var(--wp--preset--spacing--50)">
+	<!-- wp:group {"className":"ledger-article__kickers","layout":{"type":"flex","flexWrap":"wrap"}} -->
+	<div class="wp-block-group ledger-article__kickers">
+		<!-- wp:post-terms {"term":"category","className":"ledger-kicker"} /-->
 	</div>
 	<!-- /wp:group -->
-	<!-- wp:post-title {"level":1,"className":"sfwp-article__title"} /-->
-	<!-- wp:post-excerpt {"className":"sfwp-article__dek"} /-->
-	<!-- wp:group {"className":"sfwp-article__meta","style":{"spacing":{"blockGap":"0.75rem"}},"textColor":"muted","fontSize":"small","layout":{"type":"flex","flexWrap":"wrap"}} -->
-	<div class="wp-block-group sfwp-article__meta has-muted-color has-text-color has-small-font-size">
-		<!-- wp:sfwp-test/story-meta {"showByline":true} /-->
+	<!-- wp:post-title {"level":1,"className":"ledger-article__title"} /-->
+	<!-- wp:post-excerpt {"className":"ledger-article__dek"} /-->
+	<!-- wp:group {"className":"ledger-article__meta","style":{"spacing":{"blockGap":"0.75rem"}},"textColor":"muted","fontSize":"small","layout":{"type":"flex","flexWrap":"wrap"}} -->
+	<div class="wp-block-group ledger-article__meta has-muted-color has-text-color has-small-font-size">
+		<!-- wp:redeemid-demo/story-meta {"showByline":true} /-->
 		<!-- wp:post-date /-->
 	</div>
 	<!-- /wp:group -->
-	<!-- wp:post-content {"className":"sfwp-article__body","layout":{"type":"constrained"}} /-->
-	<!-- wp:group {"className":"sfwp-sponsor","wp2Access":{"feature":"ad-free","when":"lacks"},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-	<div class="wp-block-group sfwp-sponsor">
-		<!-- wp:paragraph {"className":"sfwp-sponsor__label"} -->
-		<p class="sfwp-sponsor__label">Sponsor</p>
+	<!-- wp:post-content {"className":"ledger-article__body","layout":{"type":"constrained"}} /-->
+	<!-- wp:group {"className":"ledger-sponsor","redeemidAccess":{"feature":"ad-free","when":"lacks"},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group ledger-sponsor">
+		<!-- wp:paragraph {"className":"ledger-sponsor__label"} -->
+		<p class="ledger-sponsor__label">Sponsor</p>
 		<!-- /wp:paragraph -->
 		<!-- wp:paragraph -->
 		<p><strong>Harbor Hardware &amp; Marine.</strong> Rope, paint and straight answers since 1962, on Pier Street.</p>
 		<!-- /wp:paragraph -->
-		<!-- wp:paragraph {"className":"sfwp-sponsor__out"} -->
-		<p class="sfwp-sponsor__out"><a href="/join/">Read without sponsors</a></p>
+		<!-- wp:paragraph {"className":"ledger-sponsor__out"} -->
+		<p class="ledger-sponsor__out"><a href="/join/">Read without sponsors</a></p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
-	<!-- wp:post-terms {"term":"sfwp_topic","prefix":"Topics: ","className":"sfwp-article__topics"} /-->
-	<!-- wp:group {"className":"sfwp-article__nav","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-	<div class="wp-block-group sfwp-article__nav">
+	<!-- wp:post-terms {"term":"ledger_topic","prefix":"Topics: ","className":"ledger-article__topics"} /-->
+	<!-- wp:group {"className":"ledger-article__nav","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group ledger-article__nav">
 		<!-- wp:post-navigation-link {"type":"previous","showTitle":true} /-->
 		<!-- wp:post-navigation-link {"showTitle":true} /-->
 	</div>
@@ -39,22 +39,22 @@
 </main>
 <!-- /wp:group -->
 
-<!-- wp:group {"className":"sfwp-related","layout":{"type":"constrained","contentSize":"1120px"}} -->
-<div class="wp-block-group sfwp-related">
-	<!-- wp:heading {"level":2,"className":"sfwp-section-title"} -->
-	<h2 class="wp-block-heading sfwp-section-title">Latest from the Ledger</h2>
+<!-- wp:group {"className":"ledger-related","layout":{"type":"constrained","contentSize":"1120px"}} -->
+<div class="wp-block-group ledger-related">
+	<!-- wp:heading {"level":2,"className":"ledger-section-title"} -->
+	<h2 class="wp-block-heading ledger-section-title">Latest from the Ledger</h2>
 	<!-- /wp:heading -->
-	<!-- wp:query {"queryId":201,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false,"sticky":"exclude"},"className":"sfwp-related__grid"} -->
-	<div class="wp-block-query sfwp-related__grid">
+	<!-- wp:query {"queryId":201,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":false,"sticky":"exclude"},"className":"ledger-related__grid"} -->
+	<div class="wp-block-query ledger-related__grid">
 		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
-			<!-- wp:group {"className":"sfwp-card","layout":{"type":"flex","orientation":"vertical"}} -->
-			<div class="wp-block-group sfwp-card">
-				<!-- wp:post-title {"isLink":true,"level":3,"className":"sfwp-card__title"} /-->
-				<!-- wp:post-excerpt {"excerptLength":24,"className":"sfwp-card__dek"} /-->
-				<!-- wp:group {"className":"sfwp-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
-				<div class="wp-block-group sfwp-card__meta">
-					<!-- wp:sfwp-test/story-meta /-->
-					<!-- wp:post-date {"className":"sfwp-card__date"} /-->
+			<!-- wp:group {"className":"ledger-card","layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group ledger-card">
+				<!-- wp:post-title {"isLink":true,"level":3,"className":"ledger-card__title"} /-->
+				<!-- wp:post-excerpt {"excerptLength":24,"className":"ledger-card__dek"} /-->
+				<!-- wp:group {"className":"ledger-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+				<div class="wp-block-group ledger-card__meta">
+					<!-- wp:redeemid-demo/story-meta /-->
+					<!-- wp:post-date {"className":"ledger-card__date"} /-->
 				</div>
 				<!-- /wp:group -->
 			</div>

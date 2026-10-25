@@ -3,51 +3,51 @@
  * The theme's own rows in the plugin's Shopify Health block.
  *
  * Plugin, Blockstudio, permalink, callback-page, sign-in and configuration
- * checks belong to the plugin (WP2_Shopify\Support\Health), which shows them
- * in the wp2-shopify/health block and under Shopify → Debug. The theme only
+ * checks belong to the plugin (RedeemID\Support\Health), which shows them
+ * in the redeemid/health block and under RedeemID → Debug. The theme only
  * adds what is about the theme and its test content, through the plugin's
- * wp2_shopify_health_checks filter.
+ * redeemid_health_checks filter.
  *
- * @package sfwp-test
+ * @package redeemid-demo
  */
 
 defined( 'ABSPATH' ) || exit;
 
-add_filter( 'wp2_shopify_health_checks', 'sfwp_test_health_rows' );
+add_filter( 'redeemid_health_checks', 'redeemid_demo_health_rows' );
 
 /**
  * @param mixed $checks The plugin's rows.
  * @return mixed
  */
-function sfwp_test_health_rows( $checks ) {
+function redeemid_demo_health_rows( $checks ) {
 	if ( ! is_array( $checks ) ) {
 		return $checks;
 	}
 
-	$theme_blocks = WP_Block_Type_Registry::get_instance()->is_registered( 'sfwp-test/story-meta' );
+	$theme_blocks = WP_Block_Type_Registry::get_instance()->is_registered( 'redeemid-demo/story-meta' );
 	$checks[]     = [
-		'label'  => __( 'Theme blocks registered beside the plugin’s', 'sfwp-test' ),
+		'label'  => __( 'Theme blocks registered beside the plugin’s', 'redeemid-demo' ),
 		'state'  => $theme_blocks ? 'ok' : 'warn',
-		'detail' => $theme_blocks ? __( 'Blockstudio theme folder intact', 'sfwp-test' ) : __( 'theme blockstudio/ folder not picked up', 'sfwp-test' ),
+		'detail' => $theme_blocks ? __( 'Blockstudio theme folder intact', 'redeemid-demo' ) : __( 'theme blockstudio/ folder not picked up', 'redeemid-demo' ),
 	];
 
 	if ( function_exists( 'bs_validate_block' ) ) {
-		$stale    = sfwp_test_invalid_blocks();
+		$stale    = redeemid_demo_invalid_blocks();
 		$checks[] = [
-			'label'  => __( 'Seeded blocks match their fields', 'sfwp-test' ),
+			'label'  => __( 'Seeded blocks match their fields', 'redeemid-demo' ),
 			'state'  => $stale ? 'warn' : 'ok',
 			'detail' => $stale
 				/* translators: %s: list of "page: block field" entries */
-				? sprintf( __( 'stored in an older shape (still rendered, via the plugin\'s upgrade shim): %s. Use Shopify → Test lab → Restore.', 'sfwp-test' ), implode( ', ', array_slice( $stale, 0, 5 ) ) . ( count( $stale ) > 5 ? ', …' : '' ) )
-				: __( 'checked with bs_validate_block()', 'sfwp-test' ),
+				? sprintf( __( 'stored in an older shape (still rendered, via the plugin\'s upgrade shim): %s. Use RedeemID → Test lab → Restore.', 'redeemid-demo' ), implode( ', ', array_slice( $stale, 0, 5 ) ) . ( count( $stale ) > 5 ? ', …' : '' ) )
+				: __( 'checked with bs_validate_block()', 'redeemid-demo' ),
 		];
 	}
 
-	$version  = (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 );
+	$version  = (int) get_option( REDEEMID_DEMO_CONTENT_OPTION, 0 );
 	$checks[] = [
-		'label'  => __( 'Test content', 'sfwp-test' ),
-		'state'  => $version >= SFWP_TEST_CONTENT_VERSION ? 'ok' : 'warn',
-		'detail' => $version >= SFWP_TEST_CONTENT_VERSION ? sprintf( 'v%d', $version ) : __( 'not seeded yet', 'sfwp-test' ),
+		'label'  => __( 'Test content', 'redeemid-demo' ),
+		'state'  => $version >= REDEEMID_DEMO_CONTENT_VERSION ? 'ok' : 'warn',
+		'detail' => $version >= REDEEMID_DEMO_CONTENT_VERSION ? sprintf( 'v%d', $version ) : __( 'not seeded yet', 'redeemid-demo' ),
 	];
 
 	return $checks;
@@ -60,7 +60,7 @@ function sfwp_test_health_rows( $checks ) {
  *
  * @return string[] "Page title: block field" entries.
  */
-function sfwp_test_invalid_blocks(): array {
+function redeemid_demo_invalid_blocks(): array {
 	$found = [];
 	$walk  = static function ( array $blocks, WP_Post $post ) use ( &$walk, &$found ): void {
 		foreach ( $blocks as $block ) {
@@ -74,8 +74,8 @@ function sfwp_test_invalid_blocks(): array {
 		}
 	};
 
-	foreach ( array_keys( sfwp_test_seed_items() ) as $key ) {
-		$post = sfwp_test_find( (string) $key );
+	foreach ( array_keys( redeemid_demo_seed_items() ) as $key ) {
+		$post = redeemid_demo_find( (string) $key );
 
 		if ( $post ) {
 			$walk( parse_blocks( $post->post_content ), $post );

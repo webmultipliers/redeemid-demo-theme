@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="Shopify for WP test theme">
+<ruleset name="RedeemID demo theme">
 	<description>WordPress VIP rules (WordPress-VIP-Go) for the theme. Run with: composer phpcs</description>
 
 	<file>.</file>
@@ -23,7 +23,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element value="sfwp-test"/>
+				<element value="redeemid-demo"/>
 			</property>
 		</properties>
 	</rule>

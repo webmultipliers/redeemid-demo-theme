@@ -6,9 +6,9 @@
  * checklist were theme blocks. They are plugin blocks now, so content saved
  * with the old names (a page edited by hand, a template part customised in
  * the Site Editor) renders the plugin block instead of nothing. Content the
- * theme seeded is rewritten once by sfwp_test_upgrade_content().
+ * theme seeded is rewritten once by redeemid_demo_upgrade_content().
  *
- * @package sfwp-test
+ * @package redeemid-demo
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,10 +16,10 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Old theme block name => the plugin block that replaced it.
  */
-const SFWP_TEST_MOVED_BLOCKS = [
-	'sfwp-test/resync'         => 'wp2-shopify/membership-refresh',
-	'sfwp-test/visitor-state'  => 'wp2-shopify/account-status',
-	'sfwp-test/sandbox-health' => 'wp2-shopify/health',
+const REDEEMID_DEMO_MOVED_BLOCKS = [
+	'redeemid-demo/resync'         => 'redeemid/membership-refresh',
+	'redeemid-demo/visitor-state'  => 'redeemid/account-status',
+	'redeemid-demo/sandbox-health' => 'redeemid/health',
 ];
 
 add_filter(
@@ -27,14 +27,14 @@ add_filter(
 	static function ( array $parsed ): array {
 		$name = $parsed['blockName'] ?? '';
 
-		if ( ! isset( SFWP_TEST_MOVED_BLOCKS[ $name ] ) ) {
+		if ( ! isset( REDEEMID_DEMO_MOVED_BLOCKS[ $name ] ) ) {
 			return $parsed;
 		}
 
-		$parsed['blockName'] = SFWP_TEST_MOVED_BLOCKS[ $name ];
+		$parsed['blockName'] = REDEEMID_DEMO_MOVED_BLOCKS[ $name ];
 
 		// The theme's visitor panel showed the raw response unless told not to; the plugin's hides it by default.
-		if ( 'sfwp-test/visitor-state' === $name && ! array_key_exists( 'showRaw', (array) $parsed['attrs'] ) ) {
+		if ( 'redeemid-demo/visitor-state' === $name && ! array_key_exists( 'showRaw', (array) $parsed['attrs'] ) ) {
 			$parsed['attrs']['showRaw'] = true;
 		}
 
@@ -65,44 +65,44 @@ add_filter(
  *
  * @param int $from The content version the site had.
  */
-function sfwp_test_upgrade_content( int $from ): void {
+function redeemid_demo_upgrade_content( int $from ): void {
 	if ( $from < 1 ) {
 		return;
 	}
 
 	if ( $from < 6 ) {
-		sfwp_test_seed( true, [ 'home', 'join', 'test-lab' ] );
+		redeemid_demo_seed( true, [ 'home', 'join', 'test-lab' ] );
 	}
 
 	if ( $from < 7 ) {
-		sfwp_test_seed( true, [ 'account', 'test-lab' ] );
+		redeemid_demo_seed( true, [ 'account', 'test-lab' ] );
 	}
 
 	if ( $from < 8 ) {
-		sfwp_test_seed( true, [ 'test-lab' ] );
+		redeemid_demo_seed( true, [ 'test-lab' ] );
 	}
 
 	if ( $from < 9 ) {
-		sfwp_test_seed( true, [ 'account', 'join' ] );
+		redeemid_demo_seed( true, [ 'account', 'join' ] );
 	}
 
 	if ( $from >= 5 ) {
 		return;
 	}
 
-	$stories = array_values( array_filter( array_keys( sfwp_test_seed_items() ), static fn( $key ) => str_starts_with( (string) $key, 'news-' ) ) );
-	sfwp_test_seed( true, $stories );
+	$stories = array_values( array_filter( array_keys( redeemid_demo_seed_items() ), static fn( $key ) => str_starts_with( (string) $key, 'news-' ) ) );
+	redeemid_demo_seed( true, $stories );
 
-	foreach ( array_keys( sfwp_test_seed_items() ) as $key ) {
-		$post = sfwp_test_find( (string) $key );
+	foreach ( array_keys( redeemid_demo_seed_items() ) as $key ) {
+		$post = redeemid_demo_find( (string) $key );
 
-		if ( ! $post || ! str_contains( $post->post_content, 'wp:sfwp-test/' ) ) {
+		if ( ! $post || ! str_contains( $post->post_content, 'wp:redeemid-demo/' ) ) {
 			continue;
 		}
 
 		$content = $post->post_content;
 
-		foreach ( SFWP_TEST_MOVED_BLOCKS as $old => $new ) {
+		foreach ( REDEEMID_DEMO_MOVED_BLOCKS as $old => $new ) {
 			$content = str_replace( [ '<!-- wp:' . $old . ' ', '<!-- /wp:' . $old . ' ' ], [ '<!-- wp:' . $new . ' ', '<!-- /wp:' . $new . ' ' ], $content );
 		}
 

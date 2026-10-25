@@ -1,0 +1,42 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"1120px"}} -->
+<main class="wp-block-group" style="padding-top:var(--wp--preset--spacing--50)">
+	<!-- wp:query-title {"type":"archive","showPrefix":false,"className":"ledger-archive__title"} /-->
+	<!-- wp:term-description {"className":"ledger-archive__intro"} /-->
+	<!-- wp:paragraph {"className":"ledger-archive__intro"} -->
+	<p class="ledger-archive__intro">Where to eat, walk and wait for the ferry, neighborhood by neighborhood. Most guides are free; Fennel Hill guides are for Silver members.</p>
+	<!-- /wp:paragraph -->
+	<!-- wp:query {"queryId":1,"query":{"inherit":true,"perPage":12},"className":"ledger-section__grid"} -->
+	<div class="wp-block-query ledger-section__grid">
+		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
+			<!-- wp:group {"className":"ledger-card","layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group ledger-card">
+				<!-- wp:post-terms {"term":"ledger_neighborhood","className":"ledger-kicker"} /-->
+				<!-- wp:post-title {"isLink":true,"level":3,"className":"ledger-card__title"} /-->
+				<!-- wp:post-excerpt {"excerptLength":30,"className":"ledger-card__dek"} /-->
+				<!-- wp:group {"className":"ledger-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+				<div class="wp-block-group ledger-card__meta">
+					<!-- wp:redeemid-demo/story-meta {"showByline":true} /-->
+					<!-- wp:post-date {"className":"ledger-card__date"} /-->
+				</div>
+				<!-- /wp:group -->
+			</div>
+			<!-- /wp:group -->
+		<!-- /wp:post-template -->
+		<!-- wp:query-pagination -->
+			<!-- wp:query-pagination-previous /-->
+			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-next /-->
+		<!-- /wp:query-pagination -->
+		<!-- wp:query-no-results -->
+			<!-- wp:paragraph -->
+			<p>No stories here yet.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+	</div>
+	<!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
