@@ -611,7 +611,7 @@ add_action(
 	'wp_loaded',
 	static function (): void {
 		if ( (int) get_option( 'sfwp_test_rewrite_version', 0 ) < SFWP_TEST_CONTENT_VERSION && (int) get_option( SFWP_TEST_CONTENT_OPTION, 0 ) >= SFWP_TEST_CONTENT_VERSION ) {
-			flush_rewrite_rules( false );
+			flush_rewrite_rules( false ); // phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.flush_rewrite_rules_flush_rewrite_rules -- once per demo content version.
 			update_option( 'sfwp_test_rewrite_version', SFWP_TEST_CONTENT_VERSION, false );
 		}
 	}

@@ -8,6 +8,7 @@
 	},
 	"scripts": {
 		"lint": "find . -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n1 php -l",
+		"phpcs": "phpcs",
 		"build-prod": [
 			"@composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-progress"
 		],
@@ -15,7 +16,8 @@
 	},
 	"scripts-descriptions": {
 		"lint": "Syntax-check every PHP file.",
-		"build-prod": "Deploy hook, same as the plugin's. The theme has no Composer dependencies, so this only writes an empty vendor/ autoloader.",
+		"phpcs": "Check the code against the WordPress VIP rules in phpcs.xml.dist.",
+		"build-prod": "Deploy hook, same as the plugin's. The theme has no runtime Composer dependencies, so this only writes an empty vendor/ autoloader.",
 		"release": "Alias of build-prod."
 	},
 	"config": {
@@ -23,8 +25,14 @@
 			"php": "8.2.0"
 		},
 		"optimize-autoloader": true,
-		"sort-packages": true
+		"sort-packages": true,
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
 	},
 	"minimum-stability": "stable",
-	"prefer-stable": true
+	"prefer-stable": true,
+	"require-dev": {
+		"automattic/vipwpcs": "^3.1"
+	}
 }
