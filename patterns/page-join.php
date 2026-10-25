@@ -89,11 +89,11 @@ $sfwp_rows = [
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Buy a mapped product</h3>
+<h3 class="wp-block-heading">Buy a membership product</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Map a product to a tag in the Shopify admin menu, for example <code>1234567890: gold-member</code>, and buy it with the test customer (Shopify’s Bogus Gateway works on a dev store). On <code>orders/paid</code> the plugin adds the tag in Shopify. A refund or cancellation removes it. After checkout, your next signed-in page views also re-sync for up to 30 minutes.</p>
+<p>In Shopify Flow, add a workflow that tags the customer <code>gold-member</code> when an order for the Gold product is paid, and one that removes it on cancellation (the plugin’s <code>docs/shopify-flow.md</code> has the recipes). Buy it with the test customer (Shopify’s Bogus Gateway works on a dev store). The tag webhook unlocks Gold within seconds, or press Refresh Membership.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:wp2-shopify/account-status /-->
