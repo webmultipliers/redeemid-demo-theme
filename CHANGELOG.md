@@ -4,6 +4,7 @@
 
 - README rewritten for a public audience: what the theme is for, install steps, contributing and license. Added the GPL-2.0 LICENSE file.
 - Copy no longer refers to internal plugin phases (Account and Test lab pages, the search leak note).
+- Join page: buying a membership is now described with Shopify Flow tagging, since the plugin no longer tags purchases itself. Seeded sites keep their existing page text.
 - `composer phpcs` checks the theme against the WordPress VIP coding standards (`phpcs.xml.dist`, dev dependency only).
 
 ## 0.8.0
