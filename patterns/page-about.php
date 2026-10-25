@@ -1,14 +1,14 @@
 <?php
 /**
  * Title: About the Ledger (page)
- * Slug: sfwp-test/page-about
- * Categories: sfwp-test
+ * Slug: redeemid-demo/page-about
+ * Categories: redeemid-demo
  * Post Types: page
  * Description: Who the (fictional) Ledger is, and how it decides what is free and what is for members.
  */
 ?>
-<!-- wp:paragraph {"className":"sfwp-article__dek"} -->
-<p class="sfwp-article__dek">The Harborview Ledger is an independent newsroom of eleven reporters and editors covering the harbor, the city and the islands. It is also fiction: a test site for the WP2 Shopify plugin.</p>
+<!-- wp:paragraph {"className":"ledger-article__dek"} -->
+<p class="ledger-article__dek">The Harborview Ledger is an independent newsroom of eleven reporters and editors covering the harbor, the city and the islands. It is also fiction: a test site for the RedeemID plugin.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"anchor":"free-and-paid"} -->
@@ -19,22 +19,22 @@
 <p>News the whole city needs stays free: council votes, transit, weather, public safety and every correction. Stories that take months, a records request and a lawyer’s review are for members, and so is our most specialised work.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:list {"className":"sfwp-about-list"} -->
-<ul class="sfwp-about-list">
+<!-- wp:list {"className":"ledger-about-list"} -->
+<ul class="ledger-about-list">
 	<!-- wp:list-item -->
-	<li><span class="wp2-shopify-access-badge" data-wp2-level="free">Free</span> Most news, most city guides and every correction. Some members’ stories are opened for everyone when they matter to everyone, like our ferry fuel investigation and the storm briefing.</li>
+	<li><span class="redeemid-access-badge" data-redeemid-level="free">Free</span> Most news, most city guides and every correction. Some members’ stories are opened for everyone when they matter to everyone, like our ferry fuel investigation and the storm briefing.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
-	<li><span class="wp2-shopify-access-badge" data-wp2-level="signed-in">Signed in</span> A free account opens the briefings, our election coverage and the editorial board.</li>
+	<li><span class="redeemid-access-badge" data-redeemid-level="signed-in">Signed in</span> A free account opens the briefings, our election coverage and the editorial board.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
-	<li><span class="wp2-shopify-access-badge" data-wp2-level="silver">Silver</span> The culture desk, features and our Fennel Hill guides.</li>
+	<li><span class="redeemid-access-badge" data-redeemid-level="silver">Silver</span> The culture desk, features and our Fennel Hill guides.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
-	<li><span class="wp2-shopify-access-badge" data-wp2-level="gold">Gold</span> Investigations and Ledger Reports. Reports open to everyone after a year.</li>
+	<li><span class="redeemid-access-badge" data-redeemid-level="gold">Gold</span> Investigations and Ledger Reports. Reports open to everyone after a year.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
-	<li><span class="wp2-shopify-access-badge" data-wp2-level="premium">Gold + Silver</span> Stories that cross both desks, and the Harbor Money series.</li>
+	<li><span class="redeemid-access-badge" data-redeemid-level="premium">Gold + Silver</span> Stories that cross both desks, and the Harbor Money series.</li>
 	<!-- /wp:list-item -->
 </ul>
 <!-- /wp:list -->
@@ -55,8 +55,8 @@
 <h2 class="wp-block-heading">The sandbox behind the story</h2>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"className":"sfwp-note"} -->
-<p class="sfwp-note">Every person, place and story here is invented. The site exists to exercise WP2 Shopify’s sign-in, membership levels and content rules on posts, pages, custom post types and custom taxonomies. Testers start at the <a href="/test-lab/">Test lab</a>.</p>
+<!-- wp:paragraph {"className":"ledger-note"} -->
+<p class="ledger-note">Every person, place and story here is invented. The site exists to exercise RedeemID’s sign-in, membership levels and content rules on posts, pages, custom post types and custom taxonomies. Testers start at the <a href="/test-lab/">Test lab</a>.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->

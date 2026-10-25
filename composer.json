@@ -1,6 +1,6 @@
 {
-	"name": "webmultipliers/shopify-for-wp-theme",
-	"description": "Demo and test block theme for the WP2 Shopify plugin.",
+	"name": "webmultipliers/redeemid-demo-theme",
+	"description": "Demo and test block theme for the RedeemID plugin.",
 	"type": "wordpress-theme",
 	"license": "GPL-2.0-or-later",
 	"require": {

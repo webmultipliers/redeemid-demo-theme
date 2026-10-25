@@ -8,92 +8,92 @@
  * exactly as it would for a real customer. They are not real Shopify
  * customers, so the theme:
  *
- * - tells the plugin they are fixtures (wp2_shopify_customer_is_fixture), so
+ * - tells the plugin they are fixtures (redeemid_customer_is_fixture), so
  *   its resync skips them and its Customers screen labels them;
  * - re-applies their state when someone switches to them, and when the
- *   plugin's membership refresh runs for them (wp2_shopify_pre_sync_now),
+ *   plugin's membership refresh runs for them (redeemid_pre_sync_now),
  *   instead of asking Shopify.
  *
  * An administrator can point a fixture at a real customer in the dev store
- * (Shopify → Test lab → Test accounts). It is then an ordinary linked user:
+ * (RedeemID → Test lab → Test accounts). It is then an ordinary linked user:
  * the plugin syncs it from Shopify and resync goes to Shopify too.
  *
- * @package sfwp-test
+ * @package redeemid-demo
  */
 
 defined( 'ABSPATH' ) || exit;
 
-const SFWP_TEST_FIXTURE_META  = '_sfwp_test_fixture';
-const SFWP_TEST_FIXTURE_LINKS = 'sfwp_test_fixture_links';
+const REDEEMID_DEMO_FIXTURE_META  = '_redeemid_demo_fixture';
+const REDEEMID_DEMO_FIXTURE_LINKS = 'redeemid_demo_fixture_links';
 
 /**
  * @return array<string, array{name: string, linked: bool, tags: string[], state: string, stale: bool, expect: string}>
  */
-function sfwp_test_fixtures(): array {
+function redeemid_demo_fixtures(): array {
 	return [
-		'sfwp-reader'  => [
+		'ledger-reader'  => [
 			'name'   => 'Riley Reader',
 			'linked' => false,
 			'tags'   => [],
 			'state'  => 'enabled',
 			'stale'  => false,
-			'expect' => __( 'Signed in to WordPress, not linked to Shopify. Free and Members stories open; tag gates stay locked (not linked).', 'sfwp-test' ),
+			'expect' => __( 'Signed in to WordPress, not linked to Shopify. Free and Members stories open; tag gates stay locked (not linked).', 'redeemid-demo' ),
 		],
-		'sfwp-member'  => [
+		'ledger-member'  => [
 			'name'   => 'Milo Member',
 			'linked' => true,
 			'tags'   => [],
 			'state'  => 'enabled',
 			'stale'  => false,
-			'expect' => __( 'Linked, no tags. Free and Members stories open; Silver, Gold and Gold + Silver stay locked.', 'sfwp-test' ),
+			'expect' => __( 'Linked, no tags. Free and Members stories open; Silver, Gold and Gold + Silver stay locked.', 'redeemid-demo' ),
 		],
-		'sfwp-silver'  => [
+		'ledger-silver'  => [
 			'name'   => 'Sasha Silver',
 			'linked' => true,
 			'tags'   => [ 'silver-member' ],
 			'state'  => 'enabled',
 			'stale'  => false,
-			'expect' => __( 'silver-member. Silver stories open; Gold and Gold + Silver stay locked.', 'sfwp-test' ),
+			'expect' => __( 'silver-member. Silver stories open; Gold and Gold + Silver stay locked.', 'redeemid-demo' ),
 		],
-		'sfwp-gold'    => [
+		'ledger-gold'    => [
 			'name'   => 'Gia Gold',
 			'linked' => true,
 			'tags'   => [ 'gold-member' ],
 			'state'  => 'enabled',
 			'stale'  => false,
-			'expect' => __( 'gold-member. Gold stories and the members-only article open; Silver and Gold + Silver stay locked.', 'sfwp-test' ),
+			'expect' => __( 'gold-member. Gold stories and the members-only article open; Silver and Gold + Silver stay locked.', 'redeemid-demo' ),
 		],
-		'sfwp-premium' => [
+		'ledger-premium' => [
 			'name'   => 'Paz Premium',
 			'linked' => true,
 			'tags'   => [ 'gold-member', 'silver-member' ],
 			'state'  => 'enabled',
 			'stale'  => false,
-			'expect' => __( 'gold-member and silver-member. Everything opens except the negative control.', 'sfwp-test' ),
+			'expect' => __( 'gold-member and silver-member. Everything opens except the negative control.', 'redeemid-demo' ),
 		],
-		'sfwp-lapsed'  => [
+		'ledger-lapsed'  => [
 			'name'   => 'Lou Lapsed',
 			'linked' => true,
 			'tags'   => [ 'gold-member' ],
 			'state'  => 'disabled',
 			'stale'  => false,
-			'expect' => __( 'gold-member, but the Shopify account is disabled. Every tag gate stays locked.', 'sfwp-test' ),
+			'expect' => __( 'gold-member, but the Shopify account is disabled. Every tag gate stays locked.', 'redeemid-demo' ),
 		],
-		'sfwp-stale'   => [
+		'ledger-stale'   => [
 			'name'   => 'Stella Stale',
 			'linked' => true,
 			'tags'   => [ 'gold-member' ],
 			'state'  => 'enabled',
 			'stale'  => true,
-			'expect' => __( 'gold-member, last synced 30 days ago. Synced tags never expire, so Gold still opens.', 'sfwp-test' ),
+			'expect' => __( 'gold-member, last synced 30 days ago. Synced tags never expire, so Gold still opens.', 'redeemid-demo' ),
 		],
-		'sfwp-addon'   => [
+		'ledger-addon'   => [
 			'name'   => 'Ada Add-on',
 			'linked' => true,
 			'tags'   => [ 'silver-member', 'ad-free-addon' ],
 			'state'  => 'enabled',
 			'stale'  => false,
-			'expect' => __( 'silver-member plus the ad-free-addon tag. Silver stories open; the add-on gives Ad-free reading without Gold.', 'sfwp-test' ),
+			'expect' => __( 'silver-member plus the ad-free-addon tag. Silver stories open; the add-on gives Ad-free reading without Gold.', 'redeemid-demo' ),
 		],
 	];
 }
@@ -101,8 +101,8 @@ function sfwp_test_fixtures(): array {
 /**
  * Made-up customer IDs, far outside the range a dev store hands out.
  */
-function sfwp_test_fixture_customer_id( string $login ): string {
-	$index = array_search( $login, array_keys( sfwp_test_fixtures() ), true );
+function redeemid_demo_fixture_customer_id( string $login ): string {
+	$index = array_search( $login, array_keys( redeemid_demo_fixtures() ), true );
 
 	return (string) ( 990000000001 + (int) $index );
 }
@@ -110,28 +110,28 @@ function sfwp_test_fixture_customer_id( string $login ): string {
 /**
  * @return array<string, string> Fixture login => real Shopify customer ID.
  */
-function sfwp_test_fixture_links(): array {
-	$links = get_option( SFWP_TEST_FIXTURE_LINKS, [] );
+function redeemid_demo_fixture_links(): array {
+	$links = get_option( REDEEMID_DEMO_FIXTURE_LINKS, [] );
 
 	return is_array( $links ) ? array_filter( array_map( 'strval', $links ), 'ctype_digit' ) : [];
 }
 
-function sfwp_test_fixture_login( int $user_id ): string {
-	$login = (string) get_user_meta( $user_id, SFWP_TEST_FIXTURE_META, true );
+function redeemid_demo_fixture_login( int $user_id ): string {
+	$login = (string) get_user_meta( $user_id, REDEEMID_DEMO_FIXTURE_META, true );
 
-	return isset( sfwp_test_fixtures()[ $login ] ) ? $login : '';
+	return isset( redeemid_demo_fixtures()[ $login ] ) ? $login : '';
 }
 
 /**
  * A fixture that is simulated, not pointed at a real Shopify customer.
  */
-function sfwp_test_is_simulated( int $user_id ): bool {
-	$login = sfwp_test_fixture_login( $user_id );
+function redeemid_demo_is_simulated( int $user_id ): bool {
+	$login = redeemid_demo_fixture_login( $user_id );
 
-	return '' !== $login && ! isset( sfwp_test_fixture_links()[ $login ] );
+	return '' !== $login && ! isset( redeemid_demo_fixture_links()[ $login ] );
 }
 
-function sfwp_test_fixture_user( string $login ): ?WP_User {
+function redeemid_demo_fixture_user( string $login ): ?WP_User {
 	$user = get_user_by( 'login', $login );
 
 	return $user instanceof WP_User ? $user : null;
@@ -140,9 +140,9 @@ function sfwp_test_fixture_user( string $login ): ?WP_User {
 /**
  * Create missing fixture users and put every simulated one in its state.
  */
-function sfwp_test_seed_fixtures(): void {
-	foreach ( sfwp_test_fixtures() as $login => $fixture ) {
-		$user = sfwp_test_fixture_user( $login );
+function redeemid_demo_seed_fixtures(): void {
+	foreach ( redeemid_demo_fixtures() as $login => $fixture ) {
+		$user = redeemid_demo_fixture_user( $login );
 
 		if ( ! $user ) {
 			[ $first, $last ] = explode( ' ', $fixture['name'], 2 );
@@ -156,7 +156,7 @@ function sfwp_test_seed_fixtures(): void {
 					'first_name'   => $first,
 					'last_name'    => $last,
 					'role'         => 'subscriber',
-					'description'  => __( 'Test account seeded by the Shopify for WP Test theme. Switch to it with User Switching.', 'sfwp-test' ),
+					'description'  => __( 'Test account seeded by the RedeemID Demo theme. Switch to it with User Switching.', 'redeemid-demo' ),
 				]
 			);
 
@@ -167,8 +167,8 @@ function sfwp_test_seed_fixtures(): void {
 			$user = get_user_by( 'id', $id );
 		}
 
-		update_user_meta( $user->ID, SFWP_TEST_FIXTURE_META, $login );
-		sfwp_test_apply_fixture( $user->ID );
+		update_user_meta( $user->ID, REDEEMID_DEMO_FIXTURE_META, $login );
+		redeemid_demo_apply_fixture( $user->ID );
 	}
 }
 
@@ -176,27 +176,27 @@ function sfwp_test_seed_fixtures(): void {
  * Write a fixture's mirror into the plugin's user meta. A fixture pointed
  * at a real customer gets the real ID and is synced from Shopify instead.
  */
-function sfwp_test_apply_fixture( int $user_id ): void {
-	$login = sfwp_test_fixture_login( $user_id );
+function redeemid_demo_apply_fixture( int $user_id ): void {
+	$login = redeemid_demo_fixture_login( $user_id );
 
-	if ( '' === $login || ! class_exists( \WP2_Shopify\Sync\Mirror::class ) ) {
+	if ( '' === $login || ! class_exists( \RedeemID\Sync\Mirror::class ) ) {
 		return;
 	}
 
-	$mirror  = \WP2_Shopify\Sync\Mirror::class;
-	$fixture = sfwp_test_fixtures()[ $login ];
-	$real    = sfwp_test_fixture_links()[ $login ] ?? '';
+	$mirror  = \RedeemID\Sync\Mirror::class;
+	$fixture = redeemid_demo_fixtures()[ $login ];
+	$real    = redeemid_demo_fixture_links()[ $login ] ?? '';
 
 	if ( '' !== $real ) {
-		$id = \WP2_Shopify\Support\CustomerId::parse( $real );
+		$id = \RedeemID\Support\CustomerId::parse( $real );
 
 		if ( $id && (string) get_user_meta( $user_id, $mirror::NUMERIC, true ) !== $id->numeric ) {
 			$mirror::unlink( $user_id );
 			$mirror::link( $user_id, $id );
 		}
 
-		if ( $id && class_exists( \WP2_Shopify\Sync\Reconciler::class ) && \WP2_Shopify\Shopify\Admin::available() ) {
-			\WP2_Shopify\Sync\Reconciler::sync_user( $user_id, 'test_fixture' );
+		if ( $id && class_exists( \RedeemID\Sync\Reconciler::class ) && \RedeemID\Shopify\Admin::available() ) {
+			\RedeemID\Sync\Reconciler::sync_user( $user_id, 'test_fixture' );
 		}
 
 		return;
@@ -207,7 +207,7 @@ function sfwp_test_apply_fixture( int $user_id ): void {
 		return;
 	}
 
-	$mirror::link( $user_id, \WP2_Shopify\Support\CustomerId::parse( sfwp_test_fixture_customer_id( $login ) ) );
+	$mirror::link( $user_id, \RedeemID\Support\CustomerId::parse( redeemid_demo_fixture_customer_id( $login ) ) );
 	$mirror::set_tags( $user_id, $fixture['tags'] );
 
 	[ $first, $last ] = explode( ' ', $fixture['name'], 2 );
@@ -230,20 +230,20 @@ function sfwp_test_apply_fixture( int $user_id ): void {
 
 // The plugin skips fixtures in reconciliation and labels them on its Customers screen.
 add_filter(
-	'wp2_shopify_customer_is_fixture',
-	static fn( $is_fixture, $user_id ) => $is_fixture || sfwp_test_is_simulated( (int) $user_id ),
+	'redeemid_customer_is_fixture',
+	static fn( $is_fixture, $user_id ) => $is_fixture || redeemid_demo_is_simulated( (int) $user_id ),
 	10,
 	2
 );
 
 add_filter(
-	'wp2_shopify_customer_badges',
+	'redeemid_customer_badges',
 	static function ( $badges, $user_id ) {
-		$login = sfwp_test_fixture_login( (int) $user_id );
+		$login = redeemid_demo_fixture_login( (int) $user_id );
 
 		if ( '' !== $login ) {
 			$badges   = (array) $badges;
-			$badges[] = sfwp_test_is_simulated( (int) $user_id ) ? __( 'Test fixture', 'sfwp-test' ) : __( 'Test account (real customer)', 'sfwp-test' );
+			$badges[] = redeemid_demo_is_simulated( (int) $user_id ) ? __( 'Test fixture', 'redeemid-demo' ) : __( 'Test account (real customer)', 'redeemid-demo' );
 		}
 
 		return $badges;
@@ -253,22 +253,22 @@ add_filter(
 );
 
 // User Switching: re-apply a fixture's state whenever someone switches to it.
-add_action( 'switch_to_user', static fn( $user_id ) => sfwp_test_apply_fixture( (int) $user_id ), 10, 1 );
+add_action( 'switch_to_user', static fn( $user_id ) => redeemid_demo_apply_fixture( (int) $user_id ), 10, 1 );
 
 /**
  * "Refresh membership" for a simulated fixture: re-apply its seeded state
  * instead of asking Shopify about a customer that does not exist. The plugin
- * asks through wp2_shopify_pre_sync_now before it syncs, from its REST route
+ * asks through redeemid_pre_sync_now before it syncs, from its REST route
  * and its form handler alike.
  */
 add_filter(
-	'wp2_shopify_pre_sync_now',
+	'redeemid_pre_sync_now',
 	static function ( $result, $user_id ) {
-		if ( null !== $result || ! sfwp_test_is_simulated( (int) $user_id ) ) {
+		if ( null !== $result || ! redeemid_demo_is_simulated( (int) $user_id ) ) {
 			return $result;
 		}
 
-		sfwp_test_apply_fixture( (int) $user_id );
+		redeemid_demo_apply_fixture( (int) $user_id );
 
 		return 'synced';
 	},
@@ -280,7 +280,7 @@ add_filter(
  * A User Switching link to a fixture, landing on $redirect; '' when the
  * plugin is missing or the current user may not switch.
  */
-function sfwp_test_switch_url( WP_User $user, string $redirect = '' ): string {
+function redeemid_demo_switch_url( WP_User $user, string $redirect = '' ): string {
 	if ( ! class_exists( 'user_switching' ) || ! method_exists( 'user_switching', 'maybe_switch_url' ) ) {
 		return '';
 	}
@@ -293,7 +293,7 @@ function sfwp_test_switch_url( WP_User $user, string $redirect = '' ): string {
 /**
  * The account a switched-in session came from, if any.
  */
-function sfwp_test_switched_from(): ?WP_User {
+function redeemid_demo_switched_from(): ?WP_User {
 	if ( ! function_exists( 'current_user_switched' ) ) {
 		return null;
 	}
@@ -310,34 +310,34 @@ function sfwp_test_switched_from(): ?WP_User {
 add_action(
 	'admin_bar_menu',
 	static function ( WP_Admin_Bar $bar ): void {
-		$old   = sfwp_test_switched_from();
+		$old   = redeemid_demo_switched_from();
 		$admin = current_user_can( 'manage_options' );
 
 		if ( ! $admin && ! $old ) {
 			return;
 		}
 
-		$current = sfwp_test_fixture_login( get_current_user_id() );
+		$current = redeemid_demo_fixture_login( get_current_user_id() );
 		$here    = is_admin() ? home_url( '/' ) : home_url( add_query_arg( [] ) );
 
 		$bar->add_node(
 			[
-				'id'    => 'sfwp-test-accounts',
+				'id'    => 'redeemid-demo-accounts',
 				'title' => '' !== $current
 					/* translators: %s: test account name */
-					? esc_html( sprintf( __( 'Testing as %s', 'sfwp-test' ), sfwp_test_fixtures()[ $current ]['name'] ) )
-					: esc_html__( 'Test accounts', 'sfwp-test' ),
-				'href'  => $admin ? sfwp_test_admin_url( [], 'accounts' ) : false,
+					? esc_html( sprintf( __( 'Testing as %s', 'redeemid-demo' ), redeemid_demo_fixtures()[ $current ]['name'] ) )
+					: esc_html__( 'Test accounts', 'redeemid-demo' ),
+				'href'  => $admin ? redeemid_demo_admin_url( [], 'accounts' ) : false,
 			]
 		);
 
 		if ( $old && method_exists( 'user_switching', 'switch_back_url' ) ) {
 			$bar->add_node(
 				[
-					'parent' => 'sfwp-test-accounts',
-					'id'     => 'sfwp-test-switch-back',
+					'parent' => 'redeemid-demo-accounts',
+					'id'     => 'redeemid-demo-switch-back',
 					/* translators: %s: original user name */
-					'title'  => esc_html( sprintf( __( 'Switch back to %s', 'sfwp-test' ), $old->display_name ) ),
+					'title'  => esc_html( sprintf( __( 'Switch back to %s', 'redeemid-demo' ), $old->display_name ) ),
 					'href'   => add_query_arg( 'redirect_to', rawurlencode( $here ), user_switching::switch_back_url( $old ) ),
 				]
 			);
@@ -347,15 +347,15 @@ add_action(
 			return;
 		}
 
-		foreach ( sfwp_test_fixtures() as $login => $fixture ) {
-			$user = sfwp_test_fixture_user( $login );
-			$url  = $user ? sfwp_test_switch_url( $user, $here ) : '';
+		foreach ( redeemid_demo_fixtures() as $login => $fixture ) {
+			$user = redeemid_demo_fixture_user( $login );
+			$url  = $user ? redeemid_demo_switch_url( $user, $here ) : '';
 
 			$bar->add_node(
 				[
-					'parent' => 'sfwp-test-accounts',
-					'id'     => 'sfwp-test-' . $login,
-					'title'  => esc_html( $fixture['name'] . ' · ' . sfwp_test_fixture_summary( $login ) ),
+					'parent' => 'redeemid-demo-accounts',
+					'id'     => 'redeemid-demo-' . $login,
+					'title'  => esc_html( $fixture['name'] . ' · ' . redeemid_demo_fixture_summary( $login ) ),
 					'href'   => $url ?: false,
 				]
 			);
@@ -364,9 +364,9 @@ add_action(
 		if ( ! class_exists( 'user_switching' ) ) {
 			$bar->add_node(
 				[
-					'parent' => 'sfwp-test-accounts',
-					'id'     => 'sfwp-test-install-switching',
-					'title'  => __( 'Install User Switching to switch accounts', 'sfwp-test' ),
+					'parent' => 'redeemid-demo-accounts',
+					'id'     => 'redeemid-demo-install-switching',
+					'title'  => __( 'Install User Switching to switch accounts', 'redeemid-demo' ),
 					'href'   => admin_url( 'plugin-install.php?s=user-switching&tab=search&type=term' ),
 				]
 			);
@@ -378,26 +378,26 @@ add_action(
 /**
  * Short state label, e.g. "gold-member, disabled".
  */
-function sfwp_test_fixture_summary( string $login ): string {
-	$fixture = sfwp_test_fixtures()[ $login ];
+function redeemid_demo_fixture_summary( string $login ): string {
+	$fixture = redeemid_demo_fixtures()[ $login ];
 
-	if ( isset( sfwp_test_fixture_links()[ $login ] ) ) {
+	if ( isset( redeemid_demo_fixture_links()[ $login ] ) ) {
 		/* translators: %s: Shopify customer ID */
-		return sprintf( __( 'real customer %s', 'sfwp-test' ), sfwp_test_fixture_links()[ $login ] );
+		return sprintf( __( 'real customer %s', 'redeemid-demo' ), redeemid_demo_fixture_links()[ $login ] );
 	}
 
 	if ( ! $fixture['linked'] ) {
-		return __( 'not linked', 'sfwp-test' );
+		return __( 'not linked', 'redeemid-demo' );
 	}
 
-	$parts = [ $fixture['tags'] ? implode( ' + ', $fixture['tags'] ) : __( 'no tags', 'sfwp-test' ) ];
+	$parts = [ $fixture['tags'] ? implode( ' + ', $fixture['tags'] ) : __( 'no tags', 'redeemid-demo' ) ];
 
 	if ( 'disabled' === $fixture['state'] ) {
-		$parts[] = __( 'disabled', 'sfwp-test' );
+		$parts[] = __( 'disabled', 'redeemid-demo' );
 	}
 
 	if ( $fixture['stale'] ) {
-		$parts[] = __( 'stale', 'sfwp-test' );
+		$parts[] = __( 'stale', 'redeemid-demo' );
 	}
 
 	return implode( ', ', $parts );

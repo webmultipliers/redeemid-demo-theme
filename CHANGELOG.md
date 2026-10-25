@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **Renamed to RedeemID Demo** (repository `webmultipliers/redeemid-demo-theme`), for the plugin's rename to RedeemID. Needs the RedeemID plugin. The text domain, theme blocks, functions and constants use `redeemid-demo` / `redeemid_demo_` / `REDEEMID_DEMO_`. The Ledger's own names (demo post types, taxonomies, CSS classes, test accounts and leak markers) use `ledger` instead, so none of them can clash with the plugin's `redeemid` names. On a site seeded under the old names, `inc/rename.php` moves options, meta, post types, taxonomies, test accounts and seeded markup once, so nothing is seeded twice.
 - Stella Stale now expects Gold access and features: the plugin no longer expires synced tags. Content version 8 rewrites the Test lab page once (edits to it are lost).
 - README rewritten for a public audience: what the theme is for, install steps, contributing and license. Added the GPL-2.0 LICENSE file.
 - Copy no longer refers to internal plugin phases (Account and Test lab pages, the search leak note).
@@ -12,7 +13,7 @@
 
 Demo features for the plugin's feature registry (needs the plugin's feature registry release). The theme only registers them and places the plugin's blocks; who holds each one is the plugin's decision.
 
-- **Ad-free reading** (`ad-free`): Gold, or the standalone `ad-free-addon` tag. Mapped on Shopify → Access → Features and seeded once (Restore puts it back). The sponsor slots on stories and the home page use the block **Access → Feature: does not hold it**; holders also get the body class and the JS signal.
+- **Ad-free reading** (`ad-free`): Gold, or the standalone `ad-free-addon` tag. Mapped on RedeemID → Access → Features and seeded once (Restore puts it back). The sponsor slots on stories and the home page use the block **Access → Feature: does not hold it**; holders also get the body class and the JS signal.
 - **Early briefing** (`early-briefing`): Silver or Gold, set in code. The Briefings archive shows tomorrow's briefing to holders and a prompt to everyone else.
 - The plugin's **Membership Features** block in the header (menu mode) and on the Account page.
 - New test account Ada Add-on (`silver-member` + `ad-free-addon`) and a feature table on the Test lab page.
@@ -34,12 +35,12 @@ A more complete news site, and content types to stress the plugin's content rule
 
 ## 0.6.0
 
-The theme only consumes the plugin now. Features it used to build itself moved into the WP2 Shopify plugin (needs the matching plugin release):
+The theme only consumes the plugin now. Features it used to build itself moved into the RedeemID plugin (needs the matching plugin release):
 
 - Refresh membership, the visitor panel and the sandbox health checklist are the plugin's **Refresh Membership**, **Shopify Account Status** and **Shopify Health** blocks. The theme's `resync`, `visitor-state` and `sandbox-health` blocks are gone; content still using their names renders the plugin blocks (`inc/compat.php`).
-- Sandbox health no longer keeps its own copy of the plugin's config rules. The plugin's block reads `Config::definitions()`; the theme adds only its own rows through `wp2_shopify_health_checks`. The checklist now shows to administrators only.
-- Story badges are the plugin's Access Badge. Gated stories ask for plugin access levels (`signed-in`, `silver`, `gold`, and a new `premium` for Gold + Silver) instead of listing tags, so the badge can name the level. The theme's own access labels, `_sfwp_test_access` meta and rule-to-badge mapping are gone. Free stories have no badge, and Members stories read "Signed in".
-- Test accounts answer the plugin's new `wp2_shopify_pre_sync_now` filter instead of intercepting `POST /account/sync` with `rest_pre_dispatch`.
+- Sandbox health no longer keeps its own copy of the plugin's config rules. The plugin's block reads `Config::definitions()`; the theme adds only its own rows through `redeemid_health_checks`. The checklist now shows to administrators only.
+- Story badges are the plugin's Access Badge. Gated stories ask for plugin access levels (`signed-in`, `silver`, `gold`, and a new `premium` for Gold + Silver) instead of listing tags, so the badge can name the level. The theme's own access labels, `_redeemid_demo_access` meta and rule-to-badge mapping are gone. Free stories have no badge, and Members stories read "Signed in".
+- Test accounts answer the plugin's new `redeemid_pre_sync_now` filter instead of intercepting `POST /account/sync` with `rest_pre_dispatch`.
 - The keyboard fix for Shopify's cart toggle moved into the plugin.
 - Content version 5: on the next request, seeded pages get the new block names and the gated news stories are rewritten once from the theme (edits to those stories are lost). Section rules are left as they are.
 
@@ -63,21 +64,21 @@ The theme only consumes the plugin now. Features it used to build itself moved i
 
 ## 0.3.0
 
-- Join page: Gold and Silver plan cards (`wp2-shopify/plan-card`, handles `gold-membership` and `silver-membership`).
-- Tag gates: case 6 puts Shopify's own product block inside a gold gate, with the leak marker `SFWP-SECRET-PRODUCT`.
+- Join page: Gold and Silver plan cards (`redeemid/plan-card`, handles `gold-membership` and `silver-membership`).
+- Tag gates: case 6 puts Shopify's own product block inside a gold gate, with the leak marker `LEDGER-SECRET-PRODUCT`.
 - Shop page (`/shop/`) with Shopify's collection block, created only while Shopify's WordPress plugin is active.
 - Shopify's cart toggle moves into the header's account group and can be reached and opened from the keyboard.
-- Sandbox health: Shopify's plugin state and store match, `/cart` owner, the cart sign-in bridge, `WP2_SHOPIFY_PUBLIC_ACCESS_TOKEN`, and the plan-card block.
-- Content version 3. Existing Join and Tag gates pages keep their content until Shopify → Test lab → Restore test content.
-- Sandbox health no longer reports Admin app credentials as set when only the retired `WP2_SHOPIFY_ADMIN_ACCESS_TOKEN` is defined. The plugin stopped reading that constant in its admin-menu release.
-- The sign-in callback page's "Back to the Test lab" link points at `/test-lab/` again; since 0.2.0 `/` is the Ledger home. Existing sites get it from Shopify → Test lab → Restore test content.
+- Sandbox health: Shopify's plugin state and store match, `/cart` owner, the cart sign-in bridge, `REDEEMID_PUBLIC_ACCESS_TOKEN`, and the plan-card block.
+- Content version 3. Existing Join and Tag gates pages keep their content until RedeemID → Test lab → Restore test content.
+- Sandbox health no longer reports Admin app credentials as set when only the retired `REDEEMID_ADMIN_ACCESS_TOKEN` is defined. The plugin stopped reading that constant in its admin-menu release.
+- The sign-in callback page's "Back to the Test lab" link points at `/test-lab/` again; since 0.2.0 `/` is the Ledger home. Existing sites get it from RedeemID → Test lab → Restore test content.
 - The Test accounts toolbar menu escapes its titles.
 
 ## 0.2.0
 
-- The Harborview Ledger: a faux news site with twelve stories in six sections, a news home page (now the front page), section archives, a news article template and a masthead header. Stories are Free, Members, Silver, Gold or Gold + Silver, gated with the plugin's membership gate and a teaser, each with a `SFWP-SECRET-NEWS-…` leak marker.
+- The Harborview Ledger: a faux news site with twelve stories in six sections, a news home page (now the front page), section archives, a news article template and a masthead header. Stories are Free, Members, Silver, Gold or Gold + Silver, gated with the plugin's membership gate and a teaser, each with a `LEDGER-SECRET-NEWS-…` leak marker.
 - Test accounts in seven membership states for User Switching, with a Test accounts toolbar menu, a matrix of expected results on the Test lab page, and an option to point an account at a real Shopify customer.
-- Refresh membership block (`sfwp-test/resync`) in the header, on the Join page and in paywalls, using the plugin's `POST /account/sync`.
+- Refresh membership block (`redeemid-demo/resync`) in the header, on the Join page and in paywalls, using the plugin's `POST /account/sync`.
 - Test lab moved under the plugin's top-level Shopify menu (falls back to Appearance with older plugins).
 - Content version 2: existing sites pick up the new pages, stories and accounts on their next request.
 

@@ -1,0 +1,58 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"ledger-article","style":{"spacing":{"padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group ledger-article" style="padding-top:var(--wp--preset--spacing--50)">
+	<!-- wp:group {"className":"ledger-article__kickers","layout":{"type":"flex","flexWrap":"wrap"}} -->
+	<div class="wp-block-group ledger-article__kickers">
+		<!-- wp:paragraph {"className":"ledger-kicker ledger-kicker--type"} -->
+		<p class="ledger-kicker ledger-kicker--type"><a href="/guides/">City guide</a></p>
+		<!-- /wp:paragraph -->
+		<!-- wp:post-terms {"term":"ledger_neighborhood","className":"ledger-kicker"} /-->
+	</div>
+	<!-- /wp:group -->
+	<!-- wp:post-title {"level":1,"className":"ledger-article__title"} /-->
+	<!-- wp:post-excerpt {"className":"ledger-article__dek"} /-->
+	<!-- wp:group {"className":"ledger-article__meta","style":{"spacing":{"blockGap":"0.75rem"}},"textColor":"muted","fontSize":"small","layout":{"type":"flex","flexWrap":"wrap"}} -->
+	<div class="wp-block-group ledger-article__meta has-muted-color has-text-color has-small-font-size">
+		<!-- wp:redeemid-demo/story-meta {"showByline":true} /-->
+		<!-- wp:post-date /-->
+	</div>
+	<!-- /wp:group -->
+	<!-- wp:post-content {"className":"ledger-article__body","layout":{"type":"constrained"}} /-->
+	<!-- wp:post-terms {"term":"ledger_topic","prefix":"Topics: ","className":"ledger-article__topics"} /-->
+	<!-- wp:group {"className":"ledger-article__nav","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
+	<div class="wp-block-group ledger-article__nav">
+		<!-- wp:post-navigation-link {"type":"previous","showTitle":true} /-->
+		<!-- wp:post-navigation-link {"showTitle":true} /-->
+	</div>
+	<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"ledger-related","layout":{"type":"constrained","contentSize":"1120px"}} -->
+<div class="wp-block-group ledger-related">
+	<!-- wp:heading {"level":2,"className":"ledger-section-title"} -->
+	<h2 class="wp-block-heading ledger-section-title">Latest city guides</h2>
+	<!-- /wp:heading -->
+	<!-- wp:query {"queryId":201,"query":{"perPage":3,"pages":0,"offset":0,"postType":"ledger_guide","order":"desc","orderBy":"date","inherit":false,"sticky":"exclude"},"className":"ledger-related__grid"} -->
+	<div class="wp-block-query ledger-related__grid">
+		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
+			<!-- wp:group {"className":"ledger-card","layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group ledger-card">
+				<!-- wp:post-title {"isLink":true,"level":3,"className":"ledger-card__title"} /-->
+				<!-- wp:post-excerpt {"excerptLength":24,"className":"ledger-card__dek"} /-->
+				<!-- wp:group {"className":"ledger-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+				<div class="wp-block-group ledger-card__meta">
+					<!-- wp:redeemid-demo/story-meta /-->
+					<!-- wp:post-date {"className":"ledger-card__date"} /-->
+				</div>
+				<!-- /wp:group -->
+			</div>
+			<!-- /wp:group -->
+		<!-- /wp:post-template -->
+	</div>
+	<!-- /wp:query -->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

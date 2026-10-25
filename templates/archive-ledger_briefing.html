@@ -1,0 +1,65 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"1120px"}} -->
+<main class="wp-block-group" style="padding-top:var(--wp--preset--spacing--50)">
+	<!-- wp:query-title {"type":"archive","showPrefix":false,"className":"ledger-archive__title"} /-->
+	<!-- wp:term-description {"className":"ledger-archive__intro"} /-->
+	<!-- wp:paragraph {"className":"ledger-archive__intro"} -->
+	<p class="ledger-archive__intro">The morning, evening and weekend briefings: what happened, in five minutes. Free with a Ledger account; the weekend edition is free to everyone this month.</p>
+	<!-- /wp:paragraph -->
+	<!-- wp:group {"className":"ledger-early","redeemidAccess":{"feature":"early-briefing"}} -->
+	<div class="wp-block-group ledger-early">
+		<!-- wp:paragraph {"className":"ledger-kicker"} -->
+		<p class="ledger-kicker">Early briefing · for members</p>
+		<!-- /wp:paragraph -->
+		<!-- wp:heading {"level":2,"className":"ledger-early__title"} -->
+		<h2 class="wp-block-heading ledger-early__title">Tomorrow morning: the port budget vote, and a cold front by noon</h2>
+		<!-- /wp:heading -->
+		<!-- wp:paragraph -->
+		<p>Council meets at 9 on the harbor dredging line. Ferries run on the winter timetable from Thursday. Your early copy of tomorrow’s briefing, tonight.</p>
+		<!-- /wp:paragraph -->
+		<!-- wp:paragraph {"className":"ledger-marker"} -->
+		<p class="ledger-marker">Feature marker: LEDGER-FEATURE-EARLY-BRIEFING</p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
+	<!-- wp:group {"className":"ledger-early is-prompt","redeemidAccess":{"feature":"early-briefing","when":"lacks"}} -->
+	<div class="wp-block-group ledger-early is-prompt">
+		<!-- wp:paragraph -->
+		<p><strong>Read tomorrow’s briefing tonight.</strong> Silver and Gold members get each morning briefing the evening before. <a href="/join/">See membership</a></p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
+	<!-- wp:query {"queryId":1,"query":{"inherit":true,"perPage":12},"className":"ledger-section__grid"} -->
+	<div class="wp-block-query ledger-section__grid">
+		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
+			<!-- wp:group {"className":"ledger-card","layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group ledger-card">
+				<!-- wp:post-terms {"term":"ledger_edition","className":"ledger-kicker"} /-->
+				<!-- wp:post-title {"isLink":true,"level":3,"className":"ledger-card__title"} /-->
+				<!-- wp:post-excerpt {"excerptLength":30,"className":"ledger-card__dek"} /-->
+				<!-- wp:group {"className":"ledger-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+				<div class="wp-block-group ledger-card__meta">
+					<!-- wp:redeemid-demo/story-meta {"showByline":true} /-->
+					<!-- wp:post-date {"className":"ledger-card__date"} /-->
+				</div>
+				<!-- /wp:group -->
+			</div>
+			<!-- /wp:group -->
+		<!-- /wp:post-template -->
+		<!-- wp:query-pagination -->
+			<!-- wp:query-pagination-previous /-->
+			<!-- wp:query-pagination-numbers /-->
+			<!-- wp:query-pagination-next /-->
+		<!-- /wp:query-pagination -->
+		<!-- wp:query-no-results -->
+			<!-- wp:paragraph -->
+			<p>No stories here yet.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+	</div>
+	<!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

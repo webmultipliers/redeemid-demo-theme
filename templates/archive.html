@@ -2,20 +2,20 @@
 
 <!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"1120px"}} -->
 <main class="wp-block-group" style="padding-top:var(--wp--preset--spacing--50)">
-	<!-- wp:query-title {"type":"archive","showPrefix":false,"className":"sfwp-archive__title"} /-->
-	<!-- wp:term-description {"className":"sfwp-archive__intro"} /-->
-	<!-- wp:query {"queryId":1,"query":{"inherit":true,"perPage":12},"className":"sfwp-section__grid"} -->
-	<div class="wp-block-query sfwp-section__grid">
+	<!-- wp:query-title {"type":"archive","showPrefix":false,"className":"ledger-archive__title"} /-->
+	<!-- wp:term-description {"className":"ledger-archive__intro"} /-->
+	<!-- wp:query {"queryId":1,"query":{"inherit":true,"perPage":12},"className":"ledger-section__grid"} -->
+	<div class="wp-block-query ledger-section__grid">
 		<!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
-			<!-- wp:group {"className":"sfwp-card","layout":{"type":"flex","orientation":"vertical"}} -->
-			<div class="wp-block-group sfwp-card">
-				<!-- wp:post-terms {"term":"category","className":"sfwp-kicker"} /-->
-				<!-- wp:post-title {"isLink":true,"level":3,"className":"sfwp-card__title"} /-->
-				<!-- wp:post-excerpt {"excerptLength":30,"className":"sfwp-card__dek"} /-->
-				<!-- wp:group {"className":"sfwp-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
-				<div class="wp-block-group sfwp-card__meta">
-					<!-- wp:sfwp-test/story-meta {"showByline":true} /-->
-					<!-- wp:post-date {"className":"sfwp-card__date"} /-->
+			<!-- wp:group {"className":"ledger-card","layout":{"type":"flex","orientation":"vertical"}} -->
+			<div class="wp-block-group ledger-card">
+				<!-- wp:post-terms {"term":"category","className":"ledger-kicker"} /-->
+				<!-- wp:post-title {"isLink":true,"level":3,"className":"ledger-card__title"} /-->
+				<!-- wp:post-excerpt {"excerptLength":30,"className":"ledger-card__dek"} /-->
+				<!-- wp:group {"className":"ledger-card__meta","layout":{"type":"flex","flexWrap":"wrap"}} -->
+				<div class="wp-block-group ledger-card__meta">
+					<!-- wp:redeemid-demo/story-meta {"showByline":true} /-->
+					<!-- wp:post-date {"className":"ledger-card__date"} /-->
 				</div>
 				<!-- /wp:group -->
 			</div>

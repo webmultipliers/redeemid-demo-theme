@@ -1,13 +1,13 @@
 {
 	"$schema": "https://blockstudio.dev/schema/block",
 	"apiVersion": 3,
-	"name": "sfwp-test/story-meta",
+	"name": "redeemid-demo/story-meta",
 	"title": "Story badge and byline (news)",
 	"category": "theme",
 	"icon": "lock",
-	"description": "The plugin's Access Badge for the current story, beside the story's byline. The badge and every access decision come from the WP2 Shopify plugin; this block only lays them out with the Ledger's byline. Works in a query loop and on single posts.",
+	"description": "The plugin's Access Badge for the current story, beside the story's byline. The badge and every access decision come from the RedeemID plugin; this block only lays them out with the Ledger's byline. Works in a query loop and on single posts.",
 	"keywords": [ "news", "access", "paywall", "byline" ],
-	"textdomain": "sfwp-test",
+	"textdomain": "redeemid-demo",
 	"usesContext": [ "postId", "postType" ],
 	"supports": {
 		"html": false
