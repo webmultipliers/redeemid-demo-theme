@@ -60,6 +60,9 @@ add_filter(
  * - Before 8: rewrite the Test lab page, because an old sync no longer locks
  *   (Stella Stale now reads Gold).
  *
+ * - Before 9: rewrite the Account page for the Member Account card and the
+ *   Join page for its member-aware plan area.
+ *
  * @param int $from The content version the site had.
  */
 function sfwp_test_upgrade_content( int $from ): void {
@@ -77,6 +80,10 @@ function sfwp_test_upgrade_content( int $from ): void {
 
 	if ( $from < 8 ) {
 		sfwp_test_seed( true, [ 'test-lab' ] );
+	}
+
+	if ( $from < 9 ) {
+		sfwp_test_seed( true, [ 'account', 'join' ] );
 	}
 
 	if ( $from >= 5 ) {
