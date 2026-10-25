@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Stella Stale now expects Gold access and features: the plugin no longer expires synced tags. Content version 8 rewrites the Test lab page once (edits to it are lost).
 - README rewritten for a public audience: what the theme is for, install steps, contributing and license. Added the GPL-2.0 LICENSE file.
 - Copy no longer refers to internal plugin phases (Account and Test lab pages, the search leak note).
 - Join page: buying a membership is now described with Shopify Flow tagging, since the plugin no longer tags purchases itself. Seeded sites keep their existing page text.

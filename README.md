@@ -101,10 +101,10 @@ The theme seeds these subscribers (`inc/fixtures.php`), marked with user meta `_
 | `sfwp-gold` | `gold-member` |
 | `sfwp-premium` | `gold-member` + `silver-member` |
 | `sfwp-lapsed` | `gold-member`, Shopify account disabled |
-| `sfwp-stale` | `gold-member`, last synced 30 days ago |
+| `sfwp-stale` | `gold-member`, last synced 30 days ago (still reads Gold: synced tags never expire) |
 | `sfwp-addon` | `silver-member` + `ad-free-addon` (a standalone add-on tag) |
 
-Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `wp2_shopify_customer_is_fixture` filter (the reconciler skips them), adds a "Test fixture" badge through `wp2_shopify_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `wp2_shopify_pre_sync_now` filter, so Shopify is never asked about a made-up customer). Shopify → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
+Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `wp2_shopify_customer_is_fixture` filter (resync skips them), adds a "Test fixture" badge through `wp2_shopify_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `wp2_shopify_pre_sync_now` filter, so Shopify is never asked about a made-up customer). Shopify → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
 
 With User Switching active, administrators get a **Test accounts** toolbar menu on every page, and the menu offers **Switch back** while switched in.
 

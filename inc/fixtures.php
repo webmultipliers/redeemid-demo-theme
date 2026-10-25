@@ -9,7 +9,7 @@
  * customers, so the theme:
  *
  * - tells the plugin they are fixtures (wp2_shopify_customer_is_fixture), so
- *   its reconciler skips them and its Customers screen labels them;
+ *   its resync skips them and its Customers screen labels them;
  * - re-applies their state when someone switches to them, and when the
  *   plugin's membership refresh runs for them (wp2_shopify_pre_sync_now),
  *   instead of asking Shopify.
@@ -85,7 +85,7 @@ function sfwp_test_fixtures(): array {
 			'tags'   => [ 'gold-member' ],
 			'state'  => 'enabled',
 			'stale'  => true,
-			'expect' => __( 'gold-member, last synced 30 days ago (past the freshness window). Tag gates stay locked until a real sync.', 'sfwp-test' ),
+			'expect' => __( 'gold-member, last synced 30 days ago. Synced tags never expire, so Gold still opens.', 'sfwp-test' ),
 		],
 		'sfwp-addon'   => [
 			'name'   => 'Ada Add-on',

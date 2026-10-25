@@ -57,6 +57,9 @@ add_filter(
  * - Before 7: rewrite the Account and Test lab pages from the theme, for the
  *   Membership Features list and the feature table.
  *
+ * - Before 8: rewrite the Test lab page, because an old sync no longer locks
+ *   (Stella Stale now reads Gold).
+ *
  * @param int $from The content version the site had.
  */
 function sfwp_test_upgrade_content( int $from ): void {
@@ -70,6 +73,10 @@ function sfwp_test_upgrade_content( int $from ): void {
 
 	if ( $from < 7 ) {
 		sfwp_test_seed( true, [ 'account', 'test-lab' ] );
+	}
+
+	if ( $from < 8 ) {
+		sfwp_test_seed( true, [ 'test-lab' ] );
 	}
 
 	if ( $from >= 5 ) {

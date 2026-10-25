@@ -16,7 +16,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const SFWP_TEST_CONTENT_VERSION = 7;
+const SFWP_TEST_CONTENT_VERSION = 8;
 const SFWP_TEST_CONTENT_OPTION  = 'sfwp_test_content_version';
 const SFWP_TEST_SEED_META       = '_sfwp_test_seed';
 
