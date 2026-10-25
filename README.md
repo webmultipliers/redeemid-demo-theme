@@ -31,9 +31,9 @@ On the first request with the theme active, it creates the test content from its
 | `/members-area/` | A gate that admits any signed-in visitor |
 | `/tag-gates/` | Tag rules: any, all, teaser fallback, a tag nobody has, an open control, and Shopify's own product block inside a gold gate (marker `SFWP-SECRET-PRODUCT`) |
 | `/gate-redirect/` | Redirect fallback mode |
-| `/join/` | Where calls to action point: a reader-facing membership page (what each level opens, Gold and Silver plan cards with handles `gold-membership`, `silver-membership`), then for testers how a test customer gets a tag |
+| `/join/` | Where calls to action point: a reader-facing membership page (what each level opens, Gold and Silver plan cards with handles `gold-membership`, `silver-membership`; Gold members see a thank-you, their account link and the Silver add-on instead), then for testers how a test customer gets a tag |
 | `/shop/` | Shopify's own collection block. Created only while Shopify's WordPress plugin is active |
-| `/account/` | The plugin's Membership Features list (held and not included), connect and log out, until the plugin's account card ships |
+| `/account/` | The plugin's Member Account card (levels and dates, renewal, past levels, features, last sync, Shopify account links), then the Membership Features list, connect and log out |
 | `/members-only-article/` | A paywalled post with the phrase `SFWP-SECRET-MEMBERS-ONLY` for leak checks |
 
 The tag gates use `gold-member` and `silver-member`. Add those tags to a test customer in Shopify, or edit the gates.
@@ -127,6 +127,8 @@ The theme builds no features of its own; it places the plugin's blocks and answe
 |---|---|
 | Header, Join page, every paywall teaser | **Refresh Membership** (`wp2-shopify/membership-refresh`) |
 | Header, Account | **Membership Features** (`wp2-shopify/member-features`), menu mode in the header |
+| Account | **Member Account** (`wp2-shopify/member-account`) |
+| Join | **Membership Gate** on the Gold level, with the plan cards in its public area |
 | Sponsor slot, Briefings | the plugin's per-block **Access → Feature** setting and the feature registry (`wp2_shopify_features`) |
 | Test lab, Account, callback, Members area, Join, Sign-in controls | **Shopify Account Status** (`wp2-shopify/account-status`) |
 | Test lab | **Shopify Health** (`wp2-shopify/health`, administrators only), with the theme's rows added through `wp2_shopify_health_checks` (theme block registered, seeded blocks match their fields, test content version) |

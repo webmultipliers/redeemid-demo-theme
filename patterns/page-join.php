@@ -39,6 +39,26 @@ $sfwp_rows = [
 </div>
 <!-- /wp:group -->
 
+<!-- wp:wp2-shopify/membership-gate {"ruleSource":{"value":"level","label":"An access level"},"level":{"value":"gold","label":"Gold"},"fallbackMode":{"value":"teaser-blocks","label":"The Public teaser area"},"showSignIn":false} -->
+<!-- wp:wp2-shopify/membership-gate-content -->
+<!-- wp:group {"className":"sfwp-join-member","layout":{"type":"constrained"}} -->
+<div class="wp-block-group sfwp-join-member">
+	<!-- wp:heading {"level":3} -->
+	<h3 class="wp-block-heading">You're a Gold member</h3>
+	<!-- /wp:heading -->
+	<!-- wp:paragraph -->
+	<p>Thanks for supporting the Ledger. Your account page shows when you joined, when you renew and how to manage your subscription.</p>
+	<!-- /wp:paragraph -->
+	<!-- wp:buttons -->
+	<div class="wp-block-buttons"><!-- wp:button -->
+	<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/account/">Your membership</a></div>
+	<!-- /wp:button --></div>
+	<!-- /wp:buttons -->
+	<!-- wp:wp2-shopify/plan-card {"productHandle":{"value":"silver-membership","label":"Silver membership"},"heading":"Add Silver","buttonLabel":"Add Silver"} /-->
+</div>
+<!-- /wp:group -->
+<!-- /wp:wp2-shopify/membership-gate-content -->
+<!-- wp:wp2-shopify/membership-gate-fallback -->
 <!-- wp:columns {"align":"wide","className":"sfwp-plans"} -->
 <div class="wp-block-columns alignwide sfwp-plans">
 	<!-- wp:column -->
@@ -53,6 +73,12 @@ $sfwp_rows = [
 	<!-- /wp:column -->
 </div>
 <!-- /wp:columns -->
+<!-- /wp:wp2-shopify/membership-gate-fallback -->
+<!-- /wp:wp2-shopify/membership-gate -->
+
+<!-- wp:paragraph {"className":"sfwp-expect"} -->
+<p class="sfwp-expect">Member-aware: Gold members see a thank-you, a link to their account and the Silver add-on instead of the plan cards; everyone else sees both plans. A plan card can sell a subscription: put a selling plan ID in its settings (the editor lists the product's plans), or leave it empty on a subscription-only product.</p>
+<!-- /wp:paragraph -->
 
 <!-- wp:heading {"className":"sfwp-section-title"} -->
 <h2 class="wp-block-heading sfwp-section-title">What each membership opens</h2>
@@ -77,7 +103,7 @@ $sfwp_rows = [
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"sfwp-expect"} -->
-<p class="sfwp-expect">Each card shows the live Shopify price and goes straight to checkout, signed in when you are. It works without JavaScript and whether or not Shopify’s own plugin is installed. The cards expect products with the handles <code>gold-membership</code> and <code>silver-membership</code>, published to the Headless channel, and <code>WP2_SHOPIFY_PUBLIC_ACCESS_TOKEN</code> in wp-config. Map each product to its tag (below) so paying grants it.</p>
+<p class="sfwp-expect">Each card shows the live Shopify price and goes straight to checkout, signed in when you are. It works without JavaScript and whether or not Shopify’s own plugin is installed. The cards expect products with the handles <code>gold-membership</code> and <code>silver-membership</code>, published to the Headless channel, and a Storefront token in Shopify → Settings. A Flow workflow (below) tags the buyer so paying grants the level.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->

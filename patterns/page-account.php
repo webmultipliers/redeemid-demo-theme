@@ -4,11 +4,13 @@
  * Slug: sfwp-test/page-account
  * Categories: sfwp-test
  * Post Types: page
- * Description: Account blocks available today: membership features, connect, log out and the visitor state.
+ * Description: The member's account card, then the other account blocks: membership features, connect, log out and the visitor state.
  */
 ?>
-<!-- wp:paragraph {"className":"sfwp-note"} -->
-<p class="sfwp-note">The plugin’s account card is still to come. Until then this page collects the account blocks that exist today.</p>
+<!-- wp:wp2-shopify/member-account {"title":"Your membership","showFeatures":true,"joinUrl":"/join/"} /-->
+
+<!-- wp:paragraph {"className":"sfwp-expect"} -->
+<p class="sfwp-expect">Shows your levels and when each started (from the <code>membership.member_since</code> metafield, or when WordPress first saw the tag), the renewal date when Flow writes <code>membership.renews_on</code>, levels that ended, your features, when it last synced with a refresh button, and links to your Shopify account and subscription management. Guests get a log-in button, unlinked accounts a connect button and lapsed members a link to Join. Bruno Banned (disabled in Shopify) is told to contact the store.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:wp2-shopify/member-features {"title":"Your membership features","showMissing":true} /-->
