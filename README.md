@@ -138,7 +138,7 @@ The theme builds no features of its own; it places the plugin's blocks and answe
 | Test accounts | `redeemid_customer_is_fixture`, `redeemid_customer_badges`, `redeemid_pre_sync_now` |
 | Shopify's cart toggle | keyboard access comes from the plugin (`Integrations\OfficialCartToggle`) |
 
-Up to 0.5 the refresh button, visitor panel, health checklist and cart-toggle fix were theme code. Content saved with the old block names (`redeemid-demo/resync`, `redeemid-demo/visitor-state`, `redeemid-demo/sandbox-health`) still renders the plugin block (`inc/compat.php`), and content version 5 renames them in seeded pages and rewrites the gated stories to level gates once.
+The refresh button, visitor panel, health checklist and cart-toggle fix used to be theme code. Content saved with the old block names (`redeemid-demo/resync`, `redeemid-demo/visitor-state`, `redeemid-demo/sandbox-health`) still renders the plugin block (`inc/compat.php`), and content version 5 renames them in seeded pages and rewrites the gated stories to level gates once.
 
 ## Shopify's WordPress plugin
 
@@ -150,7 +150,7 @@ The theme works with or without Shopify's own plugin (Sell on WordPress). When i
 
 ## Admin
 
-RedeemID → Test lab (under the plugin's top-level Shopify menu; Appearance → Test lab with an older plugin) lists the items and has **Restore test content**, which rewrites them from the theme's current patterns (edits are lost). To add a new seeded item, add a pattern, list it in `redeemid_demo_seed_items()` and bump `REDEEMID_DEMO_CONTENT_VERSION`; sites pick it up on their next request.
+RedeemID → Test lab (Appearance → Test lab when the plugin is not active) lists the items and has **Restore test content**, which rewrites them from the theme's current patterns (edits are lost). To add a new seeded item, add a pattern, list it in `redeemid_demo_seed_items()` and bump `REDEEMID_DEMO_CONTENT_VERSION`; sites pick it up on their next request.
 
 ## Theme blocks
 
