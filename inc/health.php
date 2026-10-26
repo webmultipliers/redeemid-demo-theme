@@ -38,7 +38,7 @@ function redeemid_demo_health_rows( $checks ) {
 			'state'  => $stale ? 'warn' : 'ok',
 			'detail' => $stale
 				/* translators: %s: list of "page: block field" entries */
-				? sprintf( __( 'stored in an older shape (still rendered, via the plugin\'s upgrade shim): %s. Use RedeemID → Test lab → Restore.', 'redeemid-demo' ), implode( ', ', array_slice( $stale, 0, 5 ) ) . ( count( $stale ) > 5 ? ', …' : '' ) )
+				? sprintf( __( 'stored in a shape their fields don\'t read: %s. Use RedeemID → Test lab → Restore.', 'redeemid-demo' ), implode( ', ', array_slice( $stale, 0, 5 ) ) . ( count( $stale ) > 5 ? ', …' : '' ) )
 				: __( 'checked with bs_validate_block()', 'redeemid-demo' ),
 		];
 	}
@@ -55,7 +55,7 @@ function redeemid_demo_health_rows( $checks ) {
 
 /**
  * Seeded blocks whose stored values no longer match their Blockstudio fields,
- * for example a URL saved as text before the field became a link field.
+ * for example a URL saved as text in a link field.
  * Uses Blockstudio's own validator rather than re-implementing field checks.
  *
  * @return string[] "Page title: block field" entries.
