@@ -17,7 +17,7 @@ It is a block theme that only consumes the plugin: every access decision, block 
 
 ## What happens on activation
 
-On the first request with the theme active, it creates the test content from its `patterns/` files and `inc/news-content.php`, creates the test accounts, and makes the Ledger home page the front page (also when upgrading a site whose front page was the Test lab). It never overwrites existing pages on its own.
+On the first request with the theme active, it creates the test content from its `patterns/` files and `inc/news-content.php`, creates the test accounts, and makes the Ledger home page the front page. It never overwrites existing pages on its own.
 
 | Address | What it tests |
 |---|---|
@@ -138,8 +138,6 @@ The theme builds no features of its own; it places the plugin's blocks and answe
 | Test accounts | `redeemid_customer_is_fixture`, `redeemid_customer_badges`, `redeemid_pre_sync_now` |
 | Shopify's cart toggle | keyboard access comes from the plugin (`Integrations\OfficialCartToggle`) |
 
-The refresh button, visitor panel, health checklist and cart-toggle fix used to be theme code. Content saved with the old block names (`redeemid-demo/resync`, `redeemid-demo/visitor-state`, `redeemid-demo/sandbox-health`) still renders the plugin block (`inc/compat.php`), and content version 5 renames them in seeded pages and rewrites the gated stories to level gates once.
-
 ## Shopify's WordPress plugin
 
 The theme works with or without Shopify's own plugin (Sell on WordPress). When it is active:
@@ -167,7 +165,6 @@ Everything in `inc/` is demo content or test tooling, not a feature a real site 
 - `fixtures.php`: the eight test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
 - `admin.php`: RedeemID → Test lab.
 - `health.php`: the theme's own rows for the plugin's health block.
-- `compat.php`: renders blocks the theme used to ship as the plugin blocks that replaced them.
 
 ## Check Blockstudio first
 
