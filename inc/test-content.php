@@ -91,10 +91,7 @@ function redeemid_demo_maybe_seed(): void {
 		update_option( 'redeemid_demo_seeding', time(), false );
 	}
 
-	$from = (int) get_option( REDEEMID_DEMO_CONTENT_OPTION, 0 );
-
 	redeemid_demo_seed( false );
-	redeemid_demo_upgrade_content( $from );
 	redeemid_demo_seed_fixtures();
 	redeemid_demo_set_front_page();
 
@@ -192,13 +189,11 @@ function redeemid_demo_seed( bool $restore, ?array $only = null ): array {
 }
 
 /**
- * Make the news home the front page: on first activation if the site still
- * lists latest posts, and on upgrade if the front page is the Test lab, as
- * content version 1 set it.
+ * Make the news home the front page on first activation, if the site still
+ * lists latest posts or has no front page.
  */
 function redeemid_demo_set_front_page(): void {
 	$home = redeemid_demo_find( 'home' );
-	$lab  = redeemid_demo_find( 'test-lab' );
 
 	if ( ! $home ) {
 		return;
@@ -206,7 +201,7 @@ function redeemid_demo_set_front_page(): void {
 
 	$front = (int) get_option( 'page_on_front' );
 
-	if ( 'posts' === get_option( 'show_on_front' ) || ( $lab && $front === $lab->ID ) || ! $front ) {
+	if ( 'posts' === get_option( 'show_on_front' ) || ! $front ) {
 		update_option( 'page_on_front', $home->ID );
 		update_option( 'show_on_front', 'page' );
 	}

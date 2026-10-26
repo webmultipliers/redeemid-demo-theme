@@ -16,7 +16,6 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'REDEEMID_DEMO_VERSION', wp_get_theme( get_template() )->get( 'Version' ) );
 
-require_once __DIR__ . '/inc/rename.php';
 require_once __DIR__ . '/inc/health.php';
 require_once __DIR__ . '/inc/news-content.php';
 require_once __DIR__ . '/inc/content-types.php';
@@ -24,7 +23,6 @@ require_once __DIR__ . '/inc/features.php';
 require_once __DIR__ . '/inc/test-content.php';
 require_once __DIR__ . '/inc/fixtures.php';
 require_once __DIR__ . '/inc/admin.php';
-require_once __DIR__ . '/inc/compat.php';
 
 add_action(
 	'after_setup_theme',
