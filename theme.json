@@ -16,7 +16,7 @@
 				{ "slug": "contrast", "color": "#1c1f23", "name": "Contrast" },
 				{ "slug": "muted", "color": "#5c6670", "name": "Muted" },
 				{ "slug": "line", "color": "#e3e0d8", "name": "Line" },
-				{ "slug": "accent", "color": "#008060", "name": "Accent" },
+				{ "slug": "accent", "color": "#00775a", "name": "Accent" },
 				{ "slug": "accent-soft", "color": "#e3f1ec", "name": "Accent soft" },
 				{ "slug": "warning-soft", "color": "#fdf3dc", "name": "Warning soft" },
 				{ "slug": "ink", "color": "#8a1c1c", "name": "Ink red" }
