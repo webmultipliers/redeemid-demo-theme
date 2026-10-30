@@ -490,11 +490,30 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	color: var(--wp--preset--color--muted);
 }
 
-@media (max-width: 781px) {
-	.ledger-topbar,
-	.ledger-account {
-		justify-content: center;
-	}
+/*
+ * The account side of the top bar: features, refresh, Account, Cart and the
+ * sign-in control, all at the bar's small size so they sit on one line.
+ */
+.ledger-account {
+	position: relative;
+	align-items: center;
+	font-size: var(--wp--preset--font-size--small);
+}
+
+/* Island wrappers with nothing to show (a guest's refresh, no features) take no gap. */
+.ledger-account > [data-bs-island]:not(:has(a, button, li)) {
+	display: none;
+}
+
+.ledger-account a:not(.wp-element-button),
+.ledger-account .navigation__view-cart-link {
+	color: var(--wp--preset--color--contrast);
+	text-decoration: none;
+}
+
+.ledger-account a:not(.wp-element-button):hover,
+.ledger-account .navigation__view-cart-link:hover {
+	text-decoration: underline;
 }
 
 /* Shopify's cart toggle, moved into the account group (inc/shopify-official.php). */
@@ -508,15 +527,169 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	display: inline-flex;
 	align-items: center;
 	gap: 0.35rem;
-	color: var(--wp--preset--color--contrast);
 	font-size: var(--wp--preset--font-size--small);
 	cursor: pointer;
-	text-decoration: underline;
+}
+
+.ledger-account .navigation__view-cart span::after {
+	width: 22px;
+	height: 22px;
+	margin-right: 0;
 }
 
 .ledger-account .navigation__view-cart-link:focus-visible {
 	outline: 2px solid var(--wp--preset--color--ink);
 	outline-offset: 2px;
+}
+
+/* Refresh: a quiet text button with the refresh mark, not a boxed button. */
+.ledger-account .redeemid-refresh .redeemid-refresh__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0;
+	border: 0;
+	background: none;
+	font-weight: 400;
+}
+
+.ledger-account .redeemid-refresh__button::before {
+	content: "";
+	width: 1em;
+	height: 1em;
+	background: currentColor;
+	-webkit-mask: var(--ledger-refresh-mark) center / contain no-repeat;
+	mask: var(--ledger-refresh-mark) center / contain no-repeat;
+	--ledger-refresh-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 12a8 8 0 1 1-2.34-5.66'/%3E%3Cpath d='M20 4v5h-5'/%3E%3C/svg%3E");
+}
+
+.ledger-account .redeemid-refresh__button:hover {
+	text-decoration: underline;
+}
+
+.ledger-account .redeemid-refresh__button:focus-visible,
+.ledger-account .redeemid-auth__control:focus-visible {
+	outline: 2px solid var(--wp--preset--color--ink);
+	outline-offset: 2px;
+}
+
+/* The refresh result drops below the bar instead of pushing the row apart. */
+.ledger-account .redeemid-refresh__message:not(:empty) {
+	position: absolute;
+	top: calc(100% + 0.35rem);
+	right: 0;
+	z-index: 10;
+	padding: 0.35rem 0.75rem;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 6px;
+	background: var(--wp--preset--color--surface);
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+	color: var(--wp--preset--color--contrast);
+	white-space: nowrap;
+	opacity: 1;
+}
+
+/* Log in: a small accent button. Log out and Connect (forms): a quiet outlined one. */
+.ledger-account .redeemid-auth .wp-element-button {
+	padding: 0.3rem 0.8rem;
+	border-radius: 6px;
+	font-size: var(--wp--preset--font-size--small);
+	line-height: 1.4;
+	text-decoration: none;
+}
+
+.ledger-account .redeemid-auth__form .wp-element-button {
+	border: 1px solid var(--wp--preset--color--line);
+	background: var(--wp--preset--color--surface);
+	color: var(--wp--preset--color--contrast);
+	font-weight: 400;
+}
+
+.ledger-account .redeemid-auth__form .wp-element-button:hover {
+	border-color: var(--wp--preset--color--contrast);
+}
+
+.ledger-dateline__short {
+	display: none;
+}
+
+/* Feature chips, when a member has them, take their own line under the actions. */
+.ledger-account > [data-bs-island="redeemid/member-features"] {
+	order: 1;
+	flex-basis: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+/* Wide screens: the account group shrinks and wraps inside itself rather than dropping below the links. */
+@media (min-width: 782px) {
+	.ledger-header .ledger-topbar {
+		flex-wrap: nowrap;
+	}
+}
+
+/*
+ * Phones: one row with the short date on the left and the account actions on
+ * the right, then the briefing links below. Refresh and Cart become icons
+ * (their words stay for screen readers).
+ */
+@media (max-width: 781px) {
+	.ledger-header .ledger-topbar {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: center;
+		gap: 0.35rem 0.75rem;
+	}
+
+	.ledger-topbar > .wp-block-group:first-child {
+		display: contents;
+	}
+
+	.ledger-dateline {
+		grid-row: 1;
+		grid-column: 1;
+		align-self: start;
+		line-height: 2rem;
+		white-space: nowrap;
+	}
+
+	.ledger-dateline__long {
+		display: none;
+	}
+
+	.ledger-dateline__short {
+		display: inline;
+	}
+
+	.ledger-header .ledger-account {
+		grid-row: 1;
+		grid-column: 2;
+		gap: 0.35rem 0.75rem;
+		justify-content: flex-end;
+	}
+
+	.ledger-topbar__links {
+		grid-row: 2;
+		grid-column: 1 / -1;
+	}
+
+	.ledger-account .redeemid-refresh__button,
+	.ledger-account .navigation__view-cart span {
+		font-size: 0;
+	}
+
+	.ledger-account .redeemid-refresh__button {
+		padding: 0.25rem;
+	}
+
+	.ledger-account .redeemid-refresh__button::before {
+		width: 1.15rem;
+		height: 1.15rem;
+	}
+
+	.ledger-account .redeemid-refresh__message:not(:empty) {
+		font-size: var(--wp--preset--font-size--small);
+	}
 }
 
 .ledger-plans .redeemid-plan {
@@ -1040,6 +1213,10 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 /* Feature chips in the header: the plugin's Membership Features block in menu mode. */
 .ledger-account .redeemid-member-features.is-menu {
 	font-size: 0.75rem;
+}
+
+.ledger-account .redeemid-member-features.is-menu .redeemid-member-features__item {
+	padding: 0.05rem 0.55rem;
 }
 
 /* The body class the plugin adds for a granted body-signal feature. */
