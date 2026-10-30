@@ -15,12 +15,19 @@
 
 /* The plugin's account status and health panels, in the Ledger's colours. */
 .redeemid-account-status,
-.redeemid-health {
+.redeemid-health,
+body .redeemid-account {
 	padding: var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
 	border: 1px solid var(--wp--preset--color--line);
-	border-radius: 8px;
+	border-radius: 16px;
 	background: var(--wp--preset--color--surface);
 	font-size: var(--wp--preset--font-size--small);
+}
+
+.redeemid-account .redeemid-account__title {
+	margin-bottom: 0.75rem;
+	font-size: 1.5rem;
+	letter-spacing: -0.015em;
 }
 
 .redeemid-account-status__title,
@@ -30,10 +37,19 @@
 	font-size: var(--wp--preset--font-size--medium);
 }
 
-.redeemid-account-status__note,
-.redeemid-health__note {
+body .redeemid-account-status__note,
+body .redeemid-health__note {
 	margin: 0.75rem 0 0;
 	color: var(--wp--preset--color--muted);
+	opacity: 1;
+}
+
+/* The plugin's Membership Features list: muted by colour, not by opacity, so it keeps AA. */
+body .redeemid-member-features__from,
+body .redeemid-member-features__note,
+body .redeemid-member-features__item.is-missing {
+	color: var(--wp--preset--color--muted);
+	opacity: 1;
 }
 
 .redeemid-account-status__table {
@@ -49,10 +65,11 @@
 	vertical-align: top;
 }
 
-.redeemid-account-status__table th {
+body .redeemid-account-status__table th {
 	padding-right: 1rem;
 	font-weight: 500;
 	color: var(--wp--preset--color--muted);
+	opacity: 1; /* The plugin fades these; the muted colour already does, and both together fail AA. */
 }
 
 .redeemid-account-status__raw {
@@ -116,8 +133,10 @@
 
 .ledger-expect,
 .ledger-note {
-	padding: 0.5rem 0.75rem;
-	border-left: 3px solid var(--wp--preset--color--line);
+	padding: 0.6rem 0.9rem;
+	border-left: 3px solid #e0c27a;
+	border-radius: 0 8px 8px 0;
+	background: color-mix(in srgb, var(--wp--preset--color--warning-soft) 55%, transparent);
 	color: var(--wp--preset--color--muted);
 	font-size: var(--wp--preset--font-size--small);
 }
@@ -182,7 +201,8 @@
 /* The Harborview Ledger: news chrome. */
 .ledger-header {
 	padding-top: var(--wp--preset--spacing--20);
-	border-bottom: 3px double var(--wp--preset--color--contrast);
+	border-bottom: 1px solid var(--wp--preset--color--line);
+	box-shadow: 0 1px 0 rgb(16 42 60 / 0.04), 0 8px 24px -18px rgb(16 42 60 / 0.25);
 }
 
 .ledger-topbar {
@@ -196,7 +216,7 @@
 }
 
 .ledger-masthead {
-	gap: 0.15rem;
+	gap: 0.35rem;
 	padding-block: var(--wp--preset--spacing--40) var(--wp--preset--spacing--30);
 	text-align: center;
 }
@@ -204,10 +224,10 @@
 .ledger-masthead__name {
 	margin: 0;
 	font-family: var(--wp--preset--font-family--serif);
-	font-size: clamp(2rem, 5vw, 3.25rem);
+	font-size: clamp(1.9rem, 4.6vw, 3.1rem);
 	font-weight: 700;
-	letter-spacing: -0.01em;
-	line-height: 1.05;
+	letter-spacing: -0.025em;
+	line-height: 1;
 }
 
 .ledger-masthead__name a {
@@ -218,18 +238,34 @@
 .ledger-masthead__tagline {
 	margin: 0;
 	color: var(--wp--preset--color--muted);
+	font-size: 0.8125rem !important;
+	letter-spacing: 0.01em;
 }
 
-.ledger-sections {
-	padding-block: var(--wp--preset--spacing--20);
+nav.ledger-sections {
+	padding-block: 0.15rem;
 	border-top: 1px solid var(--wp--preset--color--line);
 	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
+	letter-spacing: 0.005em;
+	--navigation-layout-justification-setting: center;
+}
+
+.ledger-sections .wp-block-navigation__container {
+	gap: 0.25rem 1.6rem;
 }
 
 .ledger-sections a {
+	display: inline-block;
+	padding-block: 0.6rem;
 	color: var(--wp--preset--color--contrast);
+	text-decoration: none;
+	box-shadow: inset 0 -2px 0 transparent;
+	transition: box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.ledger-sections .wp-block-navigation-item:not(.ledger-sections__join) a:hover,
+.ledger-sections .current-menu-item a {
+	box-shadow: inset 0 -2px 0 var(--wp--preset--color--ink);
 }
 
 
@@ -246,17 +282,44 @@
 }
 
 .ledger-section-title {
-	margin: 0 0 var(--wp--preset--spacing--30);
-	padding-top: 0.5rem;
-	border-top: 2px solid var(--wp--preset--color--contrast);
-	font-size: 1.1rem;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin: var(--wp--preset--spacing--50) 0 var(--wp--preset--spacing--30);
+	font-size: 1.35rem;
+	letter-spacing: -0.01em;
+}
+
+/* A hairline runs from the section name to the edge. */
+.ledger-section-title:first-child {
+	margin-top: 0;
+}
+
+.ledger-section-title::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: var(--wp--preset--color--line);
 }
 
 .ledger-section-title a {
 	color: inherit;
 	text-decoration: none;
+}
+
+.ledger-section-title a::after {
+	content: " →";
+	content: " →" / "";
+	color: var(--wp--preset--color--ink);
+	font-family: var(--wp--preset--font-family--system);
+	font-size: 0.85em;
+	font-weight: 400;
+}
+
+.ledger-section-title a:hover {
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
 }
 
 .ledger-section {
@@ -273,8 +336,10 @@
 
 .ledger-lead__title {
 	margin: 0;
-	font-size: clamp(1.75rem, 3.5vw, 2.6rem);
-	line-height: 1.12;
+	font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+	letter-spacing: -0.02em;
+	line-height: 1.08;
+	text-wrap: balance;
 }
 
 .ledger-lead__title a,
@@ -288,6 +353,8 @@
 .ledger-card__title a:hover,
 .ledger-latest__title a:hover {
 	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.15em;
 }
 
 .ledger-lead__dek,
@@ -295,7 +362,9 @@
 	margin: 0;
 	font-family: var(--wp--preset--font-family--serif);
 	font-size: 1.2rem;
+	line-height: 1.5;
 	color: var(--wp--preset--color--muted);
+	text-wrap: pretty;
 }
 
 .ledger-latest .wp-block-post-template {
@@ -305,26 +374,34 @@
 }
 
 .ledger-latest__item {
-	gap: 0.25rem;
-	padding-block: 0.65rem;
+	gap: 0.3rem;
+	padding-block: 0.85rem;
 	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.ledger-latest .wp-block-post:last-child .ledger-latest__item {
+	border-bottom: 0;
 }
 
 .ledger-latest__title {
 	margin: 0;
-	font-size: 1.05rem;
+	font-size: 1.075rem;
+	line-height: 1.25;
+	text-wrap: pretty;
 }
 
 .ledger-card {
-	gap: 0.4rem;
+	gap: 0.5rem;
 	height: 100%;
-	padding-bottom: var(--wp--preset--spacing--30);
-	border-bottom: 1px solid var(--wp--preset--color--line);
+	padding-top: var(--wp--preset--spacing--30);
+	border-top: 1px solid var(--wp--preset--color--line);
 }
 
 .ledger-card__title {
 	margin: 0;
-	font-size: 1.25rem;
+	font-size: 1.3rem;
+	line-height: 1.2;
+	text-wrap: pretty;
 }
 
 .ledger-card__dek p,
@@ -409,26 +486,93 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 /* Single story. */
 .ledger-article__title {
 	margin-top: 0.25rem;
-	font-size: clamp(2rem, 4vw, 2.9rem);
-	line-height: 1.1;
+	font-size: clamp(2.1rem, 5vw, 3.25rem);
+	letter-spacing: -0.025em;
+	line-height: 1.06;
+	text-wrap: balance;
+}
+
+.ledger-article__dek {
+	margin-top: 0.75rem;
+	font-size: clamp(1.15rem, 2.2vw, 1.35rem);
 }
 
 .ledger-article__meta {
-	padding-block: 0.6rem;
+	margin-top: var(--wp--preset--spacing--30);
+	padding-block: 0.75rem;
 	border-block: 1px solid var(--wp--preset--color--line);
 }
 
 .ledger-article__body {
 	font-family: var(--wp--preset--font-family--serif);
-	font-size: 1.125rem;
-	line-height: 1.7;
+	font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
+	line-height: 1.72;
+}
+
+/* The story opens with a drop cap, on the first paragraph only. */
+.ledger-article__body > p:first-child::first-letter {
+	float: left;
+	margin: 0.08em 0.1em 0 0;
+	font-size: 3.4em;
+	font-weight: 700;
+	line-height: 0.82;
+	color: var(--wp--preset--color--harbor);
 }
 
 .ledger-article__nav {
+	gap: var(--wp--preset--spacing--30);
 	margin-top: var(--wp--preset--spacing--50);
-	padding-top: var(--wp--preset--spacing--30);
-	border-top: 1px solid var(--wp--preset--color--line);
 	font-size: var(--wp--preset--font-size--small);
+}
+
+.ledger-article__nav > * {
+	flex: 1 1 14rem;
+	margin: 0;
+}
+
+.ledger-article__nav a {
+	display: block;
+	height: 100%;
+	padding: 0.85rem 1rem;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 12px;
+	background: var(--wp--preset--color--surface);
+	color: var(--wp--preset--color--contrast);
+	font-family: var(--wp--preset--font-family--serif);
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.3;
+	text-decoration: none;
+	transition: border-color 0.15s ease;
+}
+
+.ledger-article__nav a:hover {
+	border-color: var(--wp--preset--color--contrast);
+}
+
+.ledger-article__nav .post-navigation-link-next {
+	text-align: right;
+}
+
+.ledger-article__nav a::before {
+	display: block;
+	margin-bottom: 0.2rem;
+	color: var(--wp--preset--color--muted);
+	font-family: var(--wp--preset--font-family--system);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.ledger-article__nav .post-navigation-link-previous a::before {
+	content: "← Previous";
+	content: "← Previous" / "Previous: ";
+}
+
+.ledger-article__nav .post-navigation-link-next a::before {
+	content: "Next →";
+	content: "Next →" / "Next: ";
 }
 
 .ledger-paywall {
@@ -453,8 +597,10 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 }
 
 .ledger-archive__title {
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
+	margin-bottom: 0.5rem;
+	font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+	letter-spacing: -0.03em;
+	line-height: 1;
 }
 
 /* The plugin's Refresh Membership button, small and quiet. */
@@ -692,8 +838,14 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	}
 }
 
+/* Plan cards fill their column, so both end level. They may sit in a Blockstudio island wrapper. */
+.ledger-plans .wp-block-column > [data-bs-island] {
+	display: flex;
+	flex: 1;
+}
+
 .ledger-plans .redeemid-plan {
-	height: 100%;
+	flex: 1;
 }
 
 /* Masthead top bar. */
@@ -743,8 +895,12 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 }
 
 .ledger-front__lead {
-	padding-bottom: var(--wp--preset--spacing--40);
-	border-bottom: 1px solid var(--wp--preset--color--line);
+	padding-bottom: var(--wp--preset--spacing--20);
+}
+
+/* The rail's headlines sit close; their own rules divide them. */
+.ledger-latest .wp-block-post-template > .wp-block-post {
+	margin-block-start: 0;
 }
 
 .ledger-front__lead .wp-block-post-template,
@@ -763,18 +919,62 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	font-size: var(--wp--preset--font-size--small);
 }
 
+/*
+ * Category tones. The Ledger has no photos, so the lead story and the
+ * reports get a drawn cover in their section's tone instead. Decorative only.
+ */
+.wp-block-post { --ledger-tone: var(--wp--preset--color--harbor); }
+.wp-block-post.category-investigations { --ledger-tone: #7a1f2b; }
+.wp-block-post.category-city-hall { --ledger-tone: #1d3f63; }
+.wp-block-post.category-business { --ledger-tone: #0d5c58; }
+.wp-block-post.category-technology { --ledger-tone: #3d3a7a; }
+.wp-block-post.category-science { --ledger-tone: #2f6440; }
+.wp-block-post.category-culture { --ledger-tone: #8a4b12; }
+.wp-block-post.category-opinion { --ledger-tone: #4a5160; }
+
+.ledger-front__lead .ledger-lead::before {
+	content: "";
+	display: block;
+	flex: none;
+	align-self: stretch;
+	height: clamp(11rem, 30vw, 20rem);
+	margin-bottom: 0.75rem;
+	border-radius: 16px;
+	background:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 350' fill='none' stroke='white' stroke-linecap='round'%3E%3Cg stroke-opacity='.22' stroke-width='2'%3E%3Cpath d='M0 250c60-22 120-22 180 0s120 22 180 0 120-22 180 0 120 22 180 0 120-22 180 0'/%3E%3Cpath d='M0 285c60-22 120-22 180 0s120 22 180 0 120-22 180 0 120 22 180 0 120-22 180 0'/%3E%3Cpath d='M0 320c60-22 120-22 180 0s120 22 180 0 120-22 180 0 120 22 180 0 120-22 180 0'/%3E%3C/g%3E%3Cg stroke-opacity='.5' stroke-width='3'%3E%3Cpath d='M590 228V120l14-26 14 26v108'/%3E%3Cpath d='M578 120h52M594 150h20M594 180h20'/%3E%3C/g%3E%3Ccircle cx='604' cy='70' r='10' fill='white' fill-opacity='.85' stroke='none'/%3E%3Cg stroke-opacity='.18' stroke-width='2'%3E%3Cpath d='M604 70L800 10M604 70L800 130'/%3E%3C/g%3E%3C/svg%3E") right bottom / cover no-repeat,
+		radial-gradient(70% 90% at 78% 18%, rgb(255 255 255 / 0.2), transparent 60%),
+		linear-gradient(140deg, color-mix(in srgb, var(--ledger-tone) 80%, #fff) 0%, var(--ledger-tone) 45%, color-mix(in srgb, var(--ledger-tone) 60%, #000) 100%);
+}
+
+/* A dot in the section's tone before each card's section name. */
+.wp-block-post .ledger-card > .ledger-kicker::before,
+.wp-block-post .ledger-latest__item > .ledger-kicker::before {
+	content: "";
+	display: inline-block;
+	width: 0.5rem;
+	height: 0.5rem;
+	margin-right: 0.4rem;
+	border-radius: 50%;
+	background: var(--ledger-tone);
+	vertical-align: 0.05em;
+}
+
 /* How the Ledger works: one tile per access level. */
 .ledger-tiers {
-	margin-top: var(--wp--preset--spacing--50);
-	padding: var(--wp--preset--spacing--40);
-	border: 1px solid var(--wp--preset--color--line);
-	border-radius: 10px;
-	background: var(--wp--preset--color--surface);
+	margin-top: var(--wp--preset--spacing--60);
+	padding: clamp(1.25rem, 4vw, 2.5rem);
+	border-radius: 20px;
+	background:
+		radial-gradient(60% 120% at 100% 0%, var(--wp--preset--color--accent-soft), transparent 70%),
+		var(--wp--preset--color--surface);
+	box-shadow: 0 0 0 1px var(--wp--preset--color--line), 0 18px 40px -28px rgb(16 42 60 / 0.35);
 }
 
 .ledger-tiers__title {
 	margin: 0;
-	font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+	font-size: clamp(1.5rem, 3vw, 2.2rem);
+	letter-spacing: -0.02em;
+	text-wrap: balance;
 }
 
 .ledger-tiers__lede {
@@ -789,10 +989,12 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 }
 
 .ledger-tier {
-	gap: 0.35rem;
+	gap: 0.45rem;
 	padding: var(--wp--preset--spacing--30);
-	border-top: 3px solid var(--wp--preset--color--line);
-	background: var(--wp--preset--color--base);
+	border: 1px solid var(--wp--preset--color--line);
+	border-top: 4px solid var(--wp--preset--color--line);
+	border-radius: 12px;
+	background: var(--wp--preset--color--surface);
 }
 
 .ledger-tier p {
@@ -817,12 +1019,16 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 /* Ledger Reports band. */
 .ledger-reports {
 	margin-top: var(--wp--preset--spacing--60);
-	padding-block: var(--wp--preset--spacing--50);
+	padding-block: var(--wp--preset--spacing--60);
+	background-image:
+		radial-gradient(50% 90% at 90% 0%, rgb(224 194 122 / 0.16), transparent 70%),
+		radial-gradient(40% 70% at 0% 100%, rgb(0 119 90 / 0.22), transparent 70%);
 }
 
 .ledger-reports__title {
 	margin: 0;
-	font-size: clamp(1.6rem, 3vw, 2.2rem);
+	font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+	letter-spacing: -0.02em;
 }
 
 .ledger-reports a {
@@ -848,8 +1054,16 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 .ledger-report-card {
 	gap: 0.5rem;
 	height: 100%;
-	padding-top: var(--wp--preset--spacing--30);
-	border-top: 1px solid rgba(255, 255, 255, 0.25);
+	padding: var(--wp--preset--spacing--40) var(--wp--preset--spacing--30) var(--wp--preset--spacing--30);
+	border: 1px solid rgb(255 255 255 / 0.14);
+	border-radius: 14px;
+	background: rgb(255 255 255 / 0.05);
+	transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.ledger-report-card:hover {
+	border-color: rgb(255 255 255 / 0.3);
+	background: rgb(255 255 255 / 0.08);
 }
 
 .ledger-reports .ledger-kicker,
@@ -859,7 +1073,9 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 
 .ledger-report-card__title {
 	margin: 0;
-	font-size: 1.35rem;
+	font-size: 1.4rem;
+	line-height: 1.2;
+	text-wrap: pretty;
 }
 
 .ledger-report-card__dek,
@@ -957,21 +1173,37 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	position: relative;
 }
 
-.ledger-article__body .redeemid-gate__panel {
-	padding: var(--wp--preset--spacing--40);
-	border-top: 3px solid var(--wp--preset--color--ink);
+.ledger-article__body .redeemid-gate__panel,
+.ledger-article__body .ledger-paywall {
+	position: relative;
+	overflow: hidden;
+	padding: clamp(1.25rem, 4vw, 2rem);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 16px;
 	background: var(--wp--preset--color--surface);
-	box-shadow: 0 6px 24px rgba(28, 31, 35, 0.06);
+	box-shadow: 0 18px 40px -24px rgb(16 42 60 / 0.35);
 	font-family: var(--wp--preset--font-family--system);
 	font-size: 1rem;
+}
+
+/* A slim band across the top of the panel, in the Ledger's colours. */
+.ledger-article__body .redeemid-gate__panel::after,
+.ledger-article__body .ledger-paywall::after {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto;
+	height: 4px;
+	background: linear-gradient(90deg, var(--wp--preset--color--ink), #d4a73a 55%, var(--wp--preset--color--accent));
 }
 
 .ledger-article__body .redeemid-gate__panel > p:first-child {
 	margin-top: 0;
 	font-family: var(--wp--preset--font-family--serif);
-	font-size: 1.3rem;
+	font-size: clamp(1.25rem, 3vw, 1.5rem);
 	font-weight: 700;
-	line-height: 1.3;
+	letter-spacing: -0.01em;
+	line-height: 1.25;
+	text-wrap: balance;
 }
 
 .redeemid-gate__reason {
@@ -991,25 +1223,37 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	color: var(--wp--preset--color--contrast);
 }
 
-.ledger-paywall {
-	box-shadow: 0 6px 24px rgba(28, 31, 35, 0.06);
-}
-
 /* Archives. */
 .ledger-archive__intro {
-	max-width: none !important;
-	padding-right: 30%;
-	margin-bottom: var(--wp--preset--spacing--40);
+	max-width: 40rem !important;
+	margin-left: 0 !important;
+	margin-bottom: var(--wp--preset--spacing--50);
 	color: var(--wp--preset--color--muted);
 	font-family: var(--wp--preset--font-family--serif);
 	font-size: 1.15rem;
 }
 
-/* Membership page. */
-.ledger-join-hero__title {
+/* Membership page. Its page title is the eyebrow over the hero headline (templates/page-join.html). */
+.ledger-page-kicker {
+	margin: 0;
+	color: var(--wp--preset--color--ink);
+	font-family: var(--wp--preset--font-family--system);
+	font-size: 0.8125rem !important;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.ledger-join-hero {
 	margin-top: 0.25rem;
-	font-size: clamp(1.8rem, 3.6vw, 2.6rem);
-	line-height: 1.12;
+}
+
+.ledger-join-hero__title {
+	margin-top: 0;
+	font-size: clamp(2rem, 4.6vw, 3rem);
+	letter-spacing: -0.025em;
+	line-height: 1.08;
+	text-wrap: balance;
 }
 
 .ledger-join-hero__lede {
@@ -1020,6 +1264,37 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 
 .ledger-plans {
 	margin-block: var(--wp--preset--spacing--50);
+	gap: var(--wp--preset--spacing--30);
+}
+
+/* The plugin's plan cards, as Ledger cards. The highlighted plan leads. */
+.ledger-plans .redeemid-plan {
+	width: 100%;
+	padding: clamp(1.25rem, 3vw, 1.75rem);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 16px;
+	background: var(--wp--preset--color--surface);
+	box-shadow: 0 14px 32px -26px rgb(16 42 60 / 0.4);
+}
+
+.ledger-plans .redeemid-plan.is-highlighted {
+	border: 2px solid var(--wp--preset--color--harbor);
+	box-shadow: 0 22px 44px -26px rgb(16 42 60 / 0.55);
+}
+
+.ledger-plans .redeemid-plan__title {
+	font-size: 1.5rem;
+}
+
+.ledger-plans .redeemid-plan__price {
+	font-family: var(--wp--preset--font-family--serif);
+	font-size: 2.25rem;
+	letter-spacing: -0.02em;
+}
+
+.ledger-plans .redeemid-plan .wp-element-button {
+	width: 100%;
+	text-align: center;
 }
 
 .ledger-compare table {
@@ -1052,8 +1327,9 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 .redeemid-demoers {
 	margin-top: var(--wp--preset--spacing--60);
 	padding: var(--wp--preset--spacing--40);
-	border: 1px dashed var(--wp--preset--color--line);
-	border-radius: 8px;
+	border: 1px dashed #c9c3b5;
+	border-radius: 16px;
+	background: color-mix(in srgb, var(--wp--preset--color--warning-soft) 45%, transparent);
 	font-size: var(--wp--preset--font-size--small);
 }
 
@@ -1118,7 +1394,11 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 
 .ledger-footer .wp-element-button {
 	background: var(--wp--preset--color--base);
-	color: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--harbor);
+}
+
+.ledger-footer :focus-visible {
+	outline-color: var(--wp--preset--color--base);
 }
 
 .ledger-footer__lab {
@@ -1181,6 +1461,7 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	margin-block: var(--wp--preset--spacing--40, 2rem);
 	padding: 0.75rem 1rem;
 	border: 1px dashed color-mix(in srgb, currentColor 35%, transparent);
+	border-radius: 12px;
 	font-size: var(--wp--preset--font-size--small, 0.875rem);
 }
 
@@ -1222,4 +1503,133 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 /* The body class the plugin adds for a granted body-signal feature. */
 .redeemid-feature-ad-free .ledger-masthead__tagline::after {
 	content: " · Ad-free";
+}
+
+/* Keyboard focus: one clear ring everywhere. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline: 2px solid var(--wp--preset--color--ink);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+:where(.wp-element-button) {
+	transition: filter 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+:where(.wp-element-button):hover {
+	filter: brightness(0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	* {
+		transition: none !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/*
+ * Phones. The masthead tightens, the sections become one swipeable strip
+ * instead of a menu button, and each section row on the front page becomes
+ * a row of cards to swipe through instead of a long column.
+ */
+@media (max-width: 781px) {
+	.ledger-masthead {
+		padding-block: var(--wp--preset--spacing--30) var(--wp--preset--spacing--20);
+	}
+
+	.ledger-masthead__tagline {
+		font-size: 0.75rem !important;
+	}
+
+	nav.ledger-sections {
+		margin-inline: calc(var(--wp--preset--spacing--40) * -1);
+	}
+
+	.ledger-sections .wp-block-navigation__container {
+		position: relative;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+		gap: 1.25rem;
+		width: 100%;
+		min-width: 0;
+		overflow-x: auto;
+		padding-inline: var(--wp--preset--spacing--40);
+		scrollbar-width: none;
+		-webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+		mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+	}
+
+	.ledger-sections .wp-block-navigation__container::-webkit-scrollbar {
+		display: none;
+	}
+
+	.ledger-sections .wp-block-navigation-item {
+		flex: none;
+	}
+
+	.ledger-sections .ledger-sections__join {
+		padding-right: 2.5rem;
+	}
+
+	.ledger-front__lead .ledger-lead::before {
+		border-radius: 12px;
+	}
+
+	.ledger-section .ledger-section__grid > .wp-block-post-template,
+	.ledger-reports .ledger-reports__grid > .wp-block-post-template {
+		grid-template-columns: none;
+		grid-auto-flow: column;
+		position: relative; /* Holds the badges' absolutely placed screen reader text inside the scroller. */
+		grid-auto-columns: min(82%, 20rem);
+		gap: 0.75rem;
+		margin-inline: calc(var(--wp--preset--spacing--40) * -1);
+		padding: 0.25rem var(--wp--preset--spacing--40) 0.75rem;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-padding-inline: var(--wp--preset--spacing--40);
+		scroll-snap-type: x mandatory;
+		scrollbar-width: thin;
+	}
+
+	.ledger-section .ledger-section__grid .wp-block-post,
+	.ledger-reports .ledger-reports__grid .wp-block-post {
+		scroll-snap-align: start;
+	}
+
+	/* The level tiles pair up; the last one (Both) takes the full row. */
+	.ledger-tiers .ledger-tiers__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.6rem;
+	}
+
+	.ledger-tiers .ledger-tier:last-child {
+		grid-column: 1 / -1;
+	}
+
+	.ledger-tiers .ledger-tier__what {
+		font-size: 0.8125rem !important;
+	}
+
+	.ledger-section .ledger-section__grid .ledger-card {
+		padding: var(--wp--preset--spacing--30);
+		border: 1px solid var(--wp--preset--color--line);
+		border-radius: 14px;
+		background: var(--wp--preset--color--surface);
+	}
+
+	.ledger-section .ledger-section__grid .ledger-card__title {
+		font-size: 1.15rem;
+	}
+
+	.ledger-compare th,
+	.ledger-compare td {
+		padding-inline: 0.3rem;
+	}
+
+	/* Badge labels may wrap, so the table fits a phone without scrolling. */
+	.ledger-compare th .redeemid-access-badge {
+		white-space: normal;
+		font-size: 0.625rem;
+		text-align: center;
+	}
 }

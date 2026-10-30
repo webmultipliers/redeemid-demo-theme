@@ -19,9 +19,6 @@ $ledger_rows = [
 ?>
 <!-- wp:group {"className":"ledger-join-hero","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-join-hero">
-	<!-- wp:paragraph {"className":"ledger-kicker"} -->
-	<p class="ledger-kicker">Membership</p>
-	<!-- /wp:paragraph -->
 	<!-- wp:heading {"level":2,"className":"ledger-join-hero__title"} -->
 	<h2 class="wp-block-heading ledger-join-hero__title">Independent reporting for the harbor, paid for by its readers</h2>
 	<!-- /wp:heading -->
