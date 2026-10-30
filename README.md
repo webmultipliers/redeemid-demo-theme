@@ -29,10 +29,10 @@ On the first request with the theme active, it creates the test content from its
 | `/auth-callback/` | The plugin's sign-in callback page (follows the `redeemid_auth_callback_slug` filter) |
 | `/sign-in-controls/` | `redeemid/auth-action` in every mode and style |
 | `/members-area/` | A gate that admits any signed-in visitor |
-| `/tag-gates/` | Tag rules: any, all, teaser fallback, a tag nobody has, an open control, and Shopify's own product block inside a gold gate (marker `LEDGER-SECRET-PRODUCT`) |
+| `/tag-gates/` | Tag rules: any, all, teaser fallback, a tag nobody has, an open control, and a Shopify Product block inside a gold gate (marker `LEDGER-SECRET-PRODUCT`) |
 | `/gate-redirect/` | Redirect fallback mode |
 | `/join/` | Where calls to action point: a reader-facing membership page (what each level opens, Gold and Silver plan cards with handles `gold-membership`, `silver-membership`; Gold members see a thank-you, their account link and the Silver add-on instead), then for testers how a test customer gets a tag |
-| `/shop/` | Shopify's own collection block. Created only while Shopify's WordPress plugin is active |
+| `/shop/` | RedeemID's storefront: the `frontpage` collection with Add to cart; the header's Cart link, `/cart/` and `/products/{handle}/` come from the plugin |
 | `/account/` | The plugin's Member Account card (levels and dates, renewal, past levels, features, last sync, Shopify account links), then the Membership Features list, connect and log out |
 | `/members-only-article/` | A paywalled post with the phrase `LEDGER-SECRET-MEMBERS-ONLY` for leak checks |
 
@@ -140,11 +140,11 @@ The theme builds no features of its own; it places the plugin's blocks and answe
 
 ## Shopify's WordPress plugin
 
-The theme works with or without Shopify's own plugin (Sell on WordPress). When it is active:
+The theme no longer needs Shopify's own plugin (Sell on WordPress): RedeemID's product, collection, cart and cart link blocks replace it, and the demo is meant to run without it. If it is still active:
 
-- Its cart toggle sits in the header's account group, not on the extra row the plugin adds after the navigation (`ignoredHookedBlocks` on the navigation block). The RedeemID plugin makes it reachable from the keyboard.
-- The plugin's health block shows its state, whether it uses the same store as RedeemID, who owns `/cart`, and whether RedeemID's cart sign-in bridge is active.
-- `/shop/` is created on the next request.
+- By default RedeemID stands down on the paths it claims (`/cart`, `/products`, `/collections`): the header's Cart link hides and the shop's buttons say Buy now. Turn on **RedeemID takes precedence** under RedeemID → Settings → Storefront pages, or deactivate Shopify's plugin and save permalinks.
+- The navigation keeps `ignoredHookedBlocks` so its cart toggle doesn't add an extra row after the navigation.
+- The plugin's health block shows who answers each storefront path and whether the cart sign-in bridge is active.
 
 ## Admin
 

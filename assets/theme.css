@@ -662,7 +662,13 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	text-decoration: underline;
 }
 
-/* Shopify's cart toggle, moved into the account group (inc/shopify-official.php). */
+/* RedeemID's cart link in the account group, and Shopify's own cart toggle if its plugin hooks one in. */
+.ledger-account .ledger-cart-toggle {
+	min-height: 0;
+	color: var(--wp--preset--color--contrast);
+	font-size: var(--wp--preset--font-size--small);
+}
+
 .ledger-account .ledger-cart-toggle,
 .ledger-account .navigation-cart-block {
 	margin: 0;
@@ -822,6 +828,16 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	.ledger-account .redeemid-refresh__button,
 	.ledger-account .navigation__view-cart span {
 		font-size: 0;
+	}
+
+	/* Icon and count only; the link's aria-label still names the cart. */
+	.ledger-account .redeemid-cart-link__label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
 	}
 
 	.ledger-account .redeemid-refresh__button {

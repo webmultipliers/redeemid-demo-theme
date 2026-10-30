@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.4
+
+- **The shop runs on RedeemID.** `/shop/` uses RedeemID's Shopify Collection block, and the header's Cart link is RedeemID's Shopify Cart Link (icon and count on phones). The Shop page is always created now, not only while Shopify's WordPress plugin is active. RedeemID's `/cart/` and `/products/{handle}/` pages come with the plugin.
+- **Tag gates case 6** gates RedeemID's Shopify Product block instead of Shopify's own. Restore the Tag gates and Shop pages (RedeemID → Test lab) to pick up the changes.
+
 ## 0.0.3
 
 - **A cleaner, more modern Ledger.** Harbor navy for the footer and the Ledger Reports band, softer rounded cards and panels, tighter headline type, a single hairline under the header and section titles with a rule that runs to the edge.
