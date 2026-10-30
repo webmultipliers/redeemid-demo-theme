@@ -113,17 +113,17 @@
 <!-- wp:group {"className":"ledger-case","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-case">
 	<!-- wp:heading {"level":3} -->
-	<h3 class="wp-block-heading">6. Shopify’s own product block inside a gate</h3>
+	<h3 class="wp-block-heading">6. A product inside a gate</h3>
 	<!-- /wp:heading -->
 	<!-- wp:paragraph {"className":"ledger-expect"} -->
-	<p class="ledger-expect">Needs Shopify’s WordPress plugin. Gold members see the product block and the marker. Everyone else sees a plan card, and the page source holds neither the marker nor a <code>&lt;shopify-context type="product"&gt;</code> element (the header’s cart toggle has a <code>type="cart"</code> one on every page). Without Shopify’s plugin, the product block renders nothing but the marker still shows to gold members.</p>
+	<p class="ledger-expect">Gold members see the marker and RedeemID’s Shopify Product block for <code>ledger-gated-product</code>. Everyone else sees a plan card, and the page source holds neither the marker nor a <code>redeemid-product</code> element.</p>
 	<!-- /wp:paragraph -->
 	<!-- wp:redeemid/membership-gate {"requiredTags":[{"tag":"gold-member"}],"matchMode":{"value":"any","label":"Any of these tags"},"requireLogin":true,"fallbackMode":{"value":"teaser-blocks","label":"The Public teaser area"}} -->
 	<!-- wp:redeemid/membership-gate-content -->
 	<!-- wp:paragraph -->
 	<p>Gold product unlocked. Marker: <code>LEDGER-SECRET-PRODUCT</code>.</p>
 	<!-- /wp:paragraph -->
-	<!-- wp:shopify-product/shopify-product-block {"selectedProduct":{"handle":"ledger-gated-product","title":"Gold-only product"}} /-->
+	<!-- wp:redeemid/product {"productHandle":{"value":"ledger-gated-product","label":"Gold-only product"}} /-->
 	<!-- /wp:redeemid/membership-gate-content -->
 	<!-- wp:redeemid/membership-gate-fallback -->
 	<!-- wp:paragraph -->
