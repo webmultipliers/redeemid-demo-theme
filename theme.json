@@ -19,7 +19,8 @@
 				{ "slug": "accent", "color": "#00775a", "name": "Accent" },
 				{ "slug": "accent-soft", "color": "#e3f1ec", "name": "Accent soft" },
 				{ "slug": "warning-soft", "color": "#fdf3dc", "name": "Warning soft" },
-				{ "slug": "ink", "color": "#8a1c1c", "name": "Ink red" }
+				{ "slug": "ink", "color": "#8a1c1c", "name": "Ink red" },
+				{ "slug": "harbor", "color": "#102a3c", "name": "Harbor navy" }
 			]
 		},
 		"typography": {
@@ -81,7 +82,7 @@
 				"color": { "text": "var(--wp--preset--color--accent)" }
 			},
 			"heading": {
-				"typography": { "fontFamily": "var(--wp--preset--font-family--serif)", "fontWeight": "700", "lineHeight": "1.2" }
+				"typography": { "fontFamily": "var(--wp--preset--font-family--serif)", "fontWeight": "700", "lineHeight": "1.2", "letterSpacing": "-0.01em" }
 			},
 			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--x-large)" } },
 			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--large)" } },
@@ -90,7 +91,7 @@
 					"background": "var(--wp--preset--color--accent)",
 					"text": "var(--wp--preset--color--surface)"
 				},
-				"border": { "radius": "6px" },
+				"border": { "radius": "8px" },
 				"spacing": {
 					"padding": { "top": "0.55rem", "bottom": "0.55rem", "left": "1rem", "right": "1rem" }
 				},

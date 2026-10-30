@@ -184,8 +184,8 @@ $ledger_tiers = [
 </div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"full","className":"ledger-reports","backgroundColor":"contrast","textColor":"base","layout":{"type":"constrained","contentSize":"1120px"}} -->
-<div class="wp-block-group alignfull ledger-reports has-base-color has-contrast-background-color has-text-color has-background">
+<!-- wp:group {"align":"full","className":"ledger-reports","backgroundColor":"harbor","textColor":"base","layout":{"type":"constrained","contentSize":"1120px"}} -->
+<div class="wp-block-group alignfull ledger-reports has-base-color has-harbor-background-color has-text-color has-background">
 	<!-- wp:group {"className":"ledger-reports__head","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
 	<div class="wp-block-group ledger-reports__head">
 		<!-- wp:group {"layout":{"type":"flex","orientation":"vertical"},"style":{"spacing":{"blockGap":"0.25rem"}}} -->

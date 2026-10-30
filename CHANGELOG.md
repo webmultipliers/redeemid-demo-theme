@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.3
+
+- **A cleaner, more modern Ledger.** Harbor navy for the footer and the Ledger Reports band, softer rounded cards and panels, tighter headline type, a single hairline under the header and section titles with a rule that runs to the edge.
+- **A drawn cover on the lead story** in its section's tone (the Ledger has no photos), and a tone dot before each card's section name.
+- **Stories:** larger headline and dek, a drop cap, card-style previous and next links, and a rounded paywall panel with a slim colour band.
+- **Phones:** the sections are a swipeable strip instead of a menu button, each section row and the reports are swipeable card rows instead of one long column, and the level tiles pair up.
+- **Join page:** the page title is the eyebrow over the headline (new `page-join` template), and the plan cards sit side by side at equal height. Restore the Join and Home pages (RedeemID → Test lab) to pick up their pattern changes.
+- **Accessibility:** one focus ring everywhere, and the plugin's account and feature panels are muted by colour rather than opacity on top of colour, so their labels pass AA.
+
 ## 0.0.2
 
 - **Tidier top bar.** The account actions (Refresh, Account, Cart, Log in or Log out) sit on one line at the bar's small size. On phones the date shortens and Refresh and Cart become icons, so the date and actions share one row with the briefing links below. Log out is a quiet outlined button, Log in a small accent one, the refresh result drops below the bar, and feature chips take their own line.
