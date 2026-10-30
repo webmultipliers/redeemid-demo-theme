@@ -96,6 +96,9 @@
 	<li><strong>Refresh membership.</strong> Signed in and linked, use “Refresh membership” in the header (or in a story’s paywall box). It calls the plugin’s <code>POST /redeemid/v1/account/sync</code> and reloads; a second press within a minute says to wait. For a simulated test account it puts the seeded state back; for a real customer it asks Shopify, so a tag you just added in Shopify opens the matching stories.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
+	<li><strong>Handle a privacy request.</strong> Signed in as a test account, use Download my data or Delete my data on the <a href="/account/">Account</a> page, then confirm from the email. As an administrator, open Tools → Export Personal Data and Tools → Erase Personal Data: each request has a Shopify column with the customer and where the request came from. Export lists the synced fields, the activity log and the webhooks for that customer; Erase removes them and keeps the WordPress account. “Also request erasure in Shopify” is refused for the simulated accounts, which don’t exist in Shopify; for an account pointed at a real dev-store customer it asks Shopify, which erases after its waiting period and then sends <code>customers/redact</code>.</li>
+	<!-- /wp:list-item -->
+	<!-- wp:list-item -->
 	<li><strong>Check the features.</strong> Switch to each account and compare the header chips, a story’s sponsor slot and the <a href="/briefings/">Briefings</a> page with the Features table. As Ada Add-on, remove <code>ad-free-addon</code> on RedeemID → Customers (or let a refund do it): the sponsor slot comes back on the next page, and she keeps Early briefing from Silver. RedeemID → Access → Test prints each account’s features with the route that grants them, and RedeemID → Access → Features lets you remap Ad-free reading.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
