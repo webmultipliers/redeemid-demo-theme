@@ -4,13 +4,13 @@
  * Slug: redeemid-demo/page-account
  * Categories: redeemid-demo
  * Post Types: page
- * Description: The member's account card, then the other account blocks: membership features, connect, log out and the visitor state.
+ * Description: The member's account card (with the privacy request links), then the other account blocks: membership features, connect, log out and the visitor state.
  */
 ?>
-<!-- wp:redeemid/member-account {"title":"Your membership","showFeatures":true,"joinUrl":"/join/"} /-->
+<!-- wp:redeemid/member-account {"title":"Your membership","showFeatures":true,"joinUrl":"/join/","showPrivacyLinks":true} /-->
 
 <!-- wp:paragraph {"className":"ledger-expect"} -->
-<p class="ledger-expect">Shows your levels and when each started (from the <code>membership.member_since</code> metafield, or when WordPress first saw the tag), the renewal date when Flow writes <code>membership.renews_on</code>, levels that ended, your features, when it last synced with a refresh button, and links to your Shopify account and subscription management. Guests get a log-in button, unlinked accounts a connect button and lapsed members a link to Join. Bruno Banned (disabled in Shopify) is told to contact the store.</p>
+<p class="ledger-expect">Shows your levels and when each started (from the <code>membership.member_since</code> metafield, or when WordPress first saw the tag), the renewal date when Flow writes <code>membership.renews_on</code>, levels that ended, your features, when it last synced with a refresh button, and links to your Shopify account and subscription management. Guests get a log-in button, unlinked accounts a connect button and lapsed members a link to Join. Bruno Banned (disabled in Shopify) is told to contact the store. At the bottom, Download my data and Delete my data create WordPress privacy requests that you confirm by email; they then show under Tools → Export / Erase Personal Data with a Shopify column, and on the account’s RedeemID → Customers page.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:redeemid/member-features {"title":"Your membership features","showMissing":true} /-->

@@ -33,7 +33,7 @@ On the first request with the theme active, it creates the test content from its
 | `/gate-redirect/` | Redirect fallback mode |
 | `/join/` | Where calls to action point: a reader-facing membership page (what each level opens, Gold and Silver plan cards with handles `gold-membership`, `silver-membership`; Gold members see a thank-you, their account link and the Silver add-on instead), then for testers how a test customer gets a tag |
 | `/shop/` | RedeemID's storefront: the `frontpage` collection with Add to cart; the header's Cart link, `/cart/` and `/products/{handle}/` come from the plugin |
-| `/account/` | The plugin's Member Account card (levels and dates, renewal, past levels, features, last sync, Shopify account links), then the Membership Features list, connect and log out |
+| `/account/` | The plugin's Member Account card (levels and dates, renewal, past levels, features, last sync, Shopify account links, Download my data and Delete my data), then the Membership Features list, connect and log out |
 | `/members-only-article/` | A paywalled post with the phrase `LEDGER-SECRET-MEMBERS-ONLY` for leak checks |
 
 The tag gates use `gold-member` and `silver-member`. Add those tags to a test customer in Shopify, or edit the gates.

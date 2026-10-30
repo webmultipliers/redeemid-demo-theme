@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.5
+
+- **Privacy requests.** The Account page's Member Account card offers Download my data and Delete my data (RedeemID 0.0.3), and the Test lab walks through handling a request in Tools → Export / Erase Personal Data, including the Shopify column and why the Shopify erasure is refused for simulated accounts. Restore the Account and Test lab pages (RedeemID → Test lab) to pick up the changes.
+
 ## 0.0.4
 
 - **The shop runs on RedeemID.** `/shop/` uses RedeemID's Shopify Collection block, and the header's Cart link is RedeemID's Shopify Cart Link (icon and count on phones). The Shop page is always created now, not only while Shopify's WordPress plugin is active. RedeemID's `/cart/` and `/products/{handle}/` pages come with the plugin.
