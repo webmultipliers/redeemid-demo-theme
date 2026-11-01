@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8
+
+- A metered story's "Free story 1 of 2 this month" note no longer takes the drop cap; the story's first paragraph keeps it, and the note is set small.
+
 ## 0.0.7
 
 - **The meter is on.** Signed-in readers without access open 2 locked stories a month free (RedeemID → Access → Content rules), so the Ledger shows the whole publisher journey: guest, sign in, free stories, wall, join. It's switched on once by the content upgrade; turn it off there and it stays off until **Restore test content**.
