@@ -27,7 +27,10 @@ const REDEEMID_DEMO_FIXTURE_META  = '_redeemid_demo_fixture';
 const REDEEMID_DEMO_FIXTURE_LINKS = 'redeemid_demo_fixture_links';
 
 /**
- * @return array<string, array{name: string, linked: bool, tags: string[], state: string, stale: bool, expect: string}>
+ * Every account but Mia Meter starts the month with the meter used up, so
+ * the expectations below hold; Mia has one free story left (meter_used).
+ *
+ * @return array<string, array{name: string, linked: bool, tags: string[], state: string, stale: bool, expect: string, meter_used?: int}>
  */
 function redeemid_demo_fixtures(): array {
 	return [
@@ -46,6 +49,15 @@ function redeemid_demo_fixtures(): array {
 			'state'  => 'enabled',
 			'stale'  => false,
 			'expect' => __( 'Linked, no tags. Free and Members stories open; Silver, Gold and Gold + Silver stay locked.', 'redeemid-demo' ),
+		],
+		'ledger-metered' => [
+			'name'       => 'Mia Meter',
+			'linked'     => true,
+			'tags'       => [],
+			'state'      => 'enabled',
+			'stale'      => false,
+			'meter_used' => 1,
+			'expect'     => __( 'Linked, no tags, 1 of the meter\'s 2 free stories used this month. The next Silver, Gold or Gold + Silver story opens with "Free story 2 of 2 this month"; it reads free again all month, and the one after that shows the wall.', 'redeemid-demo' ),
 		],
 		'ledger-silver'  => [
 			'name'   => 'Sasha Silver',
@@ -169,6 +181,7 @@ function redeemid_demo_seed_fixtures(): void {
 
 		update_user_meta( $user->ID, REDEEMID_DEMO_FIXTURE_META, $login );
 		redeemid_demo_apply_fixture( $user->ID );
+		redeemid_demo_seed_meter( $user->ID, $fixture['meter_used'] ?? null );
 	}
 }
 
@@ -226,6 +239,24 @@ function redeemid_demo_apply_fixture( int $user_id ): void {
 	if ( $fixture['stale'] ) {
 		update_user_meta( $user_id, $mirror::LAST_SYNC, time() - 30 * DAY_IN_SECONDS );
 	}
+}
+
+/**
+ * Set a fixture's meter for this period: $used free stories counted, or the
+ * whole limit when null, so the account's expectations aren't changed by
+ * the meter. The counted items are placeholders (negative IDs), so no real
+ * story is marked as read.
+ */
+function redeemid_demo_seed_meter( int $user_id, ?int $used ): void {
+	if ( ! class_exists( \RedeemID\Access\Meter::class ) ) {
+		return;
+	}
+
+	$settings = \RedeemID\Access\Meter::settings();
+	$used     = min( $settings['limit'], $used ?? $settings['limit'] );
+	$period   = \RedeemID\Access\Meter::period_key( $settings['period'], time(), wp_timezone() );
+
+	update_user_meta( $user_id, \RedeemID\Access\Meter::META, [ 'period' => $period, 'items' => $used > 0 ? range( -1, -$used ) : [] ] );
 }
 
 // The plugin skips fixtures in reconciliation and labels them on its Customers screen.

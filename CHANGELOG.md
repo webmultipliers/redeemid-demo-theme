@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.7
+
+- **The meter is on.** Signed-in readers without access open 2 locked stories a month free (RedeemID → Access → Content rules), so the Ledger shows the whole publisher journey: guest, sign in, free stories, wall, join. It's switched on once by the content upgrade; turn it off there and it stays off until **Restore test content**.
+- **Mia Meter**, a new test account: linked, no tags, 1 free story left this month. Every other test account starts the month with the meter used up, so their expectations in the Test lab don't change. Use **Save and reset test accounts** at the start of a month to put the meters back.
+- The Test lab has a **Try the meter** step. Restore the Test lab page (RedeemID → Test lab) to pick it up.
+
 ## 0.0.6
 
 - **Fathom events.** `blockstudio/analytics/global-fathom.view.js`, a Blockstudio global asset, sends each interaction to Fathom as `<component>: <target>`, named from where it sits and where it goes (`Sections: category/investigations`, `Account bar: account`), plus the plugin's own events from its browser client: `Wall: member`, `Meter: view`, `Sign in: wall`, `Checkout: subscription from wall`, `Search: submit`. It subscribes to the plugin's `redeemid` stream, so no user, email, tag or post ID reaches Fathom. Fathom's WordPress plugin loads Fathom.
