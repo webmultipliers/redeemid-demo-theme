@@ -197,7 +197,7 @@ composer lint        # php -l on every PHP file
 composer phpcs       # WordPress VIP coding standards (phpcs.xml.dist)
 ```
 
- Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
+Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
