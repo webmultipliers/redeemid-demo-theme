@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.9
+
+- Dropped styles nothing uses: the `.ledger-band` callout and the account-bar rules for Shopify's own cart toggle, which the header no longer shows (it uses RedeemID's Cart link, and the navigation ignores the hooked toggle). No visible change.
+
 ## 0.0.8
 
 - A metered story's "Free story 1 of 2 this month" note no longer takes the drop cap; the story's first paragraph keeps it, and the note is set small.
