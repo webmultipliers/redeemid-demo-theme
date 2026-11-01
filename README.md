@@ -156,6 +156,10 @@ One Blockstudio block in `blockstudio/`, registered through the Blockstudio copy
 
 - **Story badge and byline** (`redeemid-demo/story-meta`): lays out the plugin's Access Badge for the current story next to its seeded byline, in query loops and on single posts. Access decisions and labels are the plugin's; the Ledger's badge colours are in `assets/theme.css`, keyed on the badge's `data-redeemid-level`.
 
+## Analytics events
+
+`assets/events.js` (enqueued with the plugin's `redeemid-client` as a dependency, so it loads only with the plugin) subscribes to the plugin's browser event stream and sends each event to Fathom as `<component>: <target>`. The plugin's own events become `Wall: <level>`, `Meter: view`, `Sign in: <source>` and `Checkout: subscription|one-time from <source>`. The theme adds `site_click` for every other link or button, named from the Ledger region or block it sits in and the path it goes to (`Sections: category/investigations`), and `site_search`, without the search terms. Fathom's WordPress plugin loads Fathom's script. Nothing personal reaches Fathom: no user, email, tag or post ID.
+
 ## What stays in the theme, and why
 
 Everything in `inc/` is demo content or test tooling, not a feature a real site would want from the plugin:
