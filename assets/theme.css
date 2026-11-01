@@ -418,18 +418,6 @@ nav.ledger-sections {
 	font-size: 0.8rem;
 }
 
-.ledger-band {
-	margin-top: var(--wp--preset--spacing--50);
-	padding: var(--wp--preset--spacing--30) var(--wp--preset--spacing--40);
-	border-radius: 8px;
-	background: var(--wp--preset--color--accent-soft);
-}
-
-.ledger-band p {
-	margin: 0;
-	max-width: 46rem;
-}
-
 /* Story meta: the plugin's access badge and the byline. */
 .ledger-story-meta {
 	display: inline-flex;
@@ -659,47 +647,22 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	display: none;
 }
 
-.ledger-account a:not(.wp-element-button),
-.ledger-account .navigation__view-cart-link {
+.ledger-account a:not(.wp-element-button) {
 	color: var(--wp--preset--color--contrast);
 	text-decoration: none;
 }
 
-.ledger-account a:not(.wp-element-button):hover,
-.ledger-account .navigation__view-cart-link:hover {
+.ledger-account a:not(.wp-element-button):hover {
 	text-decoration: underline;
 }
 
-/* RedeemID's cart link in the account group, and Shopify's own cart toggle if its plugin hooks one in. */
+/* RedeemID's cart link in the account group. */
 .ledger-account .ledger-cart-toggle {
 	min-height: 0;
-	color: var(--wp--preset--color--contrast);
-	font-size: var(--wp--preset--font-size--small);
-}
-
-.ledger-account .ledger-cart-toggle,
-.ledger-account .navigation-cart-block {
 	margin: 0;
 	padding: 0;
-}
-
-.ledger-account .navigation__view-cart-link {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.35rem;
+	color: var(--wp--preset--color--contrast);
 	font-size: var(--wp--preset--font-size--small);
-	cursor: pointer;
-}
-
-.ledger-account .navigation__view-cart span::after {
-	width: 22px;
-	height: 22px;
-	margin-right: 0;
-}
-
-.ledger-account .navigation__view-cart-link:focus-visible {
-	outline: 2px solid var(--wp--preset--color--ink);
-	outline-offset: 2px;
 }
 
 /* Refresh: a quiet text button with the refresh mark, not a boxed button. */
@@ -833,8 +796,7 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 		grid-column: 1 / -1;
 	}
 
-	.ledger-account .redeemid-refresh__button,
-	.ledger-account .navigation__view-cart span {
+	.ledger-account .redeemid-refresh__button {
 		font-size: 0;
 	}
 
