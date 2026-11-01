@@ -16,7 +16,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const REDEEMID_DEMO_CONTENT_VERSION = 10;
+const REDEEMID_DEMO_CONTENT_VERSION = 11;
 const REDEEMID_DEMO_CONTENT_OPTION  = 'redeemid_demo_content_version';
 const REDEEMID_DEMO_SEED_META       = '_redeemid_demo_seed';
 

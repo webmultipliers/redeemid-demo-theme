@@ -576,6 +576,14 @@ function redeemid_demo_seed_cpt_rules( bool $restore ): void {
 		}
 	}
 
+	// The meter: signed-in readers without access open 2 locked stories a month free.
+	// Switched on once; an administrator who turns it off afterwards keeps it off until a restore.
+	if ( $restore || ! get_option( 'redeemid_demo_meter_seeded' ) ) {
+		$config['meter'] = [ 'limit' => 2, 'period' => 'month' ];
+		$changed         = true;
+		update_option( 'redeemid_demo_meter_seeded', 1, false );
+	}
+
 	if ( $changed ) {
 		\RedeemID\Access\RuleStore::save( \RedeemID\Access\Rules::from_array( $config ) );
 	}
