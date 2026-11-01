@@ -509,14 +509,22 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	line-height: 1.72;
 }
 
-/* The story opens with a drop cap, on the first paragraph only. */
-.ledger-article__body > p:first-child::first-letter {
+/* The story opens with a drop cap, on the first paragraph only. A metered
+   story starts with RedeemID's "Free story 1 of 2" note, so the cap goes on
+   the paragraph after it. */
+.ledger-article__body > p:first-child:not(.redeemid-meter)::first-letter,
+.ledger-article__body > p.redeemid-meter:first-child + p::first-letter {
 	float: left;
 	margin: 0.08em 0.1em 0 0;
 	font-size: 3.4em;
 	font-weight: 700;
 	line-height: 0.82;
 	color: var(--wp--preset--color--harbor);
+}
+
+.ledger-article__body > p.redeemid-meter {
+	font-family: var(--wp--preset--font-family--system);
+	font-size: var(--wp--preset--font-size--small);
 }
 
 .ledger-article__nav {
