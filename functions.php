@@ -36,19 +36,6 @@ add_action(
 	'wp_enqueue_scripts',
 	static function (): void {
 		wp_enqueue_style( 'redeemid-demo', get_theme_file_uri( 'assets/theme.css' ), [], REDEEMID_DEMO_VERSION );
-
-		// Interaction events for Fathom, on the plugin's event stream. Without
-		// the plugin its client isn't registered, so WordPress skips this too.
-		wp_enqueue_script(
-			'redeemid-demo-events',
-			get_theme_file_uri( 'assets/events.js' ),
-			[ 'redeemid-client' ],
-			REDEEMID_DEMO_VERSION,
-			[
-				'in_footer' => true,
-				'strategy'  => 'defer',
-			]
-		);
 	}
 );
 
