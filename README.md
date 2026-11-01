@@ -6,11 +6,15 @@ A demo and test theme for the [RedeemID](https://github.com/webmultipliers/redee
 - **A Test lab** with one page per plugin feature, and paywalled content with marker phrases for leak checks.
 - **Test accounts** in every membership state, to switch between with [User Switching](https://wordpress.org/plugins/user-switching/).
 
-It is a block theme that only consumes the plugin: every access decision, block and setting is the plugin's. It is not meant for a production site, because it creates pages, posts and user accounts on activation.
+It runs at [demo.redeemid.com](https://demo.redeemid.com/). It is a block theme that only consumes the plugin: every access decision, block and setting is the plugin's. It is not meant for a production site, because it creates pages, posts and user accounts on activation.
+
+> **Status: 0.0.9, early development.** See [CHANGELOG.md](CHANGELOG.md).
 
 ## Install
 
-1. Install and configure the RedeemID plugin (see its README).
+You need WordPress 6.7+, PHP 8.2+ and the RedeemID plugin. Without the plugin the theme still renders; the plugin's blocks are simply missing.
+
+1. Install and configure the RedeemID plugin (see [Install](https://www.redeemid.com/docs/install/) and [Connect Shopify](https://www.redeemid.com/docs/connect/)).
 2. Copy this repository into `wp-content/themes/`, or have your host sync it from Git and run `composer build-prod` after each sync. `build-prod` runs `composer install --no-dev`, like the plugin. The theme has no Composer dependencies, so it only writes an empty `vendor/` autoloader (ignored by git).
 3. Activate it: Appearance → Themes → RedeemID Demo (or `wp theme activate <folder>`).
 4. Optional: install [User Switching](https://wordpress.org/plugins/user-switching/) to sign in as the test accounts.
@@ -40,7 +44,7 @@ The tag gates use `gold-member` and `silver-member`. Add those tags to a test cu
 
 ## The Harborview Ledger
 
-Sixteen fictional stories across seven sections. Each has an access level. The badge on cards and stories is the plugin's **Access Badge** (`redeemid/access-badge`), laid out with the byline by the theme's `redeemid-demo/story-meta` block. The block sets the badge's free label, so open stories read **Free** and every list shows free and paid stories side by side; cards of stories that lock the visitor out also get a small lock before the title (the plugin's `redeemid-gated is-locked` post classes):
+Sixteen fictional stories across seven sections. Each has an access level, and the plugin's meter is on: signed-in readers without access open 2 locked stories a month free. The badge on cards and stories is the plugin's **Access Badge** (`redeemid/access-badge`), laid out with the byline by the theme's `redeemid-demo/story-meta` block. The block sets the badge's free label, so open stories read **Free** and every list shows free and paid stories side by side; cards of stories that lock the visitor out also get a small lock before the title (the plugin's `redeemid-gated is-locked` post classes):
 
 | Badge | Gate on the story body (a plugin access level) |
 |---|---|
@@ -97,6 +101,7 @@ The theme seeds these subscribers (`inc/fixtures.php`), marked with user meta `_
 |---|---|
 | `ledger-reader` | WordPress only, not linked |
 | `ledger-member` | linked, no tags |
+| `ledger-metered` | linked, no tags, 1 of 2 free meter stories used this month (every other account starts the month with the meter used up) |
 | `ledger-silver` | `silver-member` |
 | `ledger-gold` | `gold-member` |
 | `ledger-premium` | `gold-member` + `silver-member` |
@@ -136,7 +141,7 @@ The theme builds no features of its own; it places the plugin's blocks and answe
 | Locked items of every type | the plugin's locked panel and level wall copy (message, call to action), styled as the Ledger's paywall |
 | Stories, Test lab pages | Membership Gate, paywall break, Shopify Sign-in, Plan Card |
 | Test accounts | `redeemid_customer_is_fixture`, `redeemid_customer_badges`, `redeemid_pre_sync_now` |
-| Shopify's cart toggle | keyboard access comes from the plugin (`Integrations\OfficialCartToggle`) |
+| Header, Shop | **Shopify Cart Link** (`redeemid/cart-link`) and **Shopify Collection** (`redeemid/collection`) |
 
 ## Shopify's WordPress plugin
 
@@ -166,7 +171,7 @@ Everything in `inc/` is demo content or test tooling, not a feature a real site 
 
 - `news-content.php`, `content-types.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the demo post types and taxonomies, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
 - `features.php`: the two demo feature registrations and the seeded Ad-free mapping (through the plugin's `Features\Registry`).
-- `fixtures.php`: the eight test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
+- `fixtures.php`: the nine test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
 - `admin.php`: RedeemID → Test lab.
 - `health.php`: the theme's own rows for the plugin's health block.
 
@@ -178,24 +183,22 @@ The theme's blocks are Blockstudio blocks, like the plugin's. **Before writing c
 - Sidebar fields use Blockstudio field types (`select`, `link`, `toggle`) with `conditions` and `populate`, not custom controls.
 - Pattern markup stores values in the shape the field returns: links as `{"url": "…"}`, selects as `{"value": "…", "label": "…"}`. The theme's health row flags anything else.
 - A template's `return;` tells Blockstudio the block rendered nothing, so its styles and scripts are skipped. End branches that print markup with `if`/`else` instead.
-- The plugin's README section "Building on Blockstudio" lists the deliberate exceptions (REST routes rather than RPC, the Access panel).
+- The plugin README's Contributing section lists the deliberate exceptions (REST routes rather than RPC, the Access panel).
 
 On Test lab pages (body class `ledger-lab`) the theme stylesheet labels which gate area reached the page ("Rendered: members only area", "public teaser area" or "locked message"), so a tester can see the server's decision at a glance. The Ledger's stories show the reader view instead: the teaser fades into the paywall box.
 
-## Requirements
-
-WordPress 6.7+, PHP 8.2+, and the RedeemID plugin. Without the plugin the theme still renders; the plugin's blocks are simply missing.
-
-```sh
-composer lint        # php -l on every PHP file
-composer phpcs       # WordPress VIP coding standards (phpcs.xml.dist)
-composer build-prod  # deploy hook (composer install --no-dev)
-```
-
 ## Contributing
 
-Issues and pull requests are welcome. Work branches from `main`, and pull requests go back into it. Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
+Issues and pull requests are welcome. Work branches from `main`, and pull requests go back into it.
+
+```sh
+composer install
+composer lint        # php -l on every PHP file
+composer phpcs       # WordPress VIP coding standards (phpcs.xml.dist)
+```
+
+ Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
-GPL-2.0-or-later. See [LICENSE](LICENSE). All people, places, organisations and stories in the demo content are fictional.
+GPL-2.0-or-later. See [LICENSE](LICENSE). Copyright Vinny S. Green, LLC. All people, places, organisations and stories in the demo content are fictional.
