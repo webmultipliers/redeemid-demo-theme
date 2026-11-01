@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6
+
+- **Fathom events.** `blockstudio/analytics/global-fathom.view.js`, a Blockstudio global asset, sends each interaction to Fathom as `<component>: <target>`, named from where it sits and where it goes (`Sections: category/investigations`, `Account bar: account`), plus the plugin's own events from its browser client: `Wall: member`, `Meter: view`, `Sign in: wall`, `Checkout: subscription from wall`, `Search: submit`. It subscribes to the plugin's `redeemid` stream, so no user, email, tag or post ID reaches Fathom. Fathom's WordPress plugin loads Fathom.
+
 ## 0.0.5
 
 - **Privacy requests.** The Account page's Member Account card offers Download my data and Delete my data (RedeemID 0.0.3), and the Test lab walks through handling a request in Tools → Export / Erase Personal Data, including the Shopify column and why the Shopify erasure is refused for simulated accounts. Restore the Account and Test lab pages (RedeemID → Test lab) to pick up the changes.
