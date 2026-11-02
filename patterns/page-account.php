@@ -36,7 +36,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"ledger-expect"} -->
-<p class="ledger-expect">Ends the WordPress session and the Shopify session together. WordPress’s own logout link ends only the WordPress session.</p>
+<p class="ledger-expect">Ends the WordPress session and the Shopify session together. WordPress’s own logout link in the admin bar does the same.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:redeemid/auth-action {"mode":{"value":"logout","label":"Log out only (hidden for guests)"},"redirectAfterLogout":{"url":"/"}} /-->

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.11
+
+- The Account page's log-out note no longer says WordPress's own logout link ends only the WordPress session: with RedeemID's matching change it now ends the Shopify session too. Restore the Account page (RedeemID → Test lab) to pick up the new wording.
+
 ## 0.0.10
 
 - **Reader contributions.** A new **Support the Ledger** page (`/support/`, in the footer) and a compact ask at the end of every story take pay-what-you-want contributions through Shopify checkout. The store sells a $1 **Contribution** product (handle `contribution`) and the amount is the quantity: the `redeemid-demo/contribute` form posts it to the store's `/cart/add` and goes straight to checkout, with no JavaScript. The form shows only when that product exists at exactly $1.
