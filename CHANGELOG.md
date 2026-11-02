@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.10
+
+- **Reader contributions.** A new **Support the Ledger** page (`/support/`, in the footer) and a compact ask at the end of every story take pay-what-you-want contributions through Shopify checkout. The store sells a $1 **Contribution** product (handle `contribution`) and the amount is the quantity: the `redeemid-demo/contribute` form posts it to the store's `/cart/add` and goes straight to checkout, with no JavaScript. The form shows only when that product exists at exactly $1.
+- **Supporter**, a third demo feature: the `supporter` tag, set in code. A Shopify Flow workflow on Order paid adds the tag for a contribution, and the form then thanks the reader instead of asking. **Sam Supporter**, a new test account, holds it. The Test lab has a **Contribute** step; restore the Test lab page (RedeemID → Test lab) to pick it up.
+
 ## 0.0.9
 
 - Dropped styles nothing uses: the `.ledger-band` callout and the account-bar rules for Shopify's own cart toggle, which the header no longer shows (it uses RedeemID's Cart link, and the navigation ignores the hooked toggle). No visible change.

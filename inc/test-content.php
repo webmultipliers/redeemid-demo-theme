@@ -16,7 +16,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /** Bump when a new seeded item is added, so existing sites pick it up on the next request. */
-const REDEEMID_DEMO_CONTENT_VERSION = 11;
+const REDEEMID_DEMO_CONTENT_VERSION = 12;
 const REDEEMID_DEMO_CONTENT_OPTION  = 'redeemid_demo_content_version';
 const REDEEMID_DEMO_SEED_META       = '_redeemid_demo_seed';
 
@@ -41,6 +41,7 @@ function redeemid_demo_seed_items(): array {
 		'account'              => [ 'type' => 'page', 'title' => __( 'Account', 'redeemid-demo' ), 'slug' => 'account', 'pattern' => 'page-account' ],
 		'members-only-article' => [ 'type' => 'post', 'title' => __( 'Members-only article', 'redeemid-demo' ), 'slug' => 'members-only-article', 'pattern' => 'post-members-only-article' ],
 		'shop'                 => [ 'type' => 'page', 'title' => __( 'Shop', 'redeemid-demo' ), 'slug' => 'shop', 'pattern' => 'page-shop' ],
+		'support'              => [ 'type' => 'page', 'title' => __( 'Support the Ledger', 'redeemid-demo' ), 'slug' => 'support', 'pattern' => 'page-support' ],
 	] + redeemid_demo_news_seed_items() + redeemid_demo_cpt_seed_items();
 }
 
