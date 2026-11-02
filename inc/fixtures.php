@@ -107,6 +107,14 @@ function redeemid_demo_fixtures(): array {
 			'stale'  => false,
 			'expect' => __( 'silver-member plus the ad-free-addon tag. Silver stories open; the add-on gives Ad-free reading without Gold.', 'redeemid-demo' ),
 		],
+		'ledger-supporter' => [
+			'name'   => 'Sam Supporter',
+			'linked' => true,
+			'tags'   => [ 'supporter' ],
+			'state'  => 'enabled',
+			'stale'  => false,
+			'expect' => __( 'Linked, supporter tag only (a past contribution). Opens what Milo opens, and the contribution form thanks Sam instead of asking.', 'redeemid-demo' ),
+		],
 	];
 }
 

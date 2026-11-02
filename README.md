@@ -8,7 +8,7 @@ A demo and test theme for the [RedeemID](https://github.com/webmultipliers/redee
 
 It runs at [demo.redeemid.com](https://demo.redeemid.com/). It is a block theme that only consumes the plugin: every access decision, block and setting is the plugin's. It is not meant for a production site, because it creates pages, posts and user accounts on activation.
 
-> **Status: 0.0.9, early development.** See [CHANGELOG.md](CHANGELOG.md).
+> **Status: 0.0.10, early development.** See [CHANGELOG.md](CHANGELOG.md).
 
 ## Install
 
@@ -36,6 +36,7 @@ On the first request with the theme active, it creates the test content from its
 | `/tag-gates/` | Tag rules: any, all, teaser fallback, a tag nobody has, an open control, and a Shopify Product block inside a gold gate (marker `LEDGER-SECRET-PRODUCT`) |
 | `/gate-redirect/` | Redirect fallback mode |
 | `/join/` | Where calls to action point: a reader-facing membership page (what each level opens, Gold and Silver plan cards with handles `gold-membership`, `silver-membership`; Gold members see a thank-you, their account link and the Silver add-on instead), then for testers how a test customer gets a tag |
+| `/support/` | Reader contributions: the `redeemid-demo/contribute` form (any whole amount or a preset, as a quantity of the store's $1 `contribution` product, straight to Shopify checkout), contribution vs membership, and how the `supporter` tag thanks a contributor. Every story ends with the compact form |
 | `/shop/` | RedeemID's storefront: the `frontpage` collection with Add to cart; the header's Cart link, `/cart/` and `/products/{handle}/` come from the plugin |
 | `/account/` | The plugin's Member Account card (levels and dates, renewal, past levels, features, last sync, Shopify account links, Download my data and Delete my data), then the Membership Features list, connect and log out |
 | `/members-only-article/` | A paywalled post with the phrase `LEDGER-SECRET-MEMBERS-ONLY` for leak checks |
@@ -108,6 +109,7 @@ The theme seeds these subscribers (`inc/fixtures.php`), marked with user meta `_
 | `ledger-lapsed` | `gold-member`, Shopify account disabled |
 | `ledger-stale` | `gold-member`, last synced 30 days ago (still reads Gold: synced tags never expire) |
 | `ledger-addon` | `silver-member` + `ad-free-addon` (a standalone add-on tag) |
+| `ledger-supporter` | linked, `supporter` only (a past contribution): the contribution form thanks instead of asking |
 
 Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `redeemid_customer_is_fixture` filter (resync skips them), adds a "Test fixture" badge through `redeemid_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `redeemid_pre_sync_now` filter, so Shopify is never asked about a made-up customer). RedeemID → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
 
@@ -121,6 +123,7 @@ The theme registers two demo features with the plugin's `redeemid_features` filt
 |---|---|---|
 | **Ad-free reading** (`ad-free`) | Gold, or the `ad-free-addon` tag (stacks with any tier). Mapped on RedeemID → Access → Features and seeded once (Restore puts it back) | The sponsor slot in `templates/single.html` and `page-home.html` uses the block **Access → Feature: does not hold it**, so holders never receive it. Holders also get the `redeemid-feature-ad-free` body class (the masthead says "Ad-free") and the JS signal |
 | **Early briefing** (`early-briefing`) | Silver or Gold, set in code (shown as managed in code) | The Briefings archive: tomorrow's briefing (marker `LEDGER-FEATURE-EARLY-BRIEFING`) for holders, a prompt for everyone else |
+| **Supporter** (`supporter`) | The `supporter` tag, set in code. In Shopify, a Flow workflow on **Order paid** adds it when an order has a product tagged `contribution` | The contribute block (`/support/` and the end of every story) thanks holders instead of asking; a PHP check |
 
 Both are listed as primary, so the header shows them as chips (the plugin's **Membership Features** block in menu mode), and the Account page lists them with where each comes from. The Test lab has the expected result for every test account.
 
@@ -170,7 +173,7 @@ One Blockstudio block in `blockstudio/`, registered through the Blockstudio copy
 Everything in `inc/` is demo content or test tooling, not a feature a real site would want from the plugin:
 
 - `news-content.php`, `content-types.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the demo post types and taxonomies, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
-- `features.php`: the two demo feature registrations and the seeded Ad-free mapping (through the plugin's `Features\Registry`).
+- `features.php`: the three demo feature registrations and the seeded Ad-free mapping (through the plugin's `Features\Registry`).
 - `fixtures.php`: the nine test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
 - `admin.php`: RedeemID → Test lab.
 - `health.php`: the theme's own rows for the plugin's health block.

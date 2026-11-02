@@ -15,7 +15,13 @@
  *   Features tab shows it as managed in code. Enforced by block visibility
  *   on the Briefings archive.
  *
- * Both are behaviour-only and cache as private: pages that use them are
+ * - supporter: "Supporter". Anyone whose Shopify account carries the
+ *   `supporter` tag, set in code. A Shopify Flow workflow adds the tag when a
+ *   reader pays for the $1 Contribution product; the theme's contribute block
+ *   then thanks them instead of asking (a PHP check), and the chip shows in
+ *   the header.
+ *
+ * All three are behaviour-only and cache as private: pages that use them are
  * never shared-cached for signed-in visitors.
  *
  * @package redeemid-demo
@@ -42,6 +48,15 @@ add_filter(
 			'cache'       => 'private',
 			'primary'     => true,
 			'condition'   => "silver\ngold",
+		];
+
+		$features['supporter'] = [
+			'label'       => __( 'Supporter', 'redeemid-demo' ),
+			'description' => __( 'Thanks readers who contributed instead of asking them again.', 'redeemid-demo' ),
+			'enforcement' => [ 'php' ],
+			'cache'       => 'private',
+			'primary'     => true,
+			'condition'   => 'Contribution = tag:supporter',
 		];
 
 		return $features;

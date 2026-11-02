@@ -1,0 +1,24 @@
+{
+	"$schema": "https://blockstudio.dev/schema/block",
+	"apiVersion": 3,
+	"name": "redeemid-demo/contribute",
+	"title": "Contribute (news)",
+	"category": "theme",
+	"icon": "heart",
+	"description": "A pay-what-you-want contribution form. The store sells a $1 product, so the amount is the quantity: the form posts it to Shopify's /cart/add and goes straight to checkout. Readers whose Shopify account carries the supporter tag see a thank-you first.",
+	"keywords": [ "news", "donate", "contribution", "support", "shopify" ],
+	"textdomain": "redeemid-demo",
+	"supports": {
+		"html": false
+	},
+	"blockstudio": {
+		"attributes": [
+			{ "id": "handle", "type": "text", "label": "$1 product handle", "default": "contribution", "help": "A Shopify product priced at 1.00. Its first variant is used." },
+			{ "id": "heading", "type": "text", "label": "Heading", "default": "Support local reporting" },
+			{ "id": "body", "type": "textarea", "label": "Body", "default": "Most of what the Ledger publishes is free. Readers who chip in keep it that way." },
+			{ "id": "presets", "type": "text", "label": "Preset amounts", "default": "5, 10, 25, 50", "help": "Whole amounts, separated by commas." },
+			{ "id": "amount", "type": "number", "label": "Starting amount", "default": 15 },
+			{ "id": "compact", "type": "toggle", "label": "Compact (end of a story)", "default": false }
+		]
+	}
+}
