@@ -23,6 +23,16 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/*
+ * RedeemID ignores its fixture filters on a production site
+ * (wp_get_environment_type()) unless this constant opts in. The demo's
+ * accounts are fixtures on purpose, so the theme opts in. Define it as false
+ * in wp-config.php to turn the fixtures off.
+ */
+if ( ! defined( 'REDEEMID_ALLOW_FIXTURES' ) ) {
+	define( 'REDEEMID_ALLOW_FIXTURES', true );
+}
+
 const REDEEMID_DEMO_FIXTURE_META  = '_redeemid_demo_fixture';
 const REDEEMID_DEMO_FIXTURE_LINKS = 'redeemid_demo_fixture_links';
 
