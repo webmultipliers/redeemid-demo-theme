@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.12
+
+- Defines `REDEEMID_ALLOW_FIXTURES` as true unless `wp-config.php` sets it. RedeemID 0.0.9 ignores its fixture filters on a production site without it, and the demo's test accounts are fixtures on purpose. Define it as false to turn them off.
+
 ## 0.0.11
 
 - The Account page's log-out note no longer says WordPress's own logout link ends only the WordPress session: with RedeemID's matching change it now ends the Shopify session too. Restore the Account page (RedeemID → Test lab) to pick up the new wording.
