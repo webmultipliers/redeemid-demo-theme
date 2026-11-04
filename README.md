@@ -8,7 +8,7 @@ A demo and test theme for the [RedeemID](https://github.com/webmultipliers/redee
 
 It runs at [demo.redeemid.com](https://demo.redeemid.com/). It is a block theme that only consumes the plugin: every access decision, block and setting is the plugin's. It is not meant for a production site, because it creates pages, posts and user accounts on activation.
 
-> **Status: 0.0.10, early development.** See [CHANGELOG.md](CHANGELOG.md).
+> **Status: 0.0.12, early development.** See [CHANGELOG.md](CHANGELOG.md).
 
 ## Install
 
@@ -111,7 +111,7 @@ The theme seeds these subscribers (`inc/fixtures.php`), marked with user meta `_
 | `ledger-addon` | `silver-member` + `ad-free-addon` (a standalone add-on tag) |
 | `ledger-supporter` | linked, `supporter` only (a past contribution): the contribution form thanks instead of asking |
 
-Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `redeemid_customer_is_fixture` filter (resync skips them), adds a "Test fixture" badge through `redeemid_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `redeemid_pre_sync_now` filter, so Shopify is never asked about a made-up customer). RedeemID → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
+Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `redeemid_customer_is_fixture` filter (resync skips them), adds a "Test fixture" badge through `redeemid_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `redeemid_pre_sync_now` filter, so Shopify is never asked about a made-up customer). RedeemID ignores those fixture filters on a site whose environment type is `production` (the default when none is set) unless `REDEEMID_ALLOW_FIXTURES` is true, so the theme defines it as true unless `wp-config.php` already sets it; define it as false there to turn the fixtures off. RedeemID → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
 
 With User Switching active, administrators get a **Test accounts** toolbar menu on every page, and the menu offers **Switch back** while switched in.
 
@@ -174,7 +174,7 @@ Everything in `inc/` is demo content or test tooling, not a feature a real site 
 
 - `news-content.php`, `content-types.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the demo post types and taxonomies, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
 - `features.php`: the three demo feature registrations and the seeded Ad-free mapping (through the plugin's `Features\Registry`).
-- `fixtures.php`: the nine test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
+- `fixtures.php`: the ten test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
 - `admin.php`: RedeemID → Test lab.
 - `health.php`: the theme's own rows for the plugin's health block.
 
