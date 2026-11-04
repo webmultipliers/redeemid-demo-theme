@@ -13,8 +13,8 @@
 
 <!-- wp:redeemid/membership-gate {"requireLogin":true,"fallbackMode":{"value":"message","label":"A message and a call to action"},"fallbackMessage":"Sign in with your Shopify customer account to open the members area.","fallbackCtaLabel":"","showSignIn":true} -->
 <!-- wp:redeemid/membership-gate-content -->
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Welcome in</h3>
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Welcome in</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
 <p>You are signed in, so the server released this area. Guests never receive this paragraph. Marker: <code>LEDGER-SIGNED-IN-ONLY</code>.</p>

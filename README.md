@@ -8,7 +8,7 @@ A demo and test theme for the [RedeemID](https://github.com/webmultipliers/redee
 
 It runs at [demo.redeemid.com](https://demo.redeemid.com/). It is a block theme that only consumes the plugin: every access decision, block and setting is the plugin's. It is not meant for a production site, because it creates pages, posts and user accounts on activation.
 
-> **Status: 0.0.12, early development.** See [CHANGELOG.md](CHANGELOG.md).
+> **Status: 0.0.13, early development.** See [CHANGELOG.md](CHANGELOG.md).
 
 ## Install
 

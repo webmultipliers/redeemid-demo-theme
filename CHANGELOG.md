@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.13
+
+- **Screen readers.** The header and footer are one banner and one content-info landmark each (the template part already was the `<header>`/`<footer>`; the group inside it was a second one). The section navigation is named **Sections**. Each story's **Latest from the Ledger** is a complementary landmark, so no content sits outside one. The home page has a visually hidden `h1`.
+- The Join page's comparison table has row headers, a named corner cell, and says **Yes** or **No** instead of reading out a tick or a dash. The Test lab's wide tables take keyboard focus so they can be scrolled on a phone. Case headings on Tag gates, Sign-in controls and the Members area are `h2`s straight under the title (they were `h3`s, skipping a level), at the same size.
+- Restore Home, Join, Test lab, Tag gates, Sign-in controls and Members area (RedeemID → Test lab) to pick up the pattern changes.
+
 ## 0.0.12
 
 - Defines `REDEEMID_ALLOW_FIXTURES` as true unless `wp-config.php` sets it. RedeemID 0.0.9 ignores its fixture filters on a production site without it, and the demo's test accounts are fixtures on purpose. Define it as false to turn them off.
