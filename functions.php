@@ -47,6 +47,24 @@ add_action(
 );
 
 /**
+ * The section navigation is written inline in the header part, with no menu
+ * post to take a name from, so core prints a bare <nav>. Name it, so a screen
+ * reader's landmark list says what it is.
+ */
+add_filter(
+	'render_block_core/navigation',
+	static function ( string $html ): string {
+		$tags = new WP_HTML_Tag_Processor( $html );
+
+		if ( $tags->next_tag( 'nav' ) && $tags->has_class( 'ledger-sections' ) && null === $tags->get_attribute( 'aria-label' ) ) {
+			$tags->set_attribute( 'aria-label', __( 'Sections', 'redeemid-demo' ) );
+		}
+
+		return $tags->get_updated_html();
+	}
+);
+
+/**
  * Test lab pages get `ledger-lab`, so the gate's debugging labels (which area
  * of a gate reached the page) show there and not on the Ledger's stories.
  */

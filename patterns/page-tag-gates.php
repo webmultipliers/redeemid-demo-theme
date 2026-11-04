@@ -13,8 +13,8 @@
 
 <!-- wp:group {"className":"ledger-case","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-case">
-	<!-- wp:heading {"level":3} -->
-	<h3 class="wp-block-heading">1. Any of: gold-member</h3>
+	<!-- wp:heading -->
+	<h2 class="wp-block-heading">1. Any of: gold-member</h2>
 	<!-- /wp:heading -->
 	<!-- wp:paragraph {"className":"ledger-expect"} -->
 	<p class="ledger-expect">Customers tagged gold-member see the members area. Others see a message, a “Become a member” button and, for guests, sign-in.</p>
@@ -32,8 +32,8 @@
 
 <!-- wp:group {"className":"ledger-case","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-case">
-	<!-- wp:heading {"level":3} -->
-	<h3 class="wp-block-heading">2. All of: gold-member and silver-member</h3>
+	<!-- wp:heading -->
+	<h2 class="wp-block-heading">2. All of: gold-member and silver-member</h2>
 	<!-- /wp:heading -->
 	<!-- wp:paragraph {"className":"ledger-expect"} -->
 	<p class="ledger-expect">Needs both tags. With only gold-member, box 1 opens and this one stays locked.</p>
@@ -51,8 +51,8 @@
 
 <!-- wp:group {"className":"ledger-case","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-case">
-	<!-- wp:heading {"level":3} -->
-	<h3 class="wp-block-heading">3. Any of: gold-member, with a teaser fallback</h3>
+	<!-- wp:heading -->
+	<h2 class="wp-block-heading">3. Any of: gold-member, with a teaser fallback</h2>
 	<!-- /wp:heading -->
 	<!-- wp:paragraph {"className":"ledger-expect"} -->
 	<p class="ledger-expect">Non-members see the Public teaser area instead of a message. Members see only the members area, never the teaser.</p>
@@ -74,8 +74,8 @@
 
 <!-- wp:group {"className":"ledger-case","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-case">
-	<!-- wp:heading {"level":3} -->
-	<h3 class="wp-block-heading">4. Negative control: a tag nobody has</h3>
+	<!-- wp:heading -->
+	<h2 class="wp-block-heading">4. Negative control: a tag nobody has</h2>
 	<!-- /wp:heading -->
 	<!-- wp:paragraph {"className":"ledger-expect"} -->
 	<p class="ledger-expect">Needs ledger-nobody-has-this. Should stay locked for everyone, administrators included.</p>
@@ -93,8 +93,8 @@
 
 <!-- wp:group {"className":"ledger-case","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-case">
-	<!-- wp:heading {"level":3} -->
-	<h3 class="wp-block-heading">5. Open control: no rule</h3>
+	<!-- wp:heading -->
+	<h2 class="wp-block-heading">5. Open control: no rule</h2>
 	<!-- /wp:heading -->
 	<!-- wp:paragraph {"className":"ledger-expect"} -->
 	<p class="ledger-expect">No tags and sign-in not required, so everyone, guests included, sees the members area.</p>
@@ -112,8 +112,8 @@
 
 <!-- wp:group {"className":"ledger-case","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-case">
-	<!-- wp:heading {"level":3} -->
-	<h3 class="wp-block-heading">6. A product inside a gate</h3>
+	<!-- wp:heading -->
+	<h2 class="wp-block-heading">6. A product inside a gate</h2>
 	<!-- /wp:heading -->
 	<!-- wp:paragraph {"className":"ledger-expect"} -->
 	<p class="ledger-expect">Gold members see the marker and RedeemID’s Shopify Product block for <code>ledger-gated-product</code>. Everyone else sees a plan card, and the page source holds neither the marker nor a <code>redeemid-product</code> element.</p>

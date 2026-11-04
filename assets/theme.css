@@ -127,8 +127,10 @@ body .redeemid-account-status__table th {
 	background: var(--wp--preset--color--surface);
 }
 
-.ledger-case > h3 {
+/* Each case is an h2 straight under the page title (an h3 skipped a level), kept at the h3 size. */
+.ledger-case > h2 {
 	margin-top: 0;
+	font-size: 1.17em;
 }
 
 .ledger-expect,
@@ -1283,6 +1285,11 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	text-align: center;
 }
 
+/* The table scrolls inside the figure on a phone; the figure holds the cells' screen-reader text in that box. */
+.ledger-compare {
+	position: relative;
+}
+
 .ledger-compare table {
 	border-collapse: collapse;
 	font-size: var(--wp--preset--font-size--small);
@@ -1299,6 +1306,11 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 .ledger-compare th:first-child,
 .ledger-compare td:first-child {
 	text-align: left;
+}
+
+/* Each row's story type is its row header for screen readers; it keeps the body weight. */
+.ledger-compare tbody th {
+	font-weight: 400;
 }
 
 .ledger-compare .is-yes {
