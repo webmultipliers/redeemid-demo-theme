@@ -1,0 +1,172 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          coverage: none
+      - run: composer install --prefer-dist --no-interaction --no-progress
+      - name: Lint
+        run: composer lint
+      - name: PHPCS
+        run: composer phpcs
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      # WordPress JavaScript coding standards (eslint.config.js).
+      - name: ESLint
+        run: npx eslint .
+
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          coverage: none
+      # Known vulnerabilities in the locked PHP and npm dependencies (GitHub's advisory database).
+      - name: Composer audit
+        run: composer audit --locked
+      - name: npm audit
+        run: npm audit
+      - run: composer build-prod
+      # Taint analysis: request input, cookies and remote responses followed to
+      # output, SQL, file and redirect sinks. Human Made's WordPress plugin
+      # teaches it WordPress's escaping and sanitizing functions (psalm.xml).
+      - name: Psalm taint analysis
+        run: |
+          composer global require --no-interaction --no-progress vimeo/psalm:^6.5 humanmade/psalm-plugin-wordpress:^3.1
+          "$(composer global config bin-dir --absolute)/psalm" --taint-analysis --no-progress --threads=4 --output-format=github
+
+  codeql:
+    name: CodeQL (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        # CodeQL has no PHP support; Psalm covers PHP above.
+        language: [ javascript-typescript, actions ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended
+      - uses: github/codeql-action/analyze@v4
+
+  dependencies:
+    name: Dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Fails a pull request that adds a dependency with a known moderate or worse vulnerability.
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+
+  browser:
+    name: Accessibility and performance
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress
+        ports: [ '3306:3306' ]
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      WP_PATH: /tmp/wordpress
+      REDEEMID_URL: http://127.0.0.1:8080
+      REDEEMID_URLS: /tmp/redeemid-urls.txt
+      REDEEMID_COOKIES: /tmp/redeemid-cookies.json
+    steps:
+      - uses: actions/checkout@v4
+      # The plugin as it is on main, which is what the demo runs against.
+      - uses: actions/checkout@v4
+        with:
+          repository: webmultipliers/redeemid-core
+          ref: main
+          path: redeemid-core
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          extensions: sodium, mysqli, curl
+          coverage: none
+          tools: wp-cli
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: composer build-prod
+        working-directory: redeemid-core
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Install WordPress, RedeemID and the demo
+        run: |
+          wp core download --path="$WP_PATH"
+          wp config create --path="$WP_PATH" --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1:3306 --skip-check
+          wp core install --path="$WP_PATH" --url="$REDEEMID_URL" --title="Harborview Ledger" --admin_user=admin --admin_password=admin --admin_email=admin@example.test --skip-email
+          wp site empty --yes --path="$WP_PATH"
+          wp rewrite structure '/%postname%/' --path="$WP_PATH"
+          rsync -a --exclude .git redeemid-core/ "$WP_PATH/wp-content/plugins/redeemid-core/"
+          rsync -a --exclude .git --exclude node_modules --exclude redeemid-core "$GITHUB_WORKSPACE/" "$WP_PATH/wp-content/themes/redeemid-demo-theme/"
+          wp plugin activate redeemid-core --path="$WP_PATH"
+          wp theme activate redeemid-demo-theme --path="$WP_PATH"
+      - name: Serve
+        id: serve
+        run: |
+          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 -t "$WP_PATH" > /tmp/php-server.log 2>&1 &
+          for i in $(seq 1 20); do curl -fsS -o /dev/null "$REDEEMID_URL/" && break; sleep 1; done
+      # The theme seeds its content and test accounts on the first request (above).
+      - name: List pages and sign in the test accounts
+        run: |
+          {
+            wp post list --post_type=any --post_status=publish --field=url --path="$WP_PATH"
+            wp term list category --field=url --hide_empty=1 --path="$WP_PATH"
+            wp eval 'foreach ( get_post_types( [ "public" => true, "has_archive" => true ] ) as $type ) { echo get_post_type_archive_link( $type ), "\n"; }' --path="$WP_PATH"
+          } > "$REDEEMID_URLS"
+          wc -l < "$REDEEMID_URLS"
+          wp eval '$out = []; foreach ( get_users( [ "meta_key" => "_redeemid_demo_fixture" ] ) as $user ) { $out[ $user->user_login ] = LOGGED_IN_COOKIE . "=" . rawurlencode( wp_generate_auth_cookie( $user->ID, time() + DAY_IN_SECONDS, "logged_in" ) ); } echo wp_json_encode( $out );' --path="$WP_PATH" > "$REDEEMID_COOKIES"
+      # axe-core, WCAG 2.2 A and AA, at desktop and phone width.
+      - name: Accessibility
+        run: npx playwright test
+      # Runs even when accessibility fails, so one push reports both.
+      - name: Lighthouse
+        if: ${{ !cancelled() && steps.serve.outcome == 'success' }}
+        run: npx lhci autorun
+      - name: Lighthouse reports
+        if: ${{ !cancelled() && steps.serve.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: .lighthouseci/
+          include-hidden-files: true
+          retention-days: 14
+      - name: Server log
+        if: failure()
+        run: |
+          grep -vE ' (Accepted|Closing)$| \[[23][0-9][0-9]\]: ' /tmp/php-server.log | tail -n 60 || true
