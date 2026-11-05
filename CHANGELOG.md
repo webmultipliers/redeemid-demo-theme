@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.14
+
+- Checks on every change: accessibility (axe-core, WCAG 2.2 AA) and Lighthouse on every page, category, archive and test account, PHP lint and PHPCS VIP, ESLint, composer and npm audit, Psalm taint analysis and CodeQL. The analytics script drops an unused catch binding. No visible change.
+- Works with RedeemID 0.0.10.
+
 ## 0.0.13
 
 - **Screen readers.** The header and footer are one banner and one content-info landmark each (the template part already was the `<header>`/`<footer>`; the group inside it was a second one). The section navigation is named **Sections**. Each story's **Latest from the Ledger** is a complementary landmark, so no content sits outside one. The home page has a visually hidden `h1`.
