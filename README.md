@@ -8,7 +8,7 @@ A demo and test theme for the [RedeemID](https://github.com/webmultipliers/redee
 
 It runs at [demo.redeemid.com](https://demo.redeemid.com/). It is a block theme that only consumes the plugin: every access decision, block and setting is the plugin's. It is not meant for a production site, because it creates pages, posts and user accounts on activation.
 
-> **Status: 0.0.14, early development.** See [CHANGELOG.md](CHANGELOG.md).
+> **Status: 0.0.14, early development, for RedeemID 0.0.10.** See [CHANGELOG.md](CHANGELOG.md).
 
 ## Install
 
@@ -209,6 +209,22 @@ Then it installs WordPress with the plugin from `main` and this theme, lets the 
 
 - **Accessibility:** axe-core, WCAG 2.2 A and AA, at desktop and phone width, on every published page, story, demo-type item, section and archive as a guest, on the membership pages as `ledger-reader`, `ledger-member`, `ledger-gold`, `ledger-lapsed` and `ledger-supporter`, and on the Test lab admin screen (`tests/a11y.spec.js`).
 - **Performance:** Lighthouse on mobile for the home page, a section, a paywalled story, Join, Account and Support: performance score, LCP, CLS, TBT, server response time and page weight (`lighthouserc.js`, reports kept as a run artifact).
+
+To run the browser checks yourself, use a throwaway WordPress with the plugin and this theme active (the theme seeds pages, posts and accounts), then:
+
+```sh
+npm ci && npx playwright install chromium
+export REDEEMID_URL=http://127.0.0.1:8080          # that WordPress
+export REDEEMID_URLS=/tmp/redeemid-urls.txt        # one address per line to check
+export REDEEMID_COOKIES=/tmp/redeemid-cookies.json # test account sign-in cookies
+npm run test:a11y   # axe-core
+npm run test:perf   # Lighthouse
+npm run lint:js     # ESLint
+```
+
+The **List pages and sign in the test accounts** step in `.github/workflows/ci.yml` has the two `wp` commands that write those files. Psalm runs as in CI: `composer global require vimeo/psalm:^6.5 humanmade/psalm-plugin-wordpress:^3.1`, then `psalm --taint-analysis`.
+
+Dependency review only works when **Dependency graph** is on for the repository (**Settings → Advanced Security → Dependency graph**). Until it is, that check fails on every pull request whatever the change; the other checks are unaffected.
 
 Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
 
