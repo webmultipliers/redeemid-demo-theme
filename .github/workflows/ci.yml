@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      - run: composer install --prefer-dist --no-interaction --no-progress
+      - name: Lint
+        run: composer lint
+      - name: PHPCS
+        run: composer phpcs
+
+  browser:
+    name: Accessibility and performance
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress
+        ports: [ '3306:3306' ]
+        options: >-
+          --health-cmd="mysqladmin ping -proot"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    env:
+      WP_PATH: /tmp/wordpress
+      REDEEMID_URL: http://127.0.0.1:8080
+      REDEEMID_URLS: /tmp/redeemid-urls.txt
+      REDEEMID_COOKIES: /tmp/redeemid-cookies.json
+    steps:
+      - uses: actions/checkout@v4
+      # The plugin as it is on main, which is what the demo runs against.
+      - uses: actions/checkout@v4
+        with:
+          repository: webmultipliers/redeemid-core
+          ref: main
+          path: redeemid-core
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: sodium, mysqli, curl
+          coverage: none
+          tools: wp-cli
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: composer build-prod
+        working-directory: redeemid-core
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Install WordPress, RedeemID and the demo
+        run: |
+          wp core download --path="$WP_PATH"
+          wp config create --path="$WP_PATH" --dbname=wordpress --dbuser=root --dbpass=root --dbhost=127.0.0.1:3306 --skip-check
+          wp core install --path="$WP_PATH" --url="$REDEEMID_URL" --title="Harborview Ledger" --admin_user=admin --admin_password=admin --admin_email=admin@example.test --skip-email
+          wp site empty --yes --path="$WP_PATH"
+          wp rewrite structure '/%postname%/' --path="$WP_PATH"
+          rsync -a --exclude .git redeemid-core/ "$WP_PATH/wp-content/plugins/redeemid-core/"
+          rsync -a --exclude .git --exclude node_modules --exclude redeemid-core "$GITHUB_WORKSPACE/" "$WP_PATH/wp-content/themes/redeemid-demo-theme/"
+          wp plugin activate redeemid-core --path="$WP_PATH"
+          wp theme activate redeemid-demo-theme --path="$WP_PATH"
+      - name: Serve
+        id: serve
+        run: |
+          PHP_CLI_SERVER_WORKERS=4 php -S 127.0.0.1:8080 -t "$WP_PATH" > /tmp/php-server.log 2>&1 &
+          for i in $(seq 1 20); do curl -fsS -o /dev/null "$REDEEMID_URL/" && break; sleep 1; done
+      # The theme seeds its content and test accounts on the first request (above).
+      - name: List pages and sign in the test accounts
+        run: |
+          {
+            wp post list --post_type=any --post_status=publish --field=url --path="$WP_PATH"
+            wp term list category --field=url --hide_empty=1 --path="$WP_PATH"
+            wp eval 'foreach ( get_post_types( [ "public" => true, "has_archive" => true ] ) as $type ) { echo get_post_type_archive_link( $type ), "\n"; }' --path="$WP_PATH"
+          } > "$REDEEMID_URLS"
+          wc -l < "$REDEEMID_URLS"
+          wp eval '$out = []; foreach ( get_users( [ "meta_key" => "_redeemid_demo_fixture" ] ) as $user ) { $out[ $user->user_login ] = LOGGED_IN_COOKIE . "=" . rawurlencode( wp_generate_auth_cookie( $user->ID, time() + DAY_IN_SECONDS, "logged_in" ) ); } echo wp_json_encode( $out );' --path="$WP_PATH" > "$REDEEMID_COOKIES"
+      # axe-core, WCAG 2.2 A and AA, at desktop and phone width.
+      - name: Accessibility
+        run: npx playwright test
+      # Runs even when accessibility fails, so one push reports both.
+      - name: Lighthouse
+        if: ${{ !cancelled() && steps.serve.outcome == 'success' }}
+        run: npx lhci autorun
+      - name: Lighthouse reports
+        if: ${{ !cancelled() && steps.serve.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: .lighthouseci/
+          retention-days: 14
+      - name: Server log
+        if: failure()
+        run: |
+          grep -vE ' (Accepted|Closing)$| \[[23][0-9][0-9]\]: ' /tmp/php-server.log | tail -n 60 || true

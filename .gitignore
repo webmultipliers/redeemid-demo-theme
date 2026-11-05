@@ -4,3 +4,6 @@
 .DS_Store
 *.zip
 .env
+/test-results/
+/playwright-report/
+/.lighthouseci/

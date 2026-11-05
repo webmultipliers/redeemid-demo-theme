@@ -200,6 +200,11 @@ composer lint        # php -l on every PHP file
 composer phpcs       # WordPress VIP coding standards (phpcs.xml.dist)
 ```
 
+GitHub Actions runs those on every pull request, then installs WordPress with the plugin from `main` and this theme, lets the theme seed itself, and runs the browser checks (`npm ci` installs them):
+
+- **Accessibility:** axe-core, WCAG 2.2 A and AA, at desktop and phone width, on every published page, story, demo-type item, section and archive as a guest, on the membership pages as `ledger-reader`, `ledger-member`, `ledger-gold`, `ledger-lapsed` and `ledger-supporter`, and on the Test lab admin screen (`tests/a11y.spec.js`).
+- **Performance:** Lighthouse on mobile for the home page, a section, a paywalled story, Join, Account and Support: performance score, LCP, CLS, TBT, server response time and page weight (`lighthouserc.js`, reports kept as a run artifact).
+
 Keep the theme a consumer of the plugin: a feature that a real site would want belongs in the plugin, and the theme only places its blocks and answers its hooks. Record changes in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
