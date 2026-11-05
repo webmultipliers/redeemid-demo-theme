@@ -4,7 +4,7 @@
  * Slug: redeemid-demo/page-account
  * Categories: redeemid-demo
  * Post Types: page
- * Description: The member's account card (with the privacy request links), then the other account blocks: membership features, connect, log out and the visitor state.
+ * Description: The member's account card (with the privacy request links), then the other account blocks: membership features, confirm your email, sign out and the visitor state.
  */
 ?>
 <!-- wp:redeemid/member-account {"title":"Your membership","showFeatures":true,"joinUrl":"/join/","showPrivacyLinks":true} /-->
@@ -22,14 +22,14 @@
 <!-- wp:redeemid/account-status {"title":"Visitor state","showRaw":true} /-->
 
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Connect an existing WordPress account</h3>
+<h3 class="wp-block-heading">Confirm your email</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"ledger-expect"} -->
-<p class="ledger-expect">Shows only to a signed-in WordPress user who is not linked. The Shopify email must be verified and match the WordPress email; you then confirm on the callback page. Administrators are refused.</p>
+<p class="ledger-expect">Shows only to a signed-in WordPress user who is not linked. Shopify’s sign-in page opens with this account’s email filled in; enter the code and the account links straight away, back on this page. The code must be for the same email. Administrators are refused.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:redeemid/auth-action {"mode":{"value":"connect","label":"Connect only (signed-in, unlinked accounts)"},"connectLabel":"Connect my Shopify account"} /-->
+<!-- wp:redeemid/auth-action {"mode":{"value":"connect","label":"Connect only (signed-in, unlinked accounts)"},"connectLabel":"Confirm your email"} /-->
 
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Sign out</h3>

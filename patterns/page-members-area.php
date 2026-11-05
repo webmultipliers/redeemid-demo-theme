@@ -11,7 +11,7 @@
 <p class="ledger-expect">Rule: sign-in required, no tags. Guests see a message with a sign-in button. Any signed-in visitor sees the members area, and the response carries no-cache headers.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:redeemid/membership-gate {"requireLogin":true,"fallbackMode":{"value":"message","label":"A message and a call to action"},"fallbackMessage":"Sign in with your Shopify customer account to open the members area.","fallbackCtaLabel":"","showSignIn":true} -->
+<!-- wp:redeemid/membership-gate {"requireLogin":true,"fallbackMode":{"value":"message","label":"A message and a call to action"},"fallbackMessage":"Sign in to open the members area.","fallbackCtaLabel":"","showSignIn":true} -->
 <!-- wp:redeemid/membership-gate-content -->
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Welcome in</h2>

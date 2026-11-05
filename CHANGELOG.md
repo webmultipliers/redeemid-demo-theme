@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.15
+
+- **Sign-in is just sign-in.** Reader-facing copy no longer names Shopify: the header button says **Sign in**, the home page's free-account row says "Sign in with your email", and the members area asks readers to "Sign in to open the members area." The Account page's link step is **Confirm your email**.
+- Test lab, Sign-in controls and Account notes follow RedeemID's new flow: confirming an email links the account with no extra step, and a returning reader whose email matches an existing account is signed in to it. A new Test lab step covers that.
+- Restore Home, Account, Members area, Test lab and Sign-in controls (RedeemID → Test lab) to pick up the pattern changes. The header changes on deploy.
+- Works with the next RedeemID release (the one after 0.0.10).
+
 ## 0.0.14
 
 - Checks on every change: accessibility (axe-core, WCAG 2.2 AA) and Lighthouse on every page, category, archive and test account, PHP lint and PHPCS VIP, ESLint, composer and npm audit, Psalm taint analysis and CodeQL. The analytics script drops an unused catch binding. No visible change.
