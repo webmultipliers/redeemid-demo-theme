@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   check:
-    name: Checks
+    name: Code quality
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,6 +23,67 @@ jobs:
         run: composer lint
       - name: PHPCS
         run: composer phpcs
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      # WordPress JavaScript coding standards (eslint.config.js).
+      - name: ESLint
+        run: npx eslint .
+
+  security:
+    name: Security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+      # Known vulnerabilities in the locked PHP and npm dependencies (GitHub's advisory database).
+      - name: Composer audit
+        run: composer audit --locked
+      - name: npm audit
+        run: npm audit
+      - run: composer build-prod
+      # Taint analysis: request input, cookies and remote responses followed to
+      # output, SQL, file and redirect sinks. Human Made's WordPress plugin
+      # teaches it WordPress's escaping and sanitizing functions (psalm.xml).
+      - name: Psalm taint analysis
+        run: |
+          composer global require --no-interaction --no-progress vimeo/psalm:^6.5 humanmade/psalm-plugin-wordpress:^3.1
+          "$(composer global config bin-dir --absolute)/psalm" --taint-analysis --no-progress --threads=4 --output-format=github
+
+  codeql:
+    name: CodeQL (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        # CodeQL has no PHP support; Psalm covers PHP above.
+        language: [ javascript-typescript, actions ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended
+      - uses: github/codeql-action/analyze@v4
+
+  dependencies:
+    name: Dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Fails a pull request that adds a dependency with a known moderate or worse vulnerability.
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
 
   browser:
     name: Accessibility and performance

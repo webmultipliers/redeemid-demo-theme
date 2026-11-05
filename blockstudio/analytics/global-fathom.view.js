@@ -29,7 +29,6 @@
 	};
 
 	const run = () => {
-
 		/* Mapper --------------------------------------------------------------- */
 
 		// Nearest first: the first ancestor matching one of these names the component.
@@ -75,7 +74,7 @@
 
 			try {
 				url = new URL( link.getAttribute( 'href' ) || '', window.location.href );
-			} catch ( e ) {
+			} catch {
 				return words( link.getAttribute( 'aria-label' ) || link.textContent );
 			}
 
@@ -118,7 +117,7 @@
 
 				client.emit( 'site_click', { component: component( control ), target: words( control.getAttribute( 'aria-label' ) || control.textContent ) || 'button' } );
 			},
-			true
+			true,
 		);
 
 		// A search, never what was searched for.
@@ -129,7 +128,7 @@
 					client.emit( 'site_search', { component: 'Search', target: 'submit' } );
 				}
 			},
-			true
+			true,
 		);
 
 		/* Fathom --------------------------------------------------------------- */

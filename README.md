@@ -200,7 +200,12 @@ composer lint        # php -l on every PHP file
 composer phpcs       # WordPress VIP coding standards (phpcs.xml.dist)
 ```
 
-GitHub Actions runs those on every pull request, then installs WordPress with the plugin from `main` and this theme, lets the theme seed itself, and runs the browser checks (`npm ci` installs them):
+GitHub Actions runs those on every pull request, with:
+
+- **Code quality:** ESLint with WordPress's JavaScript standards (`eslint.config.js`, `npm run lint:js`).
+- **Security:** `composer audit` and `npm audit`; Psalm taint analysis with Human Made's WordPress plugin (`psalm.xml`), which follows request input, cookies and remote responses to output, SQL, file and redirect sinks; CodeQL on the JavaScript and the workflows; and GitHub's dependency review on pull requests.
+
+Then it installs WordPress with the plugin from `main` and this theme, lets the theme seed itself, and runs the browser checks (`npm ci` installs them):
 
 - **Accessibility:** axe-core, WCAG 2.2 A and AA, at desktop and phone width, on every published page, story, demo-type item, section and archive as a guest, on the membership pages as `ledger-reader`, `ledger-member`, `ledger-gold`, `ledger-lapsed` and `ledger-supporter`, and on the Test lab admin screen (`tests/a11y.spec.js`).
 - **Performance:** Lighthouse on mobile for the home page, a section, a paywalled story, Join, Account and Support: performance score, LCP, CLS, TBT, server response time and page weight (`lighthouserc.js`, reports kept as a run artifact).
