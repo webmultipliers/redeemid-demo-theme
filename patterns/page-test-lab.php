@@ -69,7 +69,7 @@
 <!-- wp:list {"ordered":true,"className":"ledger-steps"} -->
 <ol class="ledger-steps">
 	<!-- wp:list-item -->
-	<li><strong>Sign in.</strong> Use “Log in with Shopify” in the header. Shopify should send you to <a href="/auth-callback/">/auth-callback/</a> and then back to the page you started on. The Visitor state panel should say you are signed in, linked, and (for a new customer) a shadow user.</li>
+	<li><strong>Sign in.</strong> Use “Sign in” in the header. Shopify’s sign-in page should open in the site’s language and send you to <a href="/auth-callback/">/auth-callback/</a> and then back to the page you started on. The Visitor state panel should say you are signed in, linked, and (for a new customer) a shadow user.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
 	<li><strong>Check every control.</strong> <a href="/sign-in-controls/">Sign-in controls</a> shows the block in each mode. The page HTML is the same for everyone; only the hydrated control changes.</li>
@@ -111,10 +111,11 @@
 	<li><strong>Redirect mode.</strong> <a href="/gate-redirect/">Redirect gate</a> sends non-members to the Become a member page.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
-	<li><strong>Link an existing account.</strong> Sign in with a plain WordPress (non-admin) user whose email matches your Shopify customer, then use “Connect Shopify account” on the <a href="/account/">Account</a> page. Administrators are refused on purpose.</li>
+	<li><strong>Link an existing account.</strong> Sign in with a plain WordPress (non-admin) user whose email matches your Shopify customer, then use “Confirm your email” on the <a href="/account/">Account</a> page: the sign-in page opens with that email filled in, and after the code the account is linked with no extra step. Administrators are refused on purpose.</li>
+	<li><strong>Come back as an existing reader.</strong> Signed out, use “Sign in” with the email of a plain WordPress (non-admin) user that isn’t linked yet. After the code you should be signed in to that existing account, already linked, with no password asked.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
-	<li><strong>Sign out.</strong> “Log out” should end both the WordPress and the Shopify session. Signing in again should ask Shopify for a code.</li>
+	<li><strong>Sign out.</strong> “Sign out” should end both the WordPress and the Shopify session. Signing in again should ask Shopify for a code.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
 	<li><strong>Admin side.</strong> In the <a href="/wp-admin/admin.php?page=redeemid">Shopify</a> admin menu: customers, the webhook and app event logs, and debugging (register webhooks, diagnostics, and the dry run that shows the gate decision for any user). Test lab is the last item in that menu.</li>

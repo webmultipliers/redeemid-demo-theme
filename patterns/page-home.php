@@ -111,7 +111,7 @@ $ledger_correction = '<!-- wp:group {"className":"ledger-correction","layout":{"
  */
 $ledger_tiers = [
 	[ 'free', __( 'Free', 'redeemid-demo' ), __( 'Everyone', 'redeemid-demo' ), __( 'City Hall, transit, science, the night market, corrections and most city guides. No account needed.', 'redeemid-demo' ) ],
-	[ 'signed-in', __( 'Signed in', 'redeemid-demo' ), __( 'Free account', 'redeemid-demo' ), __( 'Every briefing, election coverage and the editorial board. Sign in with your Shopify account.', 'redeemid-demo' ) ],
+	[ 'signed-in', __( 'Signed in', 'redeemid-demo' ), __( 'Free account', 'redeemid-demo' ), __( 'Every briefing, election coverage and the editorial board. Sign in with your email.', 'redeemid-demo' ) ],
 	[ 'silver', __( 'Silver', 'redeemid-demo' ), __( 'Silver members', 'redeemid-demo' ), __( 'The culture desk and features, the arts briefing and the Fennel Hill guides.', 'redeemid-demo' ) ],
 	[ 'gold', __( 'Gold', 'redeemid-demo' ), __( 'Gold members', 'redeemid-demo' ), __( 'Investigations and Ledger Reports, the stories that take months and a lawyer’s review.', 'redeemid-demo' ) ],
 	[ 'premium', __( 'Gold + Silver', 'redeemid-demo' ), __( 'Both', 'redeemid-demo' ), __( 'Everything we publish, including Harbor Money and stories that cross both desks.', 'redeemid-demo' ) ],
