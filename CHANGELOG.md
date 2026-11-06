@@ -3,7 +3,7 @@
 ## 0.0.16
 
 - **The contribution form posts to the store's own domain.** It used the myshopify.com domain, which put the reader's cart on a different domain from the one checkout runs on once the store has a custom domain. It now asks RedeemID for the store's address (`redeemid_store_url()`), so the cart and checkout stay on shop-demo.redeemid.com. No page needs restoring.
-- Needs RedeemID with `redeemid_store_url()` (developer API 1.7.0). With an older RedeemID the form stays hidden, as it does when no store is set.
+- Needs RedeemID 0.0.11 (`redeemid_store_url()`, developer API 1.7.0). With an older RedeemID the form stays hidden, as it does when no store is set.
 
 ## 0.0.15
 
