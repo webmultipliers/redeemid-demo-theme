@@ -4,7 +4,9 @@
  *
  * Shopify has no name-your-own-price field, so the store sells a $1 product
  * (handle `contribution`) and the amount is the quantity. The form posts the
- * variant as `id` and the amount as `quantity` to the store's /cart/add, and
+ * variant as `id` and the amount as `quantity` to /cart/add on the store's
+ * own domain (redeemid_store_url(), the custom domain when there is one, so
+ * the cart cookie and checkout share a domain), and
  * `return_to=/checkout` sends the reader from there to checkout. No
  * JavaScript, and no plugin support: RedeemID's buy-now caps a line at 10,
  * which suits plan cards, not contributions.
@@ -30,11 +32,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$ledger_store   = class_exists( \RedeemID\Config::class ) ? \RedeemID\Config::store_domain() : '';
+$ledger_cart_add   = function_exists( 'redeemid_store_url' ) ? redeemid_store_url( '/cart/add' ) : '';
 $ledger_variant = '';
 $ledger_symbol  = '';
 
-if ( '' !== $ledger_store && class_exists( \RedeemID\Shopify\Storefront::class ) ) {
+if ( '' !== $ledger_cart_add && class_exists( \RedeemID\Shopify\Storefront::class ) ) {
 	$ledger_product = \RedeemID\Shopify\Storefront::product( (string) ( $a['handle'] ?? 'contribution' ) );
 	$ledger_first   = is_array( $ledger_product ) ? ( $ledger_product['variants'][0] ?? null ) : null;
 
@@ -72,7 +74,7 @@ $ledger_title   = $ledger_field . '-title';
 		<p class="ledger-contribute__body"><?php echo esc_html( $ledger_body ); ?></p>
 	<?php endif; ?>
 
-	<form class="ledger-contribute__form" action="<?php echo esc_url( 'https://' . $ledger_store . '/cart/add' ); ?>" method="post">
+	<form class="ledger-contribute__form" action="<?php echo esc_url( $ledger_cart_add ); ?>" method="post">
 		<input type="hidden" name="id" value="<?php echo esc_attr( $ledger_variant ); ?>">
 		<input type="hidden" name="return_to" value="/checkout">
 

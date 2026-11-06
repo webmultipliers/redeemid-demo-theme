@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.16
+
+- **The contribution form posts to the store's own domain.** It used the myshopify.com domain, which put the reader's cart on a different domain from the one checkout runs on once the store has a custom domain. It now asks RedeemID for the store's address (`redeemid_store_url()`), so the cart and checkout stay on shop-demo.redeemid.com. No page needs restoring.
+- Needs RedeemID with `redeemid_store_url()` (developer API 1.7.0). With an older RedeemID the form stays hidden, as it does when no store is set.
+
 ## 0.0.15
 
 - **Sign-in is just sign-in.** Reader-facing copy no longer names Shopify: the header button says **Sign in**, the home page's free-account row says "Sign in with your email", and the members area asks readers to "Sign in to open the members area." The Account page's link step is **Confirm your email**.
