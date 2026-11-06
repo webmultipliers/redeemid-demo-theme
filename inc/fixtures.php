@@ -15,7 +15,7 @@
  *   instead of asking Shopify.
  *
  * An administrator can point a fixture at a real customer in the dev store
- * (RedeemID → Test lab → Test accounts). It is then an ordinary linked user:
+ * (RedeemID → Demo → Test accounts). It is then an ordinary linked user:
  * the plugin syncs it from Shopify and resync goes to Shopify too.
  *
  * @package redeemid-demo
@@ -376,7 +376,7 @@ add_action(
 					/* translators: %s: test account name */
 					? esc_html( sprintf( __( 'Testing as %s', 'redeemid-demo' ), redeemid_demo_fixtures()[ $current ]['name'] ) )
 					: esc_html__( 'Test accounts', 'redeemid-demo' ),
-				'href'  => $admin ? redeemid_demo_admin_url( [], 'accounts' ) : false,
+				'href'  => $admin ? redeemid_demo_admin_url( 'accounts' ) : false,
 			]
 		);
 

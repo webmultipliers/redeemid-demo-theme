@@ -54,10 +54,10 @@ for ( const login of accounts ) {
 }
 
 // Only the theme's part of the screen; core checks its own admin screens.
-test( 'Test lab admin screen', async ( { page } ) => {
+test( 'Demo admin screen', async ( { page } ) => {
 	await page.goto( '/wp-login.php' );
 	await page.fill( '#user_login', 'admin' );
 	await page.fill( '#user_pass', 'admin' );
 	await Promise.all( [ page.waitForURL( /wp-admin/ ), page.click( '#wp-submit' ) ] );
-	await audit( page, [ '/wp-admin/admin.php?page=redeemid-demo-lab' ], '#wpbody-content .wrap' );
+	await audit( page, [ '/wp-admin/admin.php?page=redeemid-demo', '/wp-admin/admin.php?page=redeemid-demo&tab=content', '/wp-admin/admin.php?page=redeemid-demo&tab=health' ], '#wpbody-content .wrap' );
 } );

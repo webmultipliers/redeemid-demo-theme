@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.17
+
+- **RedeemID → Test lab is now RedeemID → Demo**, with a tab each for **Test accounts**, **Test content** (the seeded items and **Restore test content**) and **Sandbox health**. It was one long page. Its address is now `admin.php?page=redeemid-demo`; the toolbar's **Test accounts** link follows it. The front-end Test lab page keeps its name and address.
+- Restore the Test lab page (RedeemID → Demo → Test content) to pick up its new admin wording.
+
 ## 0.0.16
 
 - **The contribution form posts to the store's own domain.** It used the myshopify.com domain, which put the reader's cart on a different domain from the one checkout runs on once the store has a custom domain. It now asks RedeemID for the store's address (`redeemid_store_url()`), so the cart and checkout stay on shop-demo.redeemid.com. No page needs restoring.

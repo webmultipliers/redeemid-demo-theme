@@ -38,7 +38,7 @@ function redeemid_demo_health_rows( $checks ) {
 			'state'  => $stale ? 'warn' : 'ok',
 			'detail' => $stale
 				/* translators: %s: list of "page: block field" entries */
-				? sprintf( __( 'stored in a shape their fields don\'t read: %s. Use RedeemID → Test lab → Restore.', 'redeemid-demo' ), implode( ', ', array_slice( $stale, 0, 5 ) ) . ( count( $stale ) > 5 ? ', …' : '' ) )
+				? sprintf( __( 'stored in a shape their fields don\'t read: %s. Use RedeemID → Demo → Test content → Restore.', 'redeemid-demo' ), implode( ', ', array_slice( $stale, 0, 5 ) ) . ( count( $stale ) > 5 ? ', …' : '' ) )
 				: __( 'checked with bs_validate_block()', 'redeemid-demo' ),
 		];
 	}

@@ -111,7 +111,7 @@ The theme seeds these subscribers (`inc/fixtures.php`), marked with user meta `_
 | `ledger-addon` | `silver-member` + `ad-free-addon` (a standalone add-on tag) |
 | `ledger-supporter` | linked, `supporter` only (a past contribution): the contribution form thanks instead of asking |
 
-Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `redeemid_customer_is_fixture` filter (resync skips them), adds a "Test fixture" badge through `redeemid_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `redeemid_pre_sync_now` filter, so Shopify is never asked about a made-up customer). RedeemID ignores those fixture filters on a site whose environment type is `production` (the default when none is set) unless `REDEEMID_ALLOW_FIXTURES` is true, so the theme defines it as true unless `wp-config.php` already sets it; define it as false there to turn the fixtures off. RedeemID → Test lab can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
+Linked accounts get a made-up customer ID (990000000001 and up) and a synced mirror written into the plugin's user meta, so the gate treats them like real customers. Because they are not real customers, the theme returns true from the plugin's `redeemid_customer_is_fixture` filter (resync skips them), adds a "Test fixture" badge through `redeemid_customer_badges`, and puts their state back on User Switching's `switch_to_user` and when the plugin's membership refresh runs for them (it answers the plugin's `redeemid_pre_sync_now` filter, so Shopify is never asked about a made-up customer). RedeemID ignores those fixture filters on a site whose environment type is `production` (the default when none is set) unless `REDEEMID_ALLOW_FIXTURES` is true, so the theme defines it as true unless `wp-config.php` already sets it; define it as false there to turn the fixtures off. RedeemID → Demo → Test accounts can point any linked account at a real dev-store customer; it is then synced from Shopify like any other user.
 
 With User Switching active, administrators get a **Test accounts** toolbar menu on every page, and the menu offers **Switch back** while switched in.
 
@@ -156,7 +156,7 @@ The theme no longer needs Shopify's own plugin (Sell on WordPress): RedeemID's p
 
 ## Admin
 
-RedeemID → Test lab (Appearance → Test lab when the plugin is not active) lists the items and has **Restore test content**, which rewrites them from the theme's current patterns (edits are lost). To add a new seeded item, add a pattern, list it in `redeemid_demo_seed_items()` and bump `REDEEMID_DEMO_CONTENT_VERSION`; sites pick it up on their next request.
+RedeemID → Demo (Appearance → Demo when the plugin is not active) has three tabs: **Test accounts**, **Test content** and **Sandbox health**. Test content lists the items and has **Restore test content**, which rewrites them from the theme's current patterns (edits are lost). To add a new seeded item, add a pattern, list it in `redeemid_demo_seed_items()` and bump `REDEEMID_DEMO_CONTENT_VERSION`; sites pick it up on their next request.
 
 ## Theme blocks
 
@@ -175,7 +175,7 @@ Everything in `inc/` is demo content or test tooling, not a feature a real site 
 - `news-content.php`, `content-types.php`, `test-content.php`, `patterns/`: the Ledger and Test lab content, the demo post types and taxonomies, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
 - `features.php`: the three demo feature registrations and the seeded Ad-free mapping (through the plugin's `Features\Registry`).
 - `fixtures.php`: the ten test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
-- `admin.php`: RedeemID → Test lab.
+- `admin.php`: RedeemID → Demo.
 - `health.php`: the theme's own rows for the plugin's health block.
 
 ## Check Blockstudio first
@@ -207,7 +207,7 @@ GitHub Actions runs those on every pull request, with:
 
 Then it installs WordPress with the plugin from `main` and this theme, lets the theme seed itself, and runs the browser checks (`npm ci` installs them):
 
-- **Accessibility:** axe-core, WCAG 2.2 A and AA, at desktop and phone width, on every published page, story, demo-type item, section and archive as a guest, on the membership pages as `ledger-reader`, `ledger-member`, `ledger-gold`, `ledger-lapsed` and `ledger-supporter`, and on the Test lab admin screen (`tests/a11y.spec.js`).
+- **Accessibility:** axe-core, WCAG 2.2 A and AA, at desktop and phone width, on every published page, story, demo-type item, section and archive as a guest, on the membership pages as `ledger-reader`, `ledger-member`, `ledger-gold`, `ledger-lapsed` and `ledger-supporter`, and on the Demo admin screen (`tests/a11y.spec.js`).
 - **Performance:** Lighthouse on mobile for the home page, a section, a paywalled story, Join, Account and Support: performance score, LCP, CLS, TBT, server response time and page weight (`lighthouserc.js`, reports kept as a run artifact).
 
 To run the browser checks yourself, use a throwaway WordPress with the plugin and this theme active (the theme seeds pages, posts and accounts), then:
