@@ -56,7 +56,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph {"className":"ledger-note"} -->
-<p class="ledger-note">Every person, place and story here is invented. The site exists to exercise RedeemID’s sign-in, membership levels and content rules on posts, pages, custom post types and custom taxonomies. Testers start at the <a href="/test-lab/">Test lab</a>.</p>
+<p class="ledger-note">Every person, place and story here is invented. The site exists to exercise RedeemID’s sign-in, membership levels and content rules on posts, pages, custom post types and custom taxonomies. Testers start at the <a href="/demo-config/">Demo config</a>.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->

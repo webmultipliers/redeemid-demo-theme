@@ -154,7 +154,7 @@ body .redeemid-account-status__table th {
 
 /*
  * Make the gate's server decision visible while testing: label which area of
- * a membership gate actually reached the page. Test lab pages only
+ * a membership gate actually reached the page. Test pages only
  * (body class ledger-lab); the Ledger's stories show the plain reader view.
  */
 .ledger-lab .redeemid-gate-area:not(.is-editor) {
@@ -1434,7 +1434,7 @@ body .redeemid-access-badge[data-redeemid-level="premium"] { color: #fff; backgr
 	font-size: var(--wp--preset--font-size--small);
 }
 
-/* Test lab matrices: compact, so a row fits on one or two lines. */
+/* Demo config matrices: compact, so a row fits on one or two lines. */
 .ledger-matrix table {
 	font-size: var(--wp--preset--font-size--small);
 	line-height: 1.4;

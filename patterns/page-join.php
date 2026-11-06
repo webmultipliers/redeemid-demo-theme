@@ -92,7 +92,7 @@ $ledger_rows = [
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Membership on the Harborview Ledger is a Shopify customer tag: <code>silver-member</code> opens Silver stories, <code>gold-member</code> opens Gold stories and both together open everything. Signed-in stories need only an account. There are three ways to get a tag for testing, or switch to one of the test accounts listed in the <a href="/test-lab/">Test lab</a>.</p>
+<p>Membership on the Harborview Ledger is a Shopify customer tag: <code>silver-member</code> opens Silver stories, <code>gold-member</code> opens Gold stories and both together open everything. Signed-in stories need only an account. There are three ways to get a tag for testing, or switch to one of the test accounts listed in the <a href="/demo-config/">Demo config</a>.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->

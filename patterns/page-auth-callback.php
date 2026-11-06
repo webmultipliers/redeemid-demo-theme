@@ -15,5 +15,5 @@
 <!-- wp:redeemid/account-status /-->
 
 <!-- wp:paragraph -->
-<p><a href="/test-lab/">Back to the Test lab</a></p>
+<p><a href="/demo-config/">Back to Demo config</a></p>
 <!-- /wp:paragraph -->

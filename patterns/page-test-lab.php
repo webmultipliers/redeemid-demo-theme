@@ -1,6 +1,6 @@
 <?php
 /**
- * Title: Test lab (page)
+ * Title: Demo config (page)
  * Slug: redeemid-demo/page-test-lab
  * Categories: redeemid-demo
  * Post Types: page

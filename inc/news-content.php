@@ -1,6 +1,6 @@
 <?php
 /**
- * The Harborview Ledger: a faux news site seeded next to the Test lab, so the
+ * The Harborview Ledger: a faux news site seeded next to the test pages, so the
  * membership gate is exercised on realistic stories as well as test cases.
  *
  * Every story is fiction. Most paywalled stories wrap their body in a

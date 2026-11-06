@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.18
+
+- **The Test lab page is now Demo config, at `/demo-config/`.** It is the tester's starting page: sandbox health, the visitor's own state, what each test account should see, the features and content-type tables, and the list of things to try. The header's **Sandbox** badge, the footer, About, Join, the sign-in callback and Sign-in controls link to it. The old `/test-lab/` address stops working once the page is restored (WordPress keeps no old-address redirect for pages); nothing on redeemid.com links to it.
+- The **Sign out only** case on Sign-in controls now returns to Demo config, as its heading always said (it went to the home page).
+- Restore Demo config, About, Join, the callback page and Sign-in controls (RedeemID → Demo → Test content) to pick up the changes. The header and footer change on deploy.
+
 ## 0.0.17
 
 - **RedeemID → Test lab is now RedeemID → Demo**, with a tab each for **Test accounts**, **Test content** (the seeded items and **Restore test content**) and **Sandbox health**. It was one long page. Its address is now `admin.php?page=redeemid-demo`; the toolbar's **Test accounts** link follows it. The front-end Test lab page keeps its name and address.

@@ -10,7 +10,7 @@
  *   (RedeemID → Access → Features), seeded once here, so the mapping screen
  *   has something to edit. Enforced by block visibility (the ad slots in
  *   the story and home templates) and the body class; it also opts in to
- *   the JS signal for the Test lab's check.
+ *   the JS signal for the Demo config page's check.
  * - early-briefing: "Early briefing". Silver or Gold, set in code, so the
  *   Features tab shows it as managed in code. Enforced by block visibility
  *   on the Briefings archive.
