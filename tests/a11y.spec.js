@@ -2,7 +2,7 @@
 // every published page, story, demo-type item, section and archive as a guest
 // (CI writes the list from WordPress, REDEEMID_URLS, so new content is checked
 // without editing this file); the pages that change with membership as each
-// kind of test account; and the Test lab admin screen.
+// kind of test account; and the Demo admin screen.
 const fs = require( 'node:fs' );
 const { test, expect } = require( '@playwright/test' );
 const AxeBuilder = require( '@axe-core/playwright' ).default;
@@ -16,7 +16,7 @@ const listed = fs
 // Sign-in cookies for the seeded test accounts, by login (REDEEMID_COOKIES).
 const cookies = JSON.parse( fs.readFileSync( process.env.REDEEMID_COOKIES || '/tmp/redeemid-cookies.json', 'utf8' ) );
 
-const membershipPages = [ '/', '/account/', '/join/', '/support/', '/test-lab/', '/tag-gates/', '/members-area/', '/sign-in-controls/', '/members-only-article/' ];
+const membershipPages = [ '/', '/account/', '/join/', '/support/', '/tag-gates/', '/members-area/', '/sign-in-controls/', '/members-only-article/' ];
 const accounts = [ 'ledger-reader', 'ledger-member', 'ledger-gold', 'ledger-lapsed', 'ledger-supporter' ];
 
 function report( violations ) {
@@ -59,5 +59,5 @@ test( 'Demo admin screen', async ( { page } ) => {
 	await page.fill( '#user_login', 'admin' );
 	await page.fill( '#user_pass', 'admin' );
 	await Promise.all( [ page.waitForURL( /wp-admin/ ), page.click( '#wp-submit' ) ] );
-	await audit( page, [ '/wp-admin/admin.php?page=redeemid-demo', '/wp-admin/admin.php?page=redeemid-demo&tab=content', '/wp-admin/admin.php?page=redeemid-demo&tab=health' ], '#wpbody-content .wrap' );
+	await audit( page, [ '/wp-admin/admin.php?page=redeemid-demo', '/wp-admin/admin.php?page=redeemid-demo&tab=accounts', '/wp-admin/admin.php?page=redeemid-demo&tab=content', '/wp-admin/admin.php?page=redeemid-demo&tab=health' ], '#wpbody-content .wrap' );
 } );

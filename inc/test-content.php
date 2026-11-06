@@ -1,6 +1,6 @@
 <?php
 /**
- * Seeds the Test lab: the pages and post the sandbox tests run against, plus
+ * Seeds the test pages (listed on the Demo screen's Test guide): the pages and post the sandbox tests run against, plus
  * the Harborview Ledger news stories (inc/news-content.php), the demo
  * content types (inc/content-types.php) and the test accounts
  * (inc/fixtures.php).
@@ -31,7 +31,6 @@ function redeemid_demo_seed_items(): array {
 	return [
 		'home'                 => [ 'type' => 'page', 'title' => __( 'Home', 'redeemid-demo' ), 'slug' => 'home', 'pattern' => 'page-home' ],
 		'about'                => [ 'type' => 'page', 'title' => __( 'About the Ledger', 'redeemid-demo' ), 'slug' => 'about', 'pattern' => 'page-about' ],
-		'test-lab'             => [ 'type' => 'page', 'title' => __( 'Test lab', 'redeemid-demo' ), 'slug' => 'test-lab', 'pattern' => 'page-test-lab' ],
 		'auth-callback'        => [ 'type' => 'page', 'title' => __( 'Signing you in', 'redeemid-demo' ), 'slug' => redeemid_demo_callback_slug(), 'pattern' => 'page-auth-callback' ],
 		'sign-in-controls'     => [ 'type' => 'page', 'title' => __( 'Sign-in controls', 'redeemid-demo' ), 'slug' => 'sign-in-controls', 'pattern' => 'page-sign-in-controls' ],
 		'members-area'         => [ 'type' => 'page', 'title' => __( 'Members area', 'redeemid-demo' ), 'slug' => 'members-area', 'pattern' => 'page-members-area' ],

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.18
+
+- **The front-end Test lab page is gone; its guide moved to RedeemID → Demo → Test guide.** Everything it showed is now somewhere that already had a home: the visitor's own state is on the Account page (its Visitor state panel), sandbox health is the Demo screen's **Sandbox health** tab, what each test account should see is the **Test accounts** tab, and the features table, the content-type table and the list of things to try are the new **Test guide** tab, which opens first. The theme no longer seeds the page, so trash the old Test lab page under Pages; `/test-lab/` then stops working, and nothing on redeemid.com links to it.
+- The header's **Sandbox** badge and the footer's **Test guide** link open the Demo screen. About and Join point testers there too, the sign-in callback page links to the Account page, and the **Sign out only** case on Sign-in controls returns to the Account page (it went to the home page).
+- Restore About, Join, the callback page and Sign-in controls (RedeemID → Demo → Test content) to pick up the changes. The header and footer change on deploy.
+
 ## 0.0.17
 
 - **RedeemID → Test lab is now RedeemID → Demo**, with a tab each for **Test accounts**, **Test content** (the seeded items and **Restore test content**) and **Sandbox health**. It was one long page. Its address is now `admin.php?page=redeemid-demo`; the toolbar's **Test accounts** link follows it. The front-end Test lab page keeps its name and address.
