@@ -6,7 +6,7 @@
  * (inc/fixtures.php).
  *
  * Content comes from the theme's patterns/ files, so a deploy that changes a
- * pattern can be applied with RedeemID → Test lab → Restore. Seeding only
+ * pattern can be applied with RedeemID → Demo → Test content → Restore. Seeding only
  * creates what is missing; it never overwrites a page someone edited unless
  * an administrator asks for a restore.
  *

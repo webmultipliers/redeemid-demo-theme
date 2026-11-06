@@ -31,7 +31,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>The theme seeds these WordPress users. As an administrator, open <strong>Test accounts</strong> in the toolbar (it needs the User Switching plugin), pick one, browse the Ledger, then use <strong>Switch back</strong>. Their state is put back each time you switch to them, and RedeemID → Test lab in the admin can point any of them at a real customer in the dev store.</p>
+<p>The theme seeds these WordPress users. As an administrator, open <strong>Test accounts</strong> in the toolbar (it needs the User Switching plugin), pick one, browse the Ledger, then use <strong>Switch back</strong>. Their state is put back each time you switch to them, and RedeemID → Demo in the admin can point any of them at a real customer in the dev store.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:table {"className":"ledger-matrix"} -->
@@ -118,7 +118,7 @@
 	<li><strong>Sign out.</strong> “Sign out” should end both the WordPress and the Shopify session. Signing in again should ask Shopify for a code.</li>
 	<!-- /wp:list-item -->
 	<!-- wp:list-item -->
-	<li><strong>Admin side.</strong> In the <a href="/wp-admin/admin.php?page=redeemid">Shopify</a> admin menu: customers, the webhook and app event logs, and debugging (register webhooks, diagnostics, and the dry run that shows the gate decision for any user). Test lab is the last item in that menu.</li>
+	<li><strong>Admin side.</strong> In the <a href="/wp-admin/admin.php?page=redeemid">RedeemID</a> admin menu: setup, customers, access (with Test, which shows the gate decision for any user), the webhook and app event logs, and debugging. Demo is the last item in that menu.</li>
 	<!-- /wp:list-item -->
 </ol>
 <!-- /wp:list -->
