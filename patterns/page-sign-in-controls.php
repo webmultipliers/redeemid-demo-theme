@@ -50,12 +50,12 @@
 <!-- wp:group {"className":"ledger-case","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ledger-case">
 	<!-- wp:heading -->
-	<h2 class="wp-block-heading">Sign out only, then go to Demo config</h2>
+	<h2 class="wp-block-heading">Sign out only, then go to Account</h2>
 	<!-- /wp:heading -->
 	<!-- wp:paragraph {"className":"ledger-expect"} -->
-	<p class="ledger-expect">Guest: nothing. Linked or shadow user: “Sign out”, which ends the Shopify session too and returns to Demo config.</p>
+	<p class="ledger-expect">Guest: nothing. Linked or shadow user: “Sign out”, which ends the Shopify session too and returns to the Account page.</p>
 	<!-- /wp:paragraph -->
-	<!-- wp:redeemid/auth-action {"mode":{"value":"logout","label":"Log out only (hidden for guests)"},"logoutLabel":"Sign out","redirectAfterLogout":{"url":"/demo-config/"}} /-->
+	<!-- wp:redeemid/auth-action {"mode":{"value":"logout","label":"Log out only (hidden for guests)"},"logoutLabel":"Sign out","redirectAfterLogout":{"url":"/account/"}} /-->
 </div>
 <!-- /wp:group -->
 

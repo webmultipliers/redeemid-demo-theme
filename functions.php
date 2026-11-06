@@ -65,7 +65,7 @@ add_filter(
 );
 
 /**
- * Test pages (Demo config, Tag gates and the rest) get `ledger-lab`, so the gate's debugging labels (which area
+ * Test pages (Tag gates, Sign-in controls and the rest) get `ledger-lab`, so the gate's debugging labels (which area
  * of a gate reached the page) show there and not on the Ledger's stories.
  */
 add_filter(

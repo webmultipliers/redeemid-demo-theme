@@ -225,7 +225,7 @@ function redeemid_demo_cpt_term_rules(): array {
 /**
  * The demo items, newest first within each type. `rule` names the layer the
  * plugin should decide by and `expect` the badge a guest should see; both
- * feed the Demo config page's content-type table. `item_rule` times are offsets from
+ * feed the Test guide's content-type table. `item_rule` times are offsets from
  * seeding (`+7 days`), resolved when the rule is saved. `days_ago` dates the
  * item; `break` false leaves the teaser to the post type's word count.
  *

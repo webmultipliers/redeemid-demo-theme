@@ -1,8 +1,8 @@
 <?php
 /**
- * RedeemID → Demo: the demo's test accounts, its seeded content (with a
- * restore from the theme after a deploy changes it) and sandbox health, one
- * tab each.
+ * RedeemID → Demo: the test guide, the demo's test accounts, its seeded
+ * content (with a restore from the theme after a deploy changes it) and
+ * sandbox health, one tab each.
  *
  * The page sits under the plugin's top-level RedeemID menu. Without the
  * plugin it falls back to Appearance → Demo. It uses core's own admin markup
@@ -39,6 +39,7 @@ add_action(
  */
 function redeemid_demo_admin_tabs(): array {
 	return [
+		'guide'    => __( 'Test guide', 'redeemid-demo' ),
 		'accounts' => __( 'Test accounts', 'redeemid-demo' ),
 		'content'  => __( 'Test content', 'redeemid-demo' ),
 		'health'   => __( 'Sandbox health', 'redeemid-demo' ),
@@ -152,8 +153,10 @@ function redeemid_demo_admin_render(): void {
 			redeemid_demo_admin_render_content();
 		} elseif ( 'health' === $tab ) {
 			redeemid_demo_admin_render_health();
-		} else {
+		} elseif ( 'accounts' === $tab ) {
 			redeemid_demo_admin_render_accounts();
+		} else {
+			require __DIR__ . '/admin-guide.php';
 		}
 		?>
 	</div>

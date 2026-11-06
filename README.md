@@ -3,7 +3,7 @@
 A demo and test theme for the [RedeemID](https://github.com/webmultipliers/redeemid-core) plugin. Install it on a development or staging site to see every plugin feature working and to test changes against it:
 
 - **The Harborview Ledger**, a fictional news site with free and paywalled stories, demo post types and taxonomies, and section rules.
-- **Test pages**, one per plugin feature, listed on **Demo config** (`/demo-config/`), and paywalled content with marker phrases for leak checks.
+- **Test pages**, one per plugin feature, with a test guide under **RedeemID → Demo** in the admin, and paywalled content with marker phrases for leak checks.
 - **Test accounts** in every membership state, to switch between with [User Switching](https://wordpress.org/plugins/user-switching/).
 
 It runs at [demo.redeemid.com](https://demo.redeemid.com/). It is a block theme that only consumes the plugin: every access decision, block and setting is the plugin's. It is not meant for a production site, because it creates pages, posts and user accounts on activation.
@@ -29,7 +29,6 @@ On the first request with the theme active, it creates the test content from its
 | `/about/` | About the Ledger: what is free and what is for members, and how corrections work |
 | `/briefings/`, `/reports/`, `/guides/`, `/corrections/` | The demo post types (see [Content types](#content-types)), each with its own archive and single template |
 | `/category/<section>/` | Investigations, City Hall, Business, Technology, Science, Culture, Opinion |
-| `/demo-config/` | Site health, account status, the test-account matrix, the feature table and the list of things to try |
 | `/auth-callback/` | The plugin's sign-in callback page (follows the `redeemid_auth_callback_slug` filter) |
 | `/sign-in-controls/` | `redeemid/auth-action` in every mode and style |
 | `/members-area/` | A gate that admits any signed-in visitor |
@@ -90,7 +89,7 @@ The plugin gates every public post type, so the theme registers demo types and t
 | Neighborhoods `ledger_neighborhood` (flat) | City guides | Fennel Hill needs Silver |
 | Topics `ledger_topic` (flat, shared) | posts and all four types | Elections 2026 needs Signed in |
 
-Sixteen items exercise each layer: the post type rule, an Opens term, a hierarchical term inherited from its parent, a child's own rule beating its parent's, a flat term on a type with no rule, a custom taxonomy on core posts, item Public, item Level with no other rule, item Add to inherited, an item free until a date, an embargo, the post type's archive window, a teaser cut by word count instead of a break block, and a type with gating off. The Demo config page lists each item with the layer that should decide it and the badge a guest should see. Locked text ends with a `LEDGER-SECRET-CPT-<SLUG>` marker; text that should be open to everyone carries `LEDGER-OPEN-CPT-<SLUG>`.
+Sixteen items exercise each layer: the post type rule, an Opens term, a hierarchical term inherited from its parent, a child's own rule beating its parent's, a flat term on a type with no rule, a custom taxonomy on core posts, item Public, item Level with no other rule, item Add to inherited, an item free until a date, an embargo, the post type's archive window, a teaser cut by word count instead of a break block, and a type with gating off. The Demo screen's Test guide tab lists each item with the layer that should decide it and the badge a guest should see. Locked text ends with a `LEDGER-SECRET-CPT-<SLUG>` marker; text that should be open to everyone carries `LEDGER-OPEN-CPT-<SLUG>`.
 
 Seeding adds the post type rows, term rules and item rules only where none exist; Restore test content puts them all back and restarts the dated windows. New types need fresh rewrite rules, which the theme flushes once per content version on `wp_loaded`.
 
@@ -125,7 +124,7 @@ The theme registers two demo features with the plugin's `redeemid_features` filt
 | **Early briefing** (`early-briefing`) | Silver or Gold, set in code (shown as managed in code) | The Briefings archive: tomorrow's briefing (marker `LEDGER-FEATURE-EARLY-BRIEFING`) for holders, a prompt for everyone else |
 | **Supporter** (`supporter`) | The `supporter` tag, set in code. In Shopify, a Flow workflow on **Order paid** adds it when an order has a product tagged `contribution` | The contribute block (`/support/` and the end of every story) thanks holders instead of asking; a PHP check |
 
-Both are listed as primary, so the header shows them as chips (the plugin's **Membership Features** block in menu mode), and the Account page lists them with where each comes from. The Demo config has the expected result for every test account.
+Both are listed as primary, so the header shows them as chips (the plugin's **Membership Features** block in menu mode), and the Account page lists them with where each comes from. The Demo screen's Test accounts tab has the expected result for every test account.
 
 ## Plugin features the theme uses
 
@@ -138,8 +137,7 @@ The theme builds no features of its own; it places the plugin's blocks and answe
 | Account | **Member Account** (`redeemid/member-account`) |
 | Join | **Membership Gate** on the Gold level, with the plan cards in its public area |
 | Sponsor slot, Briefings | the plugin's per-block **Access → Feature** setting and the feature registry (`redeemid_features`) |
-| Demo config, Account, callback, Members area, Join, Sign-in controls | **Shopify Account Status** (`redeemid/account-status`) |
-| Demo config | **Shopify Health** (`redeemid/health`, administrators only), with the theme's rows added through `redeemid_health_checks` (theme block registered, seeded blocks match their fields, test content version) |
+| Account, callback, Members area, Join, Sign-in controls | **Shopify Account Status** (`redeemid/account-status`) |
 | Story cards and single stories of every type | **Access Badge** (`redeemid/access-badge`) with its free label, inside `redeemid-demo/story-meta`; the `redeemid-gated`/`is-locked` post classes for the lock on card titles |
 | Locked items of every type | the plugin's locked panel and level wall copy (message, call to action), styled as the Ledger's paywall |
 | Stories, test pages | Membership Gate, paywall break, Shopify Sign-in, Plan Card |
@@ -152,11 +150,11 @@ The theme no longer needs Shopify's own plugin (Sell on WordPress): RedeemID's p
 
 - By default RedeemID stands down on the paths it claims (`/cart`, `/products`, `/collections`): the header's Cart link hides and the shop's buttons say Buy now. Turn on **RedeemID takes precedence** under RedeemID → Settings → Storefront pages, or deactivate Shopify's plugin and save permalinks.
 - The navigation keeps `ignoredHookedBlocks` so its cart toggle doesn't add an extra row after the navigation.
-- The plugin's health block shows who answers each storefront path and whether the cart sign-in bridge is active.
+- The Demo screen's Sandbox health tab shows who answers each storefront path and whether the cart sign-in bridge is active.
 
 ## Admin
 
-RedeemID → Demo (Appearance → Demo when the plugin is not active) has three tabs: **Test accounts**, **Test content** and **Sandbox health**. Test content lists the items and has **Restore test content**, which rewrites them from the theme's current patterns (edits are lost). To add a new seeded item, add a pattern, list it in `redeemid_demo_seed_items()` and bump `REDEEMID_DEMO_CONTENT_VERSION`; sites pick it up on their next request.
+RedeemID → Demo (Appearance → Demo when the plugin is not active) has four tabs: **Test guide** (what the features and content types should do, and a list of things to try), **Test accounts**, **Test content** and **Sandbox health**. Test content lists the items and has **Restore test content**, which rewrites them from the theme's current patterns (edits are lost). To add a new seeded item, add a pattern, list it in `redeemid_demo_seed_items()` and bump `REDEEMID_DEMO_CONTENT_VERSION`; sites pick it up on their next request.
 
 ## Theme blocks
 
@@ -175,7 +173,7 @@ Everything in `inc/` is demo content or test tooling, not a feature a real site 
 - `news-content.php`, `content-types.php`, `test-content.php`, `patterns/`: the Ledger and test page content, the demo post types and taxonomies, the plugin levels and section rules they need (set up through the plugin's own `LevelStore`, `TermRules` and `ItemRule` APIs), seeding and restore.
 - `features.php`: the three demo feature registrations and the seeded Ad-free mapping (through the plugin's `Features\Registry`).
 - `fixtures.php`: the ten test accounts, their simulated Shopify state, the User Switching toolbar menu, and the hook answers that keep Shopify out of it.
-- `admin.php`: RedeemID → Demo.
+- `admin.php`: RedeemID → Demo; `admin-guide.php` is its Test guide tab.
 - `health.php`: the theme's own rows for the plugin's health block.
 
 ## Check Blockstudio first
